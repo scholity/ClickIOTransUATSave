@@ -11,4 +11,5 @@
     <tabs>SFDC_MDF_Claim__c</tabs>
     <tabs>standard-Dashboard</tabs>
     <tabs>standard-report</tabs>
+    <tabs>ccrz__E_TransactionPayment__c</tabs>
 </CustomApplication>

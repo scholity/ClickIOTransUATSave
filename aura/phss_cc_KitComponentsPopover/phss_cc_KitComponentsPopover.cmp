@@ -12,7 +12,7 @@
             <lightning:icon iconName="utility:all" size="small" alternativeText="Show Kit Components" title="Show Kit Components" />
 
             <!--popover-->
-            <div class="{! 'slds-popover ' + (v.showsHeader ? 'slds-popover_panel ' : '') + 'slds-nubbin_top-left' }" role="dialog">
+            <div class="{! 'slds-popover slds-nubbin_top-right ' + (v.showsHeader ? 'slds-popover_panel ' : '') }" role="dialog">
 
                 <!--header-->
                 <aura:if isTrue="{! v.showsHeader }">
@@ -34,12 +34,12 @@
                     <div class="slds-popover__body-list">
                         <aura:iteration items="{! v.components }" var="component">
                             <div class="slds-grid">
-                                <div class="slds-col slds-size_3-of-4 slds-item_label slds-text-color_weak slds-text-align_left" title="{! component.name }">
-                                    {! component.name }
+                                <div class="slds-col slds-size_3-of-4 slds-item_label slds-text-color_weak slds-text-align_left" title="{! component.componentR.sfdcName }">
+                                    {! component.componentR.sfdcName }
                                 </div>
-                                <div class="slds-col slds-size_1-of-4 slds-item_detail slds-text-align_right" title="{! component.price }">
+                                <div class="slds-col slds-size_1-of-4 slds-item_detail slds-text-align_right" title="{! component.componentR.price }">
                                     <lightning:formattedNumber style="currency" currencyCode="{!$Locale.currencyCode}"
-                                                               currencyDisplayAs="symbol" value="{! component.price }"/>
+                                                               currencyDisplayAs="symbol" value="{! component.componentR.price }"/>
                                 </div>
                             </div>
                         </aura:iteration>

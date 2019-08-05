@@ -58,6 +58,108 @@
     </profileActionOverrides>
     <profileActionOverrides>
         <actionName>View</actionName>
+        <content>PHSS_CC_Order_Item_Record_Page</content>
+        <formFactor>Large</formFactor>
+        <pageOrSobjectType>ccrz__E_OrderItem__c</pageOrSobjectType>
+        <type>Flexipage</type>
+        <profile>SB ARC / TSC Agent</profile>
+    </profileActionOverrides>
+    <profileActionOverrides>
+        <actionName>View</actionName>
+        <content>PHSS_CC_Order_Item_Record_Page</content>
+        <formFactor>Large</formFactor>
+        <pageOrSobjectType>ccrz__E_OrderItem__c</pageOrSobjectType>
+        <type>Flexipage</type>
+        <profile>SB ARC / TSC Manager</profile>
+    </profileActionOverrides>
+    <profileActionOverrides>
+        <actionName>View</actionName>
+        <content>PHSS_CC_Order_Item_Record_Page</content>
+        <formFactor>Large</formFactor>
+        <pageOrSobjectType>ccrz__E_OrderItem__c</pageOrSobjectType>
+        <type>Flexipage</type>
+        <profile>Admin</profile>
+    </profileActionOverrides>
+    <profileActionOverrides>
+        <actionName>View</actionName>
+        <content>CC_Order_Record_Page</content>
+        <formFactor>Large</formFactor>
+        <pageOrSobjectType>ccrz__E_Order__c</pageOrSobjectType>
+        <type>Flexipage</type>
+        <profile>SB ARC / TSC Manager</profile>
+    </profileActionOverrides>
+    <profileActionOverrides>
+        <actionName>View</actionName>
+        <content>CC_Order_Record_Page</content>
+        <formFactor>Large</formFactor>
+        <pageOrSobjectType>ccrz__E_Order__c</pageOrSobjectType>
+        <type>Flexipage</type>
+        <profile>SB ARC / TSC Agent</profile>
+    </profileActionOverrides>
+    <profileActionOverrides>
+        <actionName>View</actionName>
+        <content>CC_Order_Record_Page</content>
+        <formFactor>Large</formFactor>
+        <pageOrSobjectType>ccrz__E_Order__c</pageOrSobjectType>
+        <type>Flexipage</type>
+        <profile>Admin</profile>
+    </profileActionOverrides>
+    <profileActionOverrides>
+        <actionName>View</actionName>
+        <content>PHSS_CC_Order_Item_Record_Page</content>
+        <formFactor>Large</formFactor>
+        <pageOrSobjectType>ccrz__E_OrderItem__c</pageOrSobjectType>
+        <recordType>ccrz__E_OrderItem__c.CC_Order_Item</recordType>
+        <type>Flexipage</type>
+        <profile>SB ARC / TSC Agent</profile>
+    </profileActionOverrides>
+    <profileActionOverrides>
+        <actionName>View</actionName>
+        <content>PHSS_CC_Order_Item_Record_Page</content>
+        <formFactor>Large</formFactor>
+        <pageOrSobjectType>ccrz__E_OrderItem__c</pageOrSobjectType>
+        <recordType>ccrz__E_OrderItem__c.CC_Order_Item</recordType>
+        <type>Flexipage</type>
+        <profile>SB ARC / TSC Manager</profile>
+    </profileActionOverrides>
+    <profileActionOverrides>
+        <actionName>View</actionName>
+        <content>PHSS_CC_Order_Item_Record_Page</content>
+        <formFactor>Large</formFactor>
+        <pageOrSobjectType>ccrz__E_OrderItem__c</pageOrSobjectType>
+        <recordType>ccrz__E_OrderItem__c.CC_Order_Item</recordType>
+        <type>Flexipage</type>
+        <profile>Admin</profile>
+    </profileActionOverrides>
+    <profileActionOverrides>
+        <actionName>View</actionName>
+        <content>PHSS_CC_Order_Item_Record_Page</content>
+        <formFactor>Large</formFactor>
+        <pageOrSobjectType>ccrz__E_OrderItem__c</pageOrSobjectType>
+        <recordType>ccrz__E_OrderItem__c.Course_Credit_Adt_Customer_Service_QA</recordType>
+        <type>Flexipage</type>
+        <profile>SB ARC / TSC Agent</profile>
+    </profileActionOverrides>
+    <profileActionOverrides>
+        <actionName>View</actionName>
+        <content>PHSS_CC_Order_Item_Record_Page</content>
+        <formFactor>Large</formFactor>
+        <pageOrSobjectType>ccrz__E_OrderItem__c</pageOrSobjectType>
+        <recordType>ccrz__E_OrderItem__c.Course_Credit_Adt_Customer_Service_QA</recordType>
+        <type>Flexipage</type>
+        <profile>SB ARC / TSC Manager</profile>
+    </profileActionOverrides>
+    <profileActionOverrides>
+        <actionName>View</actionName>
+        <content>PHSS_CC_Order_Item_Record_Page</content>
+        <formFactor>Large</formFactor>
+        <pageOrSobjectType>ccrz__E_OrderItem__c</pageOrSobjectType>
+        <recordType>ccrz__E_OrderItem__c.Course_Credit_Adt_Customer_Service_QA</recordType>
+        <type>Flexipage</type>
+        <profile>Admin</profile>
+    </profileActionOverrides>
+    <profileActionOverrides>
+        <actionName>View</actionName>
         <content>ARC_TSC_Case_Record_Page3</content>
         <formFactor>Large</formFactor>
         <pageOrSobjectType>Case</pageOrSobjectType>
@@ -278,7 +380,7 @@
         <formFactor>Large</formFactor>
         <pageOrSobjectType>standard-home</pageOrSobjectType>
         <type>Flexipage</type>
-        <profile>SB ARC / TSC Manager - Clone</profile>
+        <profile>SB ARC / TSC Manager</profile>
     </profileActionOverrides>
     <profileActionOverrides>
         <actionName>Tab</actionName>
@@ -286,7 +388,7 @@
         <formFactor>Large</formFactor>
         <pageOrSobjectType>standard-home</pageOrSobjectType>
         <type>Flexipage</type>
-        <profile>SB ARC / TSC Agent - Clone</profile>
+        <profile>SB ARC / TSC Agent</profile>
     </profileActionOverrides>
     <profileActionOverrides>
         <actionName>Tab</actionName>
@@ -313,101 +415,6 @@
         <profile>Admin</profile>
     </profileActionOverrides>
     <profileActionOverrides>
-        <actionName>Tab</actionName>
-        <content>American_Red_Cross_Service_Console_Home_Page</content>
-        <formFactor>Large</formFactor>
-        <pageOrSobjectType>standard-home</pageOrSobjectType>
-        <type>Flexipage</type>
-        <profile>SB ARC Business User Profile</profile>
-    </profileActionOverrides>
-    <profileActionOverrides>
-        <actionName>Tab</actionName>
-        <content>American_Red_Cross_Service_Console_Home_Page</content>
-        <formFactor>Large</formFactor>
-        <pageOrSobjectType>standard-home</pageOrSobjectType>
-        <type>Flexipage</type>
-        <profile>SB ARC Invoice Task Force</profile>
-    </profileActionOverrides>
-    <profileActionOverrides>
-        <actionName>Tab</actionName>
-        <content>American_Red_Cross_Service_Console_Home_Page</content>
-        <formFactor>Large</formFactor>
-        <pageOrSobjectType>standard-home</pageOrSobjectType>
-        <type>Flexipage</type>
-        <profile>SB ARC / TSC Agent</profile>
-    </profileActionOverrides>
-    <profileActionOverrides>
-        <actionName>Tab</actionName>
-        <content>American_Red_Cross_Service_Console_Home_Page</content>
-        <formFactor>Large</formFactor>
-        <pageOrSobjectType>standard-home</pageOrSobjectType>
-        <type>Flexipage</type>
-        <profile>SB ARC / TSC Manager</profile>
-    </profileActionOverrides>
-    <profileActionOverrides>
-        <actionName>View</actionName>
-        <content>RBC_Case_Record</content>
-        <formFactor>Large</formFactor>
-        <pageOrSobjectType>Case</pageOrSobjectType>
-        <recordType>Case.RBC_Case</recordType>
-        <type>Flexipage</type>
-        <profile>SB ARC / TSC Agent</profile>
-    </profileActionOverrides>
-    <profileActionOverrides>
-        <actionName>View</actionName>
-        <content>RBC_Case_Record</content>
-        <formFactor>Large</formFactor>
-        <pageOrSobjectType>Case</pageOrSobjectType>
-        <recordType>Case.RBC_Case</recordType>
-        <type>Flexipage</type>
-        <profile>SB ARC / TSC Agent Save</profile>
-    </profileActionOverrides>
-    <profileActionOverrides>
-        <actionName>View</actionName>
-        <content>RBC_Case_Record</content>
-        <formFactor>Large</formFactor>
-        <pageOrSobjectType>Case</pageOrSobjectType>
-        <recordType>Case.RBC_Case</recordType>
-        <type>Flexipage</type>
-        <profile>SB ARC / TSC Manager</profile>
-    </profileActionOverrides>
-    <profileActionOverrides>
-        <actionName>View</actionName>
-        <content>RBC_Case_Record</content>
-        <formFactor>Large</formFactor>
-        <pageOrSobjectType>Case</pageOrSobjectType>
-        <recordType>Case.RBC_Case</recordType>
-        <type>Flexipage</type>
-        <profile>SB ARC BGST Sales Admin</profile>
-    </profileActionOverrides>
-    <profileActionOverrides>
-        <actionName>View</actionName>
-        <content>RBC_Case_Record</content>
-        <formFactor>Large</formFactor>
-        <pageOrSobjectType>Case</pageOrSobjectType>
-        <recordType>Case.RBC_Case</recordType>
-        <type>Flexipage</type>
-        <profile>SB ARC BGST Sales User</profile>
-    </profileActionOverrides>
-    <profileActionOverrides>
-        <actionName>View</actionName>
-        <content>RBC_Case_Record</content>
-        <formFactor>Large</formFactor>
-        <pageOrSobjectType>Case</pageOrSobjectType>
-        <recordType>Case.RBC_Case</recordType>
-        <type>Flexipage</type>
-        <profile>SB ARC Business User Profile</profile>
-    </profileActionOverrides>
-    <profileActionOverrides>
-        <actionName>View</actionName>
-        <content>RBC_Case_Record</content>
-        <formFactor>Large</formFactor>
-        <pageOrSobjectType>Case</pageOrSobjectType>
-        <recordType>Case.RBC_Case</recordType>
-        <type>Flexipage</type>
-        <profile>SB ARC Invoice Task Force</profile>
-    </profileActionOverrides>
-    <profileActionOverrides>
         <actionName>View</actionName>
         <content>RBC_Case_Record</content>
         <formFactor>Large</formFactor>
@@ -415,42 +422,6 @@
         <recordType>Case.RBC_Case</recordType>
         <type>Flexipage</type>
         <profile>SB ARC NAT Team</profile>
-    </profileActionOverrides>
-    <profileActionOverrides>
-        <actionName>View</actionName>
-        <content>RBC_Case_Record</content>
-        <formFactor>Large</formFactor>
-        <pageOrSobjectType>Case</pageOrSobjectType>
-        <recordType>Case.RBC_Case</recordType>
-        <type>Flexipage</type>
-        <profile>SB ARC Sales BI User</profile>
-    </profileActionOverrides>
-    <profileActionOverrides>
-        <actionName>View</actionName>
-        <content>RBC_Case_Record</content>
-        <formFactor>Large</formFactor>
-        <pageOrSobjectType>Case</pageOrSobjectType>
-        <recordType>Case.RBC_Case</recordType>
-        <type>Flexipage</type>
-        <profile>SB ARC Sales User</profile>
-    </profileActionOverrides>
-    <profileActionOverrides>
-        <actionName>View</actionName>
-        <content>RBC_Case_Record</content>
-        <formFactor>Large</formFactor>
-        <pageOrSobjectType>Case</pageOrSobjectType>
-        <recordType>Case.RBC_Case</recordType>
-        <type>Flexipage</type>
-        <profile>SB ARC SCC User</profile>
-    </profileActionOverrides>
-    <profileActionOverrides>
-        <actionName>View</actionName>
-        <content>RBC_Case_Record</content>
-        <formFactor>Large</formFactor>
-        <pageOrSobjectType>Case</pageOrSobjectType>
-        <recordType>Case.RBC_Case</recordType>
-        <type>Flexipage</type>
-        <profile>SB ARC Service Delivery</profile>
     </profileActionOverrides>
     <profileActionOverrides>
         <actionName>View</actionName>
@@ -468,7 +439,7 @@
         <pageOrSobjectType>Case</pageOrSobjectType>
         <recordType>Case.Service_Cases</recordType>
         <type>Flexipage</type>
-        <profile>SB ARC / TSC Agent - Clone</profile>
+        <profile>SB ARC / TSC Agent</profile>
     </profileActionOverrides>
     <profileActionOverrides>
         <actionName>View</actionName>
@@ -477,7 +448,7 @@
         <pageOrSobjectType>Case</pageOrSobjectType>
         <recordType>Case.Service_Cases</recordType>
         <type>Flexipage</type>
-        <profile>SB ARC / TSC Manager - Clone</profile>
+        <profile>SB ARC / TSC Manager</profile>
     </profileActionOverrides>
     <profileActionOverrides>
         <actionName>View</actionName>
@@ -486,7 +457,7 @@
         <pageOrSobjectType>Case</pageOrSobjectType>
         <recordType>Case.Service_Cases</recordType>
         <type>Flexipage</type>
-        <profile>SB ARC Business User Profile - Clone</profile>
+        <profile>SB ARC Business User Profile</profile>
     </profileActionOverrides>
     <profileActionOverrides>
         <actionName>View</actionName>
@@ -504,141 +475,25 @@
         <pageOrSobjectType>Case</pageOrSobjectType>
         <recordType>Case.CRE_Case</recordType>
         <type>Flexipage</type>
-        <profile>SB ARC / TSC Agent</profile>
+        <profile>SB ARC NAT Team</profile>
     </profileActionOverrides>
     <profileActionOverrides>
         <actionName>View</actionName>
-        <content>CRE_Case_Record_Page</content>
+        <content>ARC_Case_Record_Sales</content>
         <formFactor>Large</formFactor>
         <pageOrSobjectType>Case</pageOrSobjectType>
-        <recordType>Case.CRE_Case</recordType>
-        <type>Flexipage</type>
-        <profile>SB ARC / TSC Agent Save</profile>
-    </profileActionOverrides>
-    <profileActionOverrides>
-        <actionName>View</actionName>
-        <content>CRE_Case_Record_Page</content>
-        <formFactor>Large</formFactor>
-        <pageOrSobjectType>Case</pageOrSobjectType>
-        <recordType>Case.CRE_Case</recordType>
-        <type>Flexipage</type>
-        <profile>SB ARC / TSC Manager</profile>
-    </profileActionOverrides>
-    <profileActionOverrides>
-        <actionName>View</actionName>
-        <content>CRE_Case_Record_Page</content>
-        <formFactor>Large</formFactor>
-        <pageOrSobjectType>Case</pageOrSobjectType>
-        <recordType>Case.CRE_Case</recordType>
-        <type>Flexipage</type>
-        <profile>SB ARC BGST Sales Admin</profile>
-    </profileActionOverrides>
-    <profileActionOverrides>
-        <actionName>View</actionName>
-        <content>CRE_Case_Record_Page</content>
-        <formFactor>Large</formFactor>
-        <pageOrSobjectType>Case</pageOrSobjectType>
-        <recordType>Case.CRE_Case</recordType>
-        <type>Flexipage</type>
-        <profile>SB ARC BGST Sales User</profile>
-    </profileActionOverrides>
-    <profileActionOverrides>
-        <actionName>View</actionName>
-        <content>CRE_Case_Record_Page</content>
-        <formFactor>Large</formFactor>
-        <pageOrSobjectType>Case</pageOrSobjectType>
-        <recordType>Case.CRE_Case</recordType>
+        <recordType>Case.Sales_Case</recordType>
         <type>Flexipage</type>
         <profile>SB ARC Business User Profile</profile>
     </profileActionOverrides>
     <profileActionOverrides>
         <actionName>View</actionName>
-        <content>CRE_Case_Record_Page</content>
-        <formFactor>Large</formFactor>
-        <pageOrSobjectType>Case</pageOrSobjectType>
-        <recordType>Case.CRE_Case</recordType>
-        <type>Flexipage</type>
-        <profile>SB ARC Invoice Task Force</profile>
-    </profileActionOverrides>
-    <profileActionOverrides>
-        <actionName>View</actionName>
-        <content>CRE_Case_Record_Page</content>
-        <formFactor>Large</formFactor>
-        <pageOrSobjectType>Case</pageOrSobjectType>
-        <recordType>Case.CRE_Case</recordType>
-        <type>Flexipage</type>
-        <profile>SB ARC NAT Team</profile>
-    </profileActionOverrides>
-    <profileActionOverrides>
-        <actionName>View</actionName>
-        <content>CRE_Case_Record_Page</content>
-        <formFactor>Large</formFactor>
-        <pageOrSobjectType>Case</pageOrSobjectType>
-        <recordType>Case.CRE_Case</recordType>
-        <type>Flexipage</type>
-        <profile>SB ARC Sales BI User</profile>
-    </profileActionOverrides>
-    <profileActionOverrides>
-        <actionName>View</actionName>
-        <content>CRE_Case_Record_Page</content>
-        <formFactor>Large</formFactor>
-        <pageOrSobjectType>Case</pageOrSobjectType>
-        <recordType>Case.CRE_Case</recordType>
-        <type>Flexipage</type>
-        <profile>SB ARC Sales User</profile>
-    </profileActionOverrides>
-    <profileActionOverrides>
-        <actionName>View</actionName>
-        <content>CRE_Case_Record_Page</content>
-        <formFactor>Large</formFactor>
-        <pageOrSobjectType>Case</pageOrSobjectType>
-        <recordType>Case.CRE_Case</recordType>
-        <type>Flexipage</type>
-        <profile>SB ARC SCC User</profile>
-    </profileActionOverrides>
-    <profileActionOverrides>
-        <actionName>View</actionName>
-        <content>CRE_Case_Record_Page</content>
-        <formFactor>Large</formFactor>
-        <pageOrSobjectType>Case</pageOrSobjectType>
-        <recordType>Case.CRE_Case</recordType>
-        <type>Flexipage</type>
-        <profile>SB ARC Service Delivery</profile>
-    </profileActionOverrides>
-    <profileActionOverrides>
-        <actionName>Tab</actionName>
-        <content>ARC_Service_Console_Home_Page_Team_Leads</content>
-        <formFactor>Large</formFactor>
-        <pageOrSobjectType>standard-home</pageOrSobjectType>
-        <type>Flexipage</type>
-        <profile>SB ARC Sales User</profile>
-    </profileActionOverrides>
-    <profileActionOverrides>
-        <actionName>View</actionName>
         <content>ARC_Case_Record_Sales</content>
         <formFactor>Large</formFactor>
         <pageOrSobjectType>Case</pageOrSobjectType>
         <recordType>Case.Sales_Case</recordType>
         <type>Flexipage</type>
-        <profile>SB ARC Business User Profile - Clone</profile>
-    </profileActionOverrides>
-    <profileActionOverrides>
-        <actionName>View</actionName>
-        <content>ARC_Case_Record_Sales</content>
-        <formFactor>Large</formFactor>
-        <pageOrSobjectType>Case</pageOrSobjectType>
-        <recordType>Case.Sales_Case</recordType>
-        <type>Flexipage</type>
-        <profile>SB ARC / TSC Agent - Clone</profile>
-    </profileActionOverrides>
-    <profileActionOverrides>
-        <actionName>View</actionName>
-        <content>ARC_Case_Record_Sales</content>
-        <formFactor>Large</formFactor>
-        <pageOrSobjectType>Case</pageOrSobjectType>
-        <recordType>Case.Sales_Case</recordType>
-        <type>Flexipage</type>
-        <profile>SB ARC / TSC Manager</profile>
+        <profile>SB ARC / TSC Agent</profile>
     </profileActionOverrides>
     <profileActionOverrides>
         <actionName>View</actionName>
@@ -692,7 +547,7 @@
         <pageOrSobjectType>Case</pageOrSobjectType>
         <recordType>Case.Learn_to_Swim_Facility_Registration</recordType>
         <type>Flexipage</type>
-        <profile>SB ARC / TSC Agent - Clone</profile>
+        <profile>SB ARC / TSC Agent</profile>
     </profileActionOverrides>
     <profileActionOverrides>
         <actionName>View</actionName>
@@ -701,7 +556,7 @@
         <pageOrSobjectType>Case</pageOrSobjectType>
         <recordType>Case.Learn_to_Swim_Facility_Registration</recordType>
         <type>Flexipage</type>
-        <profile>SB ARC / TSC Manager - Clone</profile>
+        <profile>SB ARC / TSC Manager</profile>
     </profileActionOverrides>
     <profileActionOverrides>
         <actionName>View</actionName>
@@ -710,7 +565,7 @@
         <pageOrSobjectType>Case</pageOrSobjectType>
         <recordType>Case.Learn_to_Swim_Facility_Registration</recordType>
         <type>Flexipage</type>
-        <profile>SB ARC BGST Sales Admin - Clone</profile>
+        <profile>SB ARC BGST Sales Admin</profile>
     </profileActionOverrides>
     <profileActionOverrides>
         <actionName>View</actionName>
@@ -719,7 +574,7 @@
         <pageOrSobjectType>Case</pageOrSobjectType>
         <recordType>Case.Learn_to_Swim_Facility_Registration</recordType>
         <type>Flexipage</type>
-        <profile>SB ARC BGST Sales User - Clone</profile>
+        <profile>SB ARC BGST Sales User</profile>
     </profileActionOverrides>
     <profileActionOverrides>
         <actionName>View</actionName>
@@ -728,7 +583,7 @@
         <pageOrSobjectType>Case</pageOrSobjectType>
         <recordType>Case.Learn_to_Swim_Facility_Registration</recordType>
         <type>Flexipage</type>
-        <profile>SB ARC Business User Profile - Clone</profile>
+        <profile>SB ARC Business User Profile</profile>
     </profileActionOverrides>
     <profileActionOverrides>
         <actionName>View</actionName>
@@ -737,7 +592,7 @@
         <pageOrSobjectType>Case</pageOrSobjectType>
         <recordType>Case.Learn_to_Swim_Facility_Registration</recordType>
         <type>Flexipage</type>
-        <profile>SB ARC Invoice Task Force - Clone</profile>
+        <profile>SB ARC Invoice Task Force</profile>
     </profileActionOverrides>
     <profileActionOverrides>
         <actionName>View</actionName>
@@ -746,7 +601,7 @@
         <pageOrSobjectType>Case</pageOrSobjectType>
         <recordType>Case.Learn_to_Swim_Facility_Registration</recordType>
         <type>Flexipage</type>
-        <profile>SB ARC Sales BI User - Clone</profile>
+        <profile>SB ARC Sales BI User</profile>
     </profileActionOverrides>
     <profileActionOverrides>
         <actionName>View</actionName>
@@ -755,7 +610,7 @@
         <pageOrSobjectType>Case</pageOrSobjectType>
         <recordType>Case.Learn_to_Swim_Facility_Registration</recordType>
         <type>Flexipage</type>
-        <profile>SB ARC Sales User - Clone</profile>
+        <profile>SB ARC Sales User</profile>
     </profileActionOverrides>
     <profileActionOverrides>
         <actionName>View</actionName>
@@ -764,7 +619,7 @@
         <pageOrSobjectType>Case</pageOrSobjectType>
         <recordType>Case.Learn_to_Swim_Facility_Registration</recordType>
         <type>Flexipage</type>
-        <profile>SB ARC Service Deliver - Clone</profile>
+        <profile>SB ARC Service Delivery</profile>
     </profileActionOverrides>
     <profileActionOverrides>
         <actionName>View</actionName>
@@ -773,7 +628,7 @@
         <pageOrSobjectType>Case</pageOrSobjectType>
         <recordType>Case.Learn_to_Swim_Facility_Registration</recordType>
         <type>Flexipage</type>
-        <profile>SB ARC SCC User - Clone</profile>
+        <profile>SB ARC SCC User</profile>
     </profileActionOverrides>
     <profileActionOverrides>
         <actionName>View</actionName>
@@ -791,7 +646,7 @@
         <pageOrSobjectType>Case</pageOrSobjectType>
         <recordType>Case.CRE_Case</recordType>
         <type>Flexipage</type>
-        <profile>SB ARC SCC User - Clone</profile>
+        <profile>SB ARC SCC User</profile>
     </profileActionOverrides>
     <profileActionOverrides>
         <actionName>View</actionName>
@@ -800,7 +655,7 @@
         <pageOrSobjectType>Case</pageOrSobjectType>
         <recordType>Case.RBC_Case</recordType>
         <type>Flexipage</type>
-        <profile>SB ARC / TSC Agent - Clone</profile>
+        <profile>SB ARC / TSC Agent</profile>
     </profileActionOverrides>
     <profileActionOverrides>
         <actionName>View</actionName>
@@ -809,7 +664,7 @@
         <pageOrSobjectType>Case</pageOrSobjectType>
         <recordType>Case.RBC_Case</recordType>
         <type>Flexipage</type>
-        <profile>SB ARC / TSC Manager - Clone</profile>
+        <profile>SB ARC / TSC Manager</profile>
     </profileActionOverrides>
     <profileActionOverrides>
         <actionName>View</actionName>
@@ -818,7 +673,7 @@
         <pageOrSobjectType>Case</pageOrSobjectType>
         <recordType>Case.RBC_Case</recordType>
         <type>Flexipage</type>
-        <profile>SB ARC BGST Sales Admin - Clone</profile>
+        <profile>SB ARC BGST Sales Admin</profile>
     </profileActionOverrides>
     <profileActionOverrides>
         <actionName>View</actionName>
@@ -827,7 +682,7 @@
         <pageOrSobjectType>Case</pageOrSobjectType>
         <recordType>Case.RBC_Case</recordType>
         <type>Flexipage</type>
-        <profile>SB ARC BGST Sales User - Clone</profile>
+        <profile>SB ARC BGST Sales User</profile>
     </profileActionOverrides>
     <profileActionOverrides>
         <actionName>View</actionName>
@@ -836,7 +691,7 @@
         <pageOrSobjectType>Case</pageOrSobjectType>
         <recordType>Case.RBC_Case</recordType>
         <type>Flexipage</type>
-        <profile>SB ARC Business User Profile - Clone</profile>
+        <profile>SB ARC Business User Profile</profile>
     </profileActionOverrides>
     <profileActionOverrides>
         <actionName>View</actionName>
@@ -845,7 +700,7 @@
         <pageOrSobjectType>Case</pageOrSobjectType>
         <recordType>Case.RBC_Case</recordType>
         <type>Flexipage</type>
-        <profile>SB ARC Invoice Task Force - Clone</profile>
+        <profile>SB ARC Invoice Task Force</profile>
     </profileActionOverrides>
     <profileActionOverrides>
         <actionName>View</actionName>
@@ -854,7 +709,7 @@
         <pageOrSobjectType>Case</pageOrSobjectType>
         <recordType>Case.RBC_Case</recordType>
         <type>Flexipage</type>
-        <profile>SB ARC Sales BI User - Clone</profile>
+        <profile>SB ARC Sales BI User</profile>
     </profileActionOverrides>
     <profileActionOverrides>
         <actionName>View</actionName>
@@ -863,7 +718,7 @@
         <pageOrSobjectType>Case</pageOrSobjectType>
         <recordType>Case.RBC_Case</recordType>
         <type>Flexipage</type>
-        <profile>SB ARC Sales User - Clone</profile>
+        <profile>SB ARC Sales User</profile>
     </profileActionOverrides>
     <profileActionOverrides>
         <actionName>View</actionName>
@@ -872,7 +727,7 @@
         <pageOrSobjectType>Case</pageOrSobjectType>
         <recordType>Case.RBC_Case</recordType>
         <type>Flexipage</type>
-        <profile>SB ARC Service Deliver - Clone</profile>
+        <profile>SB ARC Service Delivery</profile>
     </profileActionOverrides>
     <profileActionOverrides>
         <actionName>View</actionName>
@@ -881,7 +736,7 @@
         <pageOrSobjectType>Case</pageOrSobjectType>
         <recordType>Case.RBC_Case</recordType>
         <type>Flexipage</type>
-        <profile>SB ARC SCC User - Clone</profile>
+        <profile>SB ARC SCC User</profile>
     </profileActionOverrides>
     <profileActionOverrides>
         <actionName>View</actionName>
@@ -890,7 +745,7 @@
         <pageOrSobjectType>Case</pageOrSobjectType>
         <recordType>Case.CRE_Case</recordType>
         <type>Flexipage</type>
-        <profile>SB ARC / TSC Agent - Clone</profile>
+        <profile>SB ARC / TSC Agent</profile>
     </profileActionOverrides>
     <profileActionOverrides>
         <actionName>View</actionName>
@@ -899,7 +754,7 @@
         <pageOrSobjectType>Case</pageOrSobjectType>
         <recordType>Case.CRE_Case</recordType>
         <type>Flexipage</type>
-        <profile>SB ARC / TSC Manager - Clone</profile>
+        <profile>SB ARC / TSC Manager</profile>
     </profileActionOverrides>
     <profileActionOverrides>
         <actionName>View</actionName>
@@ -908,7 +763,7 @@
         <pageOrSobjectType>Case</pageOrSobjectType>
         <recordType>Case.CRE_Case</recordType>
         <type>Flexipage</type>
-        <profile>SB ARC BGST Sales Admin - Clone</profile>
+        <profile>SB ARC BGST Sales Admin</profile>
     </profileActionOverrides>
     <profileActionOverrides>
         <actionName>View</actionName>
@@ -917,7 +772,7 @@
         <pageOrSobjectType>Case</pageOrSobjectType>
         <recordType>Case.CRE_Case</recordType>
         <type>Flexipage</type>
-        <profile>SB ARC BGST Sales User - Clone</profile>
+        <profile>SB ARC BGST Sales User</profile>
     </profileActionOverrides>
     <profileActionOverrides>
         <actionName>View</actionName>
@@ -926,7 +781,7 @@
         <pageOrSobjectType>Case</pageOrSobjectType>
         <recordType>Case.CRE_Case</recordType>
         <type>Flexipage</type>
-        <profile>SB ARC Invoice Task Force - Clone</profile>
+        <profile>SB ARC Invoice Task Force</profile>
     </profileActionOverrides>
     <profileActionOverrides>
         <actionName>View</actionName>
@@ -935,7 +790,7 @@
         <pageOrSobjectType>Case</pageOrSobjectType>
         <recordType>Case.CRE_Case</recordType>
         <type>Flexipage</type>
-        <profile>SB ARC Business User Profile - Clone</profile>
+        <profile>SB ARC Business User Profile</profile>
     </profileActionOverrides>
     <profileActionOverrides>
         <actionName>View</actionName>
@@ -944,7 +799,7 @@
         <pageOrSobjectType>Case</pageOrSobjectType>
         <recordType>Case.CRE_Case</recordType>
         <type>Flexipage</type>
-        <profile>SB ARC Sales BI User - Clone</profile>
+        <profile>SB ARC Sales BI User</profile>
     </profileActionOverrides>
     <profileActionOverrides>
         <actionName>View</actionName>
@@ -953,7 +808,7 @@
         <pageOrSobjectType>Case</pageOrSobjectType>
         <recordType>Case.CRE_Case</recordType>
         <type>Flexipage</type>
-        <profile>SB ARC Sales User - Clone</profile>
+        <profile>SB ARC Sales User</profile>
     </profileActionOverrides>
     <profileActionOverrides>
         <actionName>View</actionName>
@@ -962,7 +817,7 @@
         <pageOrSobjectType>Case</pageOrSobjectType>
         <recordType>Case.CRE_Case</recordType>
         <type>Flexipage</type>
-        <profile>SB ARC Service Deliver - Clone</profile>
+        <profile>SB ARC Service Delivery</profile>
     </profileActionOverrides>
     <profileActionOverrides>
         <actionName>View</actionName>
@@ -1008,6 +863,15 @@
         <recordType>Case.RBC_Case</recordType>
         <type>Flexipage</type>
         <profile>ARC / TSC Manager Backup</profile>
+    </profileActionOverrides>
+    <profileActionOverrides>
+        <actionName>View</actionName>
+        <content>Order_Opportunity_Record_Page</content>
+        <formFactor>Large</formFactor>
+        <pageOrSobjectType>Opportunity</pageOrSobjectType>
+        <recordType>Opportunity.Order_Opportunity</recordType>
+        <type>Flexipage</type>
+        <profile>SB ARC BGST Sales User</profile>
     </profileActionOverrides>
     <profileActionOverrides>
         <actionName>View</actionName>
@@ -1406,6 +1270,7 @@
     <tabs>standard-Opportunity</tabs>
     <tabs>standard-Task</tabs>
     <tabs>ccrz__E_Order__c</tabs>
+    <tabs>ccrz__E_TransactionPayment__c</tabs>
     <uiType>Lightning</uiType>
     <utilityBar>ARC_Service_Console_UtilityBar</utilityBar>
     <workspaceConfig>
@@ -1414,6 +1279,9 @@
         </mappings>
         <mappings>
             <tab>ccrz__E_Order__c</tab>
+        </mappings>
+        <mappings>
+            <tab>ccrz__E_TransactionPayment__c</tab>
         </mappings>
         <mappings>
             <tab>redwing__Achievement_Assignment__c</tab>

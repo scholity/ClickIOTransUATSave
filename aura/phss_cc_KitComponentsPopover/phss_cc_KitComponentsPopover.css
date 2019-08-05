@@ -9,7 +9,7 @@
 .THIS .slds-popover {
     position: absolute;
     top: calc(100% + 14px);
-    left: calc(0% - 14px);
+    right: calc(12px - 100%);
     display: none;
     white-space: normal;
 }

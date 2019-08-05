@@ -59,7 +59,7 @@ public with sharing class phss_cc_CartControllerTest {
     @isTest
     public static void placeOrderOnCartCC() {
         setupTestData();
-
+        
         Test.startTest();
         Map<String, Object> placeOrderResult = phss_cc_CartController.placeOrderOnCartCC(null, null, null);
         placeOrderResult = phss_cc_CartController.placeOrderOnCartCC(testOpportunity.Id, testCart.ccrz__EncryptedId__c, cyberSourceResponseAccept);
@@ -97,5 +97,21 @@ public with sharing class phss_cc_CartControllerTest {
         Test.stopTest();
 
         System.assertNotEquals(null, placeOrderResult);
+    }
+    
+    @isTest
+    public static void testGetOpportunityApprovalStatus() {
+        setupTestData();
+        Test.startTest();
+        phss_cc_CartController.getOpportunityApprovalStatus (testOpportunity.Id);
+        Test.stopTest();
+    }
+    
+    @isTest
+    public static void testfetchPaymentTabsetPermissions() {
+        setupTestData();
+        Test.startTest();
+        phss_cc_CartController.fetchPaymentTabsetPermissions (testOpportunity.Id);
+        Test.stopTest();
     }
 }

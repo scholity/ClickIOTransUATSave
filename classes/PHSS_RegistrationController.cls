@@ -10,36 +10,41 @@
 
 @RestResource(urlMapping='/PHSS/register')
 global without sharing class PHSS_RegistrationController {
+    
     private redwing__ILT_Class__c theClass;
     
     global class AvailabilityResponseBody {
-        ValidateCreateOrder validateCreateOrder;
+        @testVisible ValidateCreateOrder validateCreateOrder;
     
+        @testVisible
         AvailabilityResponseBody() {
             validateCreateOrder = new ValidateCreateOrder();
         }
     }
       
     global class EnrollResponseBody {
-        CreateOrder createOrder;
+        @testVisible CreateOrder createOrder;
     
+        @testVisible
         EnrollResponseBody() {
             createOrder = new CreateOrder();
         }
     }    
           
     global class ErrorResponseBody {
-        VCOStatus status;
-    
+        @testVisible VCOStatus status;
+    	
+        @testVisible
         ErrorResponseBody() {
             status = new VCOStatus();
         }
     }
     
     global class ValidateCreateOrder {
-        VCOStatus status;
-        Integer remainingQuantity;
-    
+        @testVisible VCOStatus status;
+        @testVisible Integer remainingQuantity;
+    	
+        @testVisible
         ValidateCreateOrder() {
             status = new VCOStatus();
             remainingQuantity = 0;
@@ -47,9 +52,10 @@ global without sharing class PHSS_RegistrationController {
     }
     
     global class VCOStatus {
-        Integer code;
-        String description;
+        @testVisible Integer code;
+        @testVisible String description;
        
+        @testVisible
         VCOStatus() {
             code = 0;
             description = '';
@@ -57,9 +63,10 @@ global without sharing class PHSS_RegistrationController {
     }
    
 	global class CreateOrder {
-		List<COCommerceItems> commerceItems;
-		COStatus status;
+		@testVisible List<COCommerceItems> commerceItems;
+		@testVisible COStatus status;
 		
+        @testVisible
 		CreateOrder() {
 			commerceItems = new List<COCommerceItems>();
 			status = new COStatus();
@@ -67,9 +74,10 @@ global without sharing class PHSS_RegistrationController {
 	}
 	
 	global class COCommerceItems {
-		String commerceItemId;
-		String orderItemId;
+		@testVisible String commerceItemId;
+		@testVisible String orderItemId;
 		
+        @testVisible
 		COCommerceItems() {
 			commerceItemId = '';
 			orderItemId = '';
@@ -77,9 +85,10 @@ global without sharing class PHSS_RegistrationController {
 	}
     
     global class COStatus {
-        Integer code;
-        String description;
+        @testVisible Integer code;
+        @testVisible String description;
        
+        @testVisible
         COStatus() {
             code = 0;
             description = '';
@@ -148,6 +157,7 @@ global without sharing class PHSS_RegistrationController {
 		public String Phone;
 		public String VoucherId;
 		
+        @testVisible
 		StudentItems() {
 			FirstName = '';
 			LastName = '';

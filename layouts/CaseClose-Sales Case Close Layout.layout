@@ -42,6 +42,10 @@
                 <behavior>Readonly</behavior>
                 <field>Delivery_Channel__c</field>
             </layoutItems>
+            <layoutItems>
+                <behavior>Edit</behavior>
+                <field>CC_Order_Item__c</field>
+            </layoutItems>
         </layoutColumns>
         <style>OneColumn</style>
     </layoutSections>

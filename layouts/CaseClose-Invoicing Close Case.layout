@@ -18,6 +18,10 @@
                 <behavior>Edit</behavior>
                 <field>Root_Cause__c</field>
             </layoutItems>
+            <layoutItems>
+                <behavior>Readonly</behavior>
+                <field>Contact_Billing_State__c</field>
+            </layoutItems>
         </layoutColumns>
         <layoutColumns>
             <layoutItems>

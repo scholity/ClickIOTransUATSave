@@ -659,6 +659,10 @@
         <enabled>false</enabled>
     </classAccesses>
     <classAccesses>
+        <apexClass>PHSS_ClassListInstrViewCtrl_Test</apexClass>
+        <enabled>false</enabled>
+    </classAccesses>
+    <classAccesses>
         <apexClass>PHSS_ClassListInstructorViewController</apexClass>
         <enabled>false</enabled>
     </classAccesses>
@@ -799,7 +803,15 @@
         <enabled>false</enabled>
     </classAccesses>
     <classAccesses>
+        <apexClass>PHSS_PublishCertificates_Test</apexClass>
+        <enabled>false</enabled>
+    </classAccesses>
+    <classAccesses>
         <apexClass>PHSS_RegistrationController</apexClass>
+        <enabled>false</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>PHSS_RegistrationControllerTest</apexClass>
         <enabled>false</enabled>
     </classAccesses>
     <classAccesses>
@@ -863,7 +875,15 @@
         <enabled>false</enabled>
     </classAccesses>
     <classAccesses>
+        <apexClass>PHSS_VoucherTriggerHandler_Test</apexClass>
+        <enabled>false</enabled>
+    </classAccesses>
+    <classAccesses>
         <apexClass>PHSS_WalkInStudentController</apexClass>
+        <enabled>false</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>PHSS_WalkInStudentController_Test</apexClass>
         <enabled>false</enabled>
     </classAccesses>
     <classAccesses>
@@ -895,6 +915,10 @@
         <enabled>false</enabled>
     </classAccesses>
     <classAccesses>
+        <apexClass>PHSS_initQRCodeTriggerhandler_Test</apexClass>
+        <enabled>false</enabled>
+    </classAccesses>
+    <classAccesses>
         <apexClass>PHSS_myCertifications</apexClass>
         <enabled>false</enabled>
     </classAccesses>
@@ -908,6 +932,22 @@
     </classAccesses>
     <classAccesses>
         <apexClass>PluckTest</apexClass>
+        <enabled>false</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>PriceLineItemTrigger_Test</apexClass>
+        <enabled>false</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>RCAchievementAssignmentUpdateBatch</apexClass>
+        <enabled>false</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>RCAchievementAssignmentUpdateBatchHelper</apexClass>
+        <enabled>false</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>RCAchievementAssignmentUpdateBatchTest</apexClass>
         <enabled>false</enabled>
     </classAccesses>
     <classAccesses>
@@ -1103,10 +1143,6 @@
         <enabled>false</enabled>
     </classAccesses>
     <classAccesses>
-        <apexClass>TestILTInstructorCommunity</apexClass>
-        <enabled>false</enabled>
-    </classAccesses>
-    <classAccesses>
         <apexClass>TestLiveAgentPreChatPageController</apexClass>
         <enabled>true</enabled>
     </classAccesses>
@@ -1157,6 +1193,10 @@
     <classAccesses>
         <apexClass>TestUtil</apexClass>
         <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>TestUtil_Test</apexClass>
+        <enabled>false</enabled>
     </classAccesses>
     <classAccesses>
         <apexClass>TestWebToCasePageController</apexClass>
@@ -1311,6 +1351,10 @@
         <enabled>false</enabled>
     </classAccesses>
     <classAccesses>
+        <apexClass>createTrainingEventForNewOrder_Test</apexClass>
+        <enabled>false</enabled>
+    </classAccesses>
+    <classAccesses>
         <apexClass>myCertifications</apexClass>
         <enabled>false</enabled>
     </classAccesses>
@@ -1399,6 +1443,10 @@
         <enabled>false</enabled>
     </classAccesses>
     <classAccesses>
+        <apexClass>phss_cc_CyberSourceCreditUtilTest</apexClass>
+        <enabled>false</enabled>
+    </classAccesses>
+    <classAccesses>
         <apexClass>phss_cc_CyberSourceUtil</apexClass>
         <enabled>false</enabled>
     </classAccesses>
@@ -1415,7 +1463,23 @@
         <enabled>false</enabled>
     </classAccesses>
     <classAccesses>
+        <apexClass>phss_cc_FulfillmentUtilTest</apexClass>
+        <enabled>false</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>phss_cc_ILTrainingClassUtil</apexClass>
+        <enabled>false</enabled>
+    </classAccesses>
+    <classAccesses>
         <apexClass>phss_cc_OnAccountBalanceController</apexClass>
+        <enabled>false</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>phss_cc_OpportunityUtil</apexClass>
+        <enabled>false</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>phss_cc_OpportunityUtilTest</apexClass>
         <enabled>false</enabled>
     </classAccesses>
     <classAccesses>
@@ -1972,7 +2036,7 @@
     <fieldPermissions>
         <editable>false</editable>
         <field>Account.BI_City__c</field>
-        <readable>false</readable>
+        <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
@@ -1987,17 +2051,17 @@
     <fieldPermissions>
         <editable>false</editable>
         <field>Account.BI_Postal_Code__c</field>
-        <readable>false</readable>
+        <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
         <field>Account.BI_State__c</field>
-        <readable>false</readable>
+        <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
         <field>Account.BI_Street_Address__c</field>
-        <readable>false</readable>
+        <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
@@ -2142,7 +2206,7 @@
     <fieldPermissions>
         <editable>false</editable>
         <field>Account.DUNS_Number__c</field>
-        <readable>false</readable>
+        <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
@@ -4965,6 +5029,11 @@
         <readable>false</readable>
     </fieldPermissions>
     <fieldPermissions>
+        <editable>true</editable>
+        <field>Case.CC_Order_Item__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
         <editable>false</editable>
         <field>Case.CC_Order__c</field>
         <readable>false</readable>
@@ -5087,6 +5156,11 @@
     <fieldPermissions>
         <editable>true</editable>
         <field>Case.Contact_Address_Detail__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>Case.Contact_Billing_State__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -8537,7 +8611,7 @@
     <fieldPermissions>
         <editable>false</editable>
         <field>Fulfillment_Item__c.Payment_Category_Formula__c</field>
-        <readable>false</readable>
+        <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
@@ -9248,6 +9322,11 @@
         <editable>false</editable>
         <field>Lead.Training_Type__c</field>
         <readable>false</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Lead.Type_of_Service__c</field>
+        <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
@@ -13096,6 +13175,11 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
+        <field>Training_Events__c.Course_Order_Status__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
         <field>Training_Events__c.Course_Record_Processed_Date__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -13731,6 +13815,16 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
+        <field>Voucher__c.Related_Order_Contact_1__c</field>
+        <readable>false</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>Voucher__c.Related_Order_Contact_2__c</field>
+        <readable>false</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
         <field>Voucher__c.Start_Date_of_Class__c</field>
         <readable>false</readable>
     </fieldPermissions>
@@ -13775,15 +13869,27 @@
         <readable>false</readable>
     </fieldPermissions>
     <layoutAssignments>
-        <layout>Account-Account_Admin layout</layout>
+        <layout>Account-Account Layout BI Jane</layout>
     </layoutAssignments>
     <layoutAssignments>
-        <layout>Account-Account_Admin layout</layout>
+        <layout>Account-Account Layout BI Jane</layout>
         <recordType>Account.Facility_Billing_Accounts_in_Account_Hierarchy</recordType>
     </layoutAssignments>
     <layoutAssignments>
-        <layout>Account-Account_Admin layout</layout>
+        <layout>Account-Account Layout BI Jane</layout>
         <recordType>Account.Individual_Account</recordType>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>Account-Account Layout BI Jane</layout>
+        <recordType>Account.Organization_Account</recordType>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>Account-Account Layout BI Jane</layout>
+        <recordType>Account.SB_Household_Account</recordType>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>Account-Account Layout BI Jane</layout>
+        <recordType>Account.SB_Organization_Account</recordType>
     </layoutAssignments>
     <layoutAssignments>
         <layout>Account-Bucket Account Page Layout</layout>
@@ -13792,18 +13898,6 @@
     <layoutAssignments>
         <layout>Account-Household Account</layout>
         <recordType>Account.Household_Account</recordType>
-    </layoutAssignments>
-    <layoutAssignments>
-        <layout>Account-Household Account</layout>
-        <recordType>Account.SB_Household_Account</recordType>
-    </layoutAssignments>
-    <layoutAssignments>
-        <layout>Account-Organization Account</layout>
-        <recordType>Account.Organization_Account</recordType>
-    </layoutAssignments>
-    <layoutAssignments>
-        <layout>Account-Organization Account</layout>
-        <recordType>Account.SB_Organization_Account</recordType>
     </layoutAssignments>
     <layoutAssignments>
         <layout>AccountBrand-Account Brand Layout</layout>
@@ -13831,6 +13925,9 @@
     </layoutAssignments>
     <layoutAssignments>
         <layout>AuditTrailLoginAs__c-AuditTrailLoginAs Layout</layout>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>AuthorizationFormText-Authorization Form Text Layout</layout>
     </layoutAssignments>
     <layoutAssignments>
         <layout>B2CCommerceCloud_Internal_SF_Helpdesk__c-Demandware User Creation Request</layout>
@@ -15779,7 +15876,7 @@
     </tabVisibilities>
     <tabVisibilities>
         <tab>ccrz__E_TransactionPayment__c</tab>
-        <visibility>Hidden</visibility>
+        <visibility>DefaultOff</visibility>
     </tabVisibilities>
     <tabVisibilities>
         <tab>dsfs__DocuSignAccountConfiguration__c</tab>

@@ -22,7 +22,7 @@ public class SubmitOrderCreditController
             }
             
             ccrz__E_Order__c ccOrder = [SELECT  Id,
-                                        		ccrz__OrderNumber__c,
+                                        		Name,
                                         		ccrz__SubtotalAmount__c,
         										ccrz__Account__c,
 												ccrz__Name__c,
@@ -89,7 +89,7 @@ public class SubmitOrderCreditController
                  
                 	storedPymt.ccrz__Account__c				= ccOrder.ccrz__Account__c;
 					storedPymt.ccrz__AccountType__c			= 'cb';
-					storedPymt.ccrz__DisplayName__c			= 'Order ' +ccOrder.ccrz__OrderNumber__c;
+					storedPymt.ccrz__DisplayName__c			= 'Order ' +ccOrder.Name;
 					storedPymt.ccrz__EffectiveAccountID__c	= '';
 					storedPymt.Original_PO_Amount__c		= ccCreditOrder.ccrz__SubtotalAmount__c * -1;
 					storedPymt.Remaining_PO_Amount__c		= ccCreditOrder.ccrz__SubtotalAmount__c * -1;

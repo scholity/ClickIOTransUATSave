@@ -187,6 +187,7 @@ global class skedNatSchedulingController {
                 job.startTime = integer.valueOf(skedJob.sked__Start__c.format('Hmm', timezoneSidId));
                 job.finishTime = integer.valueOf(skedJob.sked__Finish__c.format('Hmm', timezoneSidId));
                 job.jobDate = skedJob.sked__Start__c.format(skedDateTimeUtils.DATE_ISO_FORMAT, timezoneSidId);
+                job.jobType = skedJob.sked__Type__c;
                 job.classType = skedJob.Class_Type__c;
                 job.jobStatus = skedJob.sked__Job_Status__c;
                 job.numberOfStudents = integer.valueOf(skedJob.Number_of_Students__c);
@@ -834,6 +835,7 @@ global class skedNatSchedulingController {
                     sked__Address__c = skedLocation.sked__Address__c,
                     sked__GeoLocation__Latitude__s = skedLocation.sked__GeoLocation__Latitude__s,
                     sked__GeoLocation__Longitude__s = skedLocation.sked__GeoLocation__Longitude__s,
+                    sked__Type__c = job.jobType,
                     Special_Instructions__c = job.specialInstructions,
                     Number_of_Students__c = job.numberOfStudents,
                     Number_of_Instructors__c = job.numberOfInstructors,

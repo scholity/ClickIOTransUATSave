@@ -43,8 +43,8 @@ public with sharing class phss_cc_ProductListComponentCtrlTest {
         setupTestData();
 
         Test.startTest();
-        Map<String, Object> searchProductsResponse = phss_cc_ProductListComponentController.searchProducts(null, TEST_SEARCH_STRING, 'GeneralStore');
-        searchProductsResponse = phss_cc_ProductListComponentController.searchProducts(testOpportunity.Id, TEST_SEARCH_STRING, 'GeneralStore');
+        Map<String, Object> searchProductsResponse = phss_cc_ProductListComponentController.searchProducts(null, TEST_SEARCH_STRING);
+        searchProductsResponse = phss_cc_ProductListComponentController.searchProducts(testOpportunity.Id, TEST_SEARCH_STRING);
         Test.stopTest();
 
         System.assertNotEquals(null, searchProductsResponse);

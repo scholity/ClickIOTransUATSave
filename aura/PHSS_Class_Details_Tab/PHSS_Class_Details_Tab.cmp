@@ -18,7 +18,7 @@
             <c:PHSS_VoucherList/>
         </lightning:tab>
         <lightning:tab label="Student Results" id="phssTab5">
-			<iframe src="{!$Label.c.PHSS_IC_Community_URL_Domain + '/apex/PHSS_GeneratePDF?Id=' + v.recordId }" width="100%" height="500px;" frameBorder="0"/>            
+			<iframe src="{!$Label.c.Learner_Community_URL + '/apex/PHSS_GeneratePDF?Id=' + v.recordId }" width="100%" height="500px;" frameBorder="0"/>
 			<!--iframe src="{!'https://arc-phss-transdev1.lightning.force.com/apex/PHSS_GeneratePDF?Id=' + v.recordId }" width="100%" height="500px;" frameBorder="0"/-->
         </lightning:tab>
     </lightning:tabset>

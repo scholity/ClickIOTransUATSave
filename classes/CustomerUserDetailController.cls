@@ -4,7 +4,7 @@ public without sharing class CustomerUserDetailController
     
     public CustomerUserDetailController()
     {
-        u = [SELECT Id
+        u = [SELECT Id, ContactId
                FROM	User
               WHERE	ContactId =:ApexPages.currentPage().getParameters().get('id')
               LIMIT	1];
@@ -12,7 +12,8 @@ public without sharing class CustomerUserDetailController
     
     public PageReference redirect()
     {   
-        if (u != null)
+        system.debug('u***'+u);
+        if (u != null && u.ContactId != null)
         {
             PageReference redirectSuccess = new PageReference('/lightning/r/User/'+u.Id+'/view');
             return redirectSuccess;

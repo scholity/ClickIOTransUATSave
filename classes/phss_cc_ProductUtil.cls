@@ -4,6 +4,12 @@
 
 public with sharing class phss_cc_ProductUtil {
     private static final String PRODUCT_SFID_KEY = 'sfid';
+    private static final String PRODUCT_SFDCNAME_KEY = 'sfdcName';
+    private static final String PRODUCT_PRICE_KEY = 'price';
+    private static final String PRODUCT_COMPONENTS_KEY = 'componentProducts';
+    private static final String PRODUCT_COMPONENT_ID_KEY = 'component';
+    private static final String PRODUCT_RELATED_COMPONENT_KEY = 'componentR';
+    private static final String PRODUCT_COMPOSITES_KEY = 'compositeProductsS';
 
     // Product Spec names and values
     public static final String CLASS_SPEC_NAME = 'Class';
@@ -15,9 +21,11 @@ public with sharing class phss_cc_ProductUtil {
     private static final String FAILED_TO_PERFORM_FILTERED_PRODUCT_SEARCH = 'Failed to perform filtered product search.';
     private static final String FAILED_TO_CREATE_A_PRODUCT_MAP = 'Failed to create a product map.';
     private static final String FAILED_TO_GET_PRODUCTS_MATCHING_SPECS = 'Failed to get products matching product specs.';
+    private static final String FAILED_TO_GET_COMPONENT_AND_COMPOSITE_PRODUCTS = 'Failed to get component and composite products.';
 
     @TestVisible private static final String PRODUCT_LIST_KEY = 'productList';
     @TestVisible private static final String PRODUCT_MAP_KEY = 'productMap';
+
 
     /**
      * @description Performs a search to return all products matching the query string.
@@ -42,6 +50,70 @@ public with sharing class phss_cc_ProductUtil {
         }
         System.debug('result based on search'+searchResults);
         return searchResults;
+    }
+
+    /**
+     * @description Fetches and adds details of component products to the product map
+     *
+     * @param productMap
+     */
+    public static void fetchComponentProducts(Map<String, Object> productMap) {
+        Set<String> componentIDs = getComponentIDs(productMap);
+        List<Map<String, Object>> componentList = getProductDetails(componentIDs);
+
+        // map component IDs to their data
+        Map<String, Object> componentMap = new Map<String, Object>();
+        if (componentList != null) {
+            for (Map<String, Object> component : componentList) {
+                String componentId = (String) component.get(PRODUCT_SFID_KEY);
+                if (componentId != null) {
+                    componentMap.put(componentId, component);
+                }
+            }
+        }
+
+        for (String productId : productMap.keySet()) {
+            Map<String, Object> product = (Map<String, Object>) productMap.get(productId);
+            if (product.keySet().contains(PRODUCT_COMPOSITES_KEY)) {
+                List<Map<String, Object>> compositeProducts = (List<Map<String, Object>>) product.get(PRODUCT_COMPOSITES_KEY);
+                for (Map<String, Object> compositeProductMap : compositeProducts) {
+                    String componentId = (String) compositeProductMap.get(PRODUCT_COMPONENT_ID_KEY);
+                    if (String.isNotBlank(componentId)) {
+                        Map<String, Object> component = (Map<String, Object>) componentMap.get(componentId);
+                        Map<String, Object> componentR = (Map<String, Object>) compositeProductMap.get(PRODUCT_RELATED_COMPONENT_KEY);
+                        componentR.put(PRODUCT_SFDCNAME_KEY, component.get(PRODUCT_SFDCNAME_KEY));
+                        componentR.put(PRODUCT_PRICE_KEY, component.get(PRODUCT_PRICE_KEY));
+                        compositeProductMap.put(PRODUCT_RELATED_COMPONENT_KEY, componentR);
+                    }
+                }
+            }
+        }
+    }
+
+    /**
+     * @description Obtains any component IDs from a product map
+     *
+     * @param productMap
+     *
+     * @return
+     */
+    public static Set<String> getComponentIDs(Map<String, Object> productMap) {
+        Set<String> componentIDs = new Set<String>();
+        if (productMap.keySet().size() > 0) {
+            for (String productId : productMap.keySet()) {
+                Map<String, Object> product = (Map<String, Object>) productMap.get(productId);
+                if (product.keySet().contains(PRODUCT_COMPOSITES_KEY)) {
+                    List<Map<String, Object>> compositeProducts = (List<Map<String, Object>>) product.get(PRODUCT_COMPOSITES_KEY);
+                    for (Map<String, Object> compositeProductMap : compositeProducts) {
+                        String componentId = (String) compositeProductMap.get(PRODUCT_COMPONENT_ID_KEY);
+                        if (String.isNotBlank(componentId)) {
+                            componentIDs.add(componentId);
+                        }
+                    }
+                }
+            }
+        }
+        return componentIDs;
     }
 
     /**
@@ -119,8 +191,12 @@ public with sharing class phss_cc_ProductUtil {
                     productMap = getProductMapKeyedToSfidMap(productData);
                 }
             }
+
+            fetchComponentProducts(productMap);
+
         } catch (Exception e) {
-            throw new phss_cc_Exception(FAILED_TO_PERFORM_SEARCH);
+            System.debug('Exception caught in product search: ' + e.getMessage() + ' line: ' + e.getLineNumber() + ' stack trace: ' + e.getStackTraceString());
+            throw new phss_cc_Exception(FAILED_TO_PERFORM_SEARCH, e);
         }
         searchResponse = new Map<String, Object>{
                 PRODUCT_LIST_KEY => productMap.keySet(),

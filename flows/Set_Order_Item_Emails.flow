@@ -26,8 +26,8 @@
     <decisions>
         <name>ILT_Instructor</name>
         <label>ILT Instructor</label>
-        <locationX>288</locationX>
-        <locationY>52</locationY>
+        <locationX>272</locationX>
+        <locationY>56</locationY>
         <defaultConnector>
             <targetReference>Get_Order</targetReference>
         </defaultConnector>
@@ -88,8 +88,8 @@
     <recordLookups>
         <name>Get_ILT_Instructor</name>
         <label>Get ILT Instructor</label>
-        <locationX>482</locationX>
-        <locationY>49</locationY>
+        <locationX>393</locationX>
+        <locationY>66</locationY>
         <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
         <connector>
             <targetReference>Get_User_Info</targetReference>
@@ -116,8 +116,8 @@
     <recordLookups>
         <name>Get_Order</name>
         <label>Get Order</label>
-        <locationX>550</locationX>
-        <locationY>203</locationY>
+        <locationX>505</locationX>
+        <locationY>199</locationY>
         <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
         <connector>
             <targetReference>Get_Account</targetReference>
@@ -161,8 +161,8 @@
     <recordLookups>
         <name>Get_User_Info</name>
         <label>Get User Info</label>
-        <locationX>622</locationX>
-        <locationY>49</locationY>
+        <locationX>503</locationX>
+        <locationY>58</locationY>
         <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
         <connector>
             <targetReference>Get_Order</targetReference>

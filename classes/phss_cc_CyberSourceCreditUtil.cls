@@ -11,11 +11,11 @@ public with sharing class phss_cc_CyberSourceCreditUtil {
     private static final String CS_SERIAL_NUMBER_KEY    = CS_MODULE_NAME + '.serialnumber';
     private static final String CS_SECRET_KEY_KEY       = CS_MODULE_NAME + '.secretkey';
 
-    private static String HOST;
-    private static String PATH;
-    private static String MERCHANT_ID;
-    private static String SERIAL_NUMBER;
-    private static String SECRET_KEY;
+    @TestVisible private static String HOST;
+    @TestVisible private static String PATH;
+    @TestVisible private static String MERCHANT_ID;
+    @TestVisible private static String SERIAL_NUMBER;
+    @TestVisible private static String SECRET_KEY;
 
     // Header keys
     private static final String DIGEST_KEY = 'digest';
@@ -29,23 +29,24 @@ public with sharing class phss_cc_CyberSourceCreditUtil {
     private static final String SIGNATURE_ALGORITHM_NAME = 'HmacSHA256';
 
     // Object Map keys
-    private static final String CURRENCY_CODE_KEY = 'currencyCode';
+    @TestVisible private static final String CURRENCY_CODE_KEY = 'currencyCode';
     private static final String ORDER_KEY = 'order';
     private static final String STOREFRONT_KEY = 'storefront';
-    private static final String TRANSACTION_PAYMENT_AMOUNT_KEY = 'transactionPaymentAmount';
+    @TestVisible private static final String TRANSACTION_PAYMENT_AMOUNT_KEY = 'transactionPaymentAmount';
     private static final String TRANSACTION_PAYMENT_ID_KEY = 'transactionPaymentId';
-    private static final String TRANSACTION_PAYMENT_NAME_KEY = 'transactionPaymentName';
-    private static final String TRANSACTION_REFERENCE_ID_KEY = 'transactionReferenceId';
+    @TestVisible private static final String TRANSACTION_PAYMENT_NAME_KEY = 'transactionPaymentName';
+    @TestVisible private static final String TRANSACTION_REFERENCE_ID_KEY = 'transactionReferenceId';
+    @TestVisible private static final String TRANSACTION_TIMESTAMP_KEY = 'transactionTimestamp';
 
     private static final String TRANS_REF_ID_PLACEHOLDER = '{id}';
 
     private static final Integer HTTP_STATUS_CODE_CREATED = 201;
 
     // Response keys
-    private static final String REFUND_AMOUNT_DETAILS_KEY = 'refundAmountDetails';
-    private static final String REFUND_AMOUNT_KEY = 'refundAmount';
-    private static final String TRANSACTION_ID_KEY = 'id';
-    private static final String SUBMIT_TIME_UTC_KEY = 'submitTimeUtc';
+    @TestVisible private static final String REFUND_AMOUNT_DETAILS_KEY = 'refundAmountDetails';
+    @TestVisible private static final String REFUND_AMOUNT_KEY = 'refundAmount';
+    @TestVisible private static final String TRANSACTION_ID_KEY = 'id';
+    @TestVisible private static final String SUBMIT_TIME_UTC_KEY = 'submitTimeUtc';
 
     // Error messages
     private static final String FAILED_TO_FETCH_FULFILLMENT = 'Failed to fetch fulfillment.';
@@ -108,54 +109,38 @@ public with sharing class phss_cc_CyberSourceCreditUtil {
                 }
 
             } catch (Exception e) {
-                System.debug('JASON: exception caught: ' + e.getMessage());
+                System.debug('Exception caught: ' + e.getMessage());
             }
 
         } catch (Exception e) {
-            System.debug('JASON: exception caught: ' + e.getMessage());
+            System.debug('Exception caught: ' + e.getMessage());
             throw e;
         }
     }
 
-
+	@testVisible
     private static void saveRefundCapture(Map<String, Object> data, String sourceTransactionPaymentId) {
         try {
             Map<String, Object> refundAmountDetails = (Map<String, Object>) data.get(REFUND_AMOUNT_DETAILS_KEY);
-            System.debug('JASON: getting refund amount');
             Decimal refundAmount = Decimal.valueOf((String) refundAmountDetails.get(REFUND_AMOUNT_KEY));
 
-            System.debug('JASON: fetching authorization: id=' + sourceTransactionPaymentId);
             ccrz__E_TransactionPayment__c authTxn = phss_cc_TransactionPaymentUtil.fetchTransactionPayment(sourceTransactionPaymentId);
-            System.debug('JASON: creating capture');
             ccrz__E_TransactionPayment__c captureTxn = new ccrz__E_TransactionPayment__c();
-            System.debug('JASON: setting account');
             captureTxn.ccrz__Account__c = authTxn.ccrz__Account__c;
-            System.debug('JASON: setting account type');
             captureTxn.ccrz__AccountType__c = authTxn.ccrz__AccountType__c;
-            System.debug('JASON: setting amount');
             captureTxn.ccrz__Amount__c = authTxn.ccrz__Amount__c;
-            System.debug('JASON: setting order');
             captureTxn.ccrz__CCOrder__c = authTxn.ccrz__CCOrder__c;
-            System.debug('JASON: setting invoice');
             captureTxn.ccrz__InvoiceAppliedFor__c = authTxn.ccrz__InvoiceAppliedFor__c;
-            System.debug('JASON: setting payment type');
             captureTxn.ccrz__PaymentType__c = authTxn.ccrz__PaymentType__c;
-            System.debug('JASON: setting request amount');
             captureTxn.ccrz__RequestAmount__c = refundAmount;
-            System.debug('JASON: setting source transaction payment');
             captureTxn.ccrz__SourceTransactionPayment__c = authTxn.Id;
-            System.debug('JASON: settings storefront');
             captureTxn.ccrz__Storefront__c = authTxn.ccrz__Storefront__c;
-            System.debug('JASON: setting transaction id');
             captureTxn.ccrz__TransactionPaymentId__c = (String) data.get(TRANSACTION_ID_KEY);
-            System.debug('JASON: setting transaction timestamp');
             captureTxn.ccrz__TransactionTS__c = DatetimeUtil.parse((String) data.get(SUBMIT_TIME_UTC_KEY), DatetimeUtil.format.YYYY_MM_DDTHH_MM_SSZ);
-            System.debug('JASON: setting transaction type');
             captureTxn.ccrz__TransactionType__c = phss_cc_TransactionPaymentUtil.CAPTURE_TRANSACTION_TYPE;
 
-            System.debug('JASON: inserting capture');
             insert captureTxn;
-
+		
         } catch (Exception e) {
             throw new phss_cc_Exception(FAILED_TO_SAVE_REFUND_CAPTURE_RESPONSE, e);
         }
@@ -176,6 +161,16 @@ public with sharing class phss_cc_CyberSourceCreditUtil {
     }
 
 
+    /**
+     * @description Obtains transaction payment name and reference Id from transaction payments related to an order
+     *
+     * The Name of the AUTH transaction is fetched. The Transaction Reference Id from the CAPTURE is fetched. Both are
+     * REQUIRED for creating a CyberSource Credit request.
+     *
+     * @param orderId
+     * @param objectMap
+     */
+    @TestVisible
     private static void getTransactionPaymentDataForOrder(String orderId, Map<String, Object> objectMap) {
         try {
             List<ccrz__E_TransactionPayment__c> transactionPayments = [
@@ -206,6 +201,7 @@ public with sharing class phss_cc_CyberSourceCreditUtil {
     }
 
 
+    @TestVisible
     private static void getFulfillmentData(String fulfillmentId, Map<String, Object> objectMap) {
         try {
             Fulfillment__c fulfillment = fetchFulfillment(fulfillmentId);
@@ -243,6 +239,7 @@ public with sharing class phss_cc_CyberSourceCreditUtil {
     }
 
 
+    @TestVisible
     private static void loadCyberSourceConfigurations(String storefront) {
         try {
             Map<String, Object> configs = phss_cc_CyberSourceUtil.getConfigurations(CS_MODULE_NAME, storefront);
@@ -302,6 +299,7 @@ public with sharing class phss_cc_CyberSourceCreditUtil {
     }
 
 
+    @TestVisible
     private static HttpRequest buildRefundRequest(Map<String, Object> objectMap) {
 
         String txnPmtName = (String) objectMap.get(TRANSACTION_PAYMENT_NAME_KEY);
@@ -319,7 +317,11 @@ public with sharing class phss_cc_CyberSourceCreditUtil {
         PATH = PATH.replace(TRANS_REF_ID_PLACEHOLDER, requestId);
 
         String requestTarget = 'post ' + PATH;
-        String timestamp = Datetime.now().formatGmt('EEE, dd MMM yyyy HH:mm:ss') + ' GMT';
+
+        String timestamp = (String) objectMap.get(TRANSACTION_TIMESTAMP_KEY);
+        if (String.isBlank(timestamp)) {
+            timestamp = Datetime.now().formatGmt('EEE, dd MMM yyyy HH:mm:ss') + ' GMT';
+        }
 
         List<String> keys = new List<String>{HOST_KEY, REQUEST_TARGET_KEY, DIGEST_KEY, MERCHANT_KEY};
         Map<String, Object> properties = new Map<String, Object>{
@@ -348,6 +350,7 @@ public with sharing class phss_cc_CyberSourceCreditUtil {
     }
 
 
+    @TestVisible
     private static String generateSignableData(List<String> keys, Map<String, Object> properties) {
         List<String> kvPairs = new List<String>();
         for (String key : keys) {
@@ -362,18 +365,21 @@ public with sharing class phss_cc_CyberSourceCreditUtil {
     }
 
 
+    @TestVisible
     private static String generateSignature(String data) {
         Blob signedData = Crypto.generateMac(MAC_ALGORITHM, Blob.valueOf(data), EncodingUtil.base64Decode(SECRET_KEY));
         return EncodingUtil.base64Encode(signedData);
     }
 
 
+    @TestVisible
     private static String generateDigest(String message) {
         Blob digest = Crypto.generateDigest(DIGEST_ALGORITHM, Blob.valueOf(message));
         return DIGEST_ALGORITHM + '=' + EncodingUtil.base64Encode(digest);
     }
 
 
+    @TestVisible
     private static Map<String, Object> createMessageBody(String transactionPaymentName, Decimal amount, String currencyCode) {
         Map<String, Object> messageBody = new Map<String, Object>{
                 'clientReferenceInformation' => new Map<String, String>{

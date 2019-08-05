@@ -94,13 +94,17 @@
                         
                     </div>
 
-                    <lightning:button aura:id="nextButton" label="Next" onclick="{!c.navigateToNextStep}" class="sfdc_button"/>
+                    <lightning:button aura:id="nextButton" label="NEXT" onclick="{!c.navigateToNextStep}" class="sfdc_button"/>
                     <div class="sfdc" onclick="{!c.navigateToForgottenPasswdB2C}" style="cursor: pointer; color: blue">Forgot Password</div>
 
 
                     <div id="sfdc_create_account">
-                        <span style="font-weight: bold;">Don't have an account?</span>
-                        <span ><a id="sfdc_create_account-span" href="{!v.selfRegisterUrl+'?startURL=' + v.startUrl + '&amp;b2cOrigin=true'}">Create an Account</a></span>
+                        <div class="container" style="text-align: center;">
+                            <span style="font-weight: bold;">Don't have an account?</span>
+                            <div>
+                                <lightning:button variant="base" label="CREATE ACCOUNT" onclick="{!c.navigateToCreateAccount}" class="alternative_button" />
+                            </div>
+                        </div>
                     </div>
 
                 </aura:if>

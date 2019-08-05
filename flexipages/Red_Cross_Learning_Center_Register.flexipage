@@ -2,6 +2,13 @@
 <FlexiPage xmlns="http://soap.sforce.com/2006/04/metadata">
     <flexiPageRegions>
         <appendable>enabled</appendable>
+        <name>header</name>
+        <prependable>enabled</prependable>
+        <replaceable>enabled</replaceable>
+        <type>Region</type>
+    </flexiPageRegions>
+    <flexiPageRegions>
+        <appendable>enabled</appendable>
         <componentInstances>
             <componentName>PHSS_LogoHeader</componentName>
         </componentInstances>
@@ -41,9 +48,6 @@
                 <value>Email</value>
             </componentInstanceProperties>
             <componentInstanceProperties>
-                <name>extraFieldsFieldSet</name>
-            </componentInstanceProperties>
-            <componentInstanceProperties>
                 <name>firstnameLabel</name>
                 <value>First Name</value>
             </componentInstanceProperties>
@@ -64,9 +68,6 @@
                 <value>./CheckPasswordResetEmail</value>
             </componentInstanceProperties>
             <componentInstanceProperties>
-                <name>startUrl</name>
-            </componentInstanceProperties>
-            <componentInstanceProperties>
                 <name>submitButtonLabel</name>
                 <value>Sign Up</value>
             </componentInstanceProperties>
@@ -74,15 +75,19 @@
         </componentInstances>
         <componentInstances>
             <componentInstanceProperties>
-                <name>headerText</name>
-            </componentInstanceProperties>
-            <componentInstanceProperties>
                 <name>showHeader</name>
                 <value>false</value>
             </componentInstanceProperties>
             <componentName>salesforceIdentity:socialLogin2</componentName>
         </componentInstances>
         <name>content</name>
+        <prependable>enabled</prependable>
+        <replaceable>enabled</replaceable>
+        <type>Region</type>
+    </flexiPageRegions>
+    <flexiPageRegions>
+        <appendable>enabled</appendable>
+        <name>footer</name>
         <prependable>enabled</prependable>
         <replaceable>enabled</replaceable>
         <type>Region</type>
@@ -98,7 +103,6 @@
             </componentInstanceProperties>
             <componentInstanceProperties>
                 <name>title</name>
-                <value>Register</value>
             </componentInstanceProperties>
             <componentName>forceCommunity:seoAssistant</componentName>
         </componentInstances>

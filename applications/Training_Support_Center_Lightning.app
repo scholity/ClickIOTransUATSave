@@ -36,30 +36,6 @@
         <type>Flexipage</type>
         <profile>Admin</profile>
     </profileActionOverrides>
-    <profileActionOverrides>
-        <actionName>Tab</actionName>
-        <content>American_Red_Cross_Service_Console_Home_Page</content>
-        <formFactor>Large</formFactor>
-        <pageOrSobjectType>standard-home</pageOrSobjectType>
-        <type>Flexipage</type>
-        <profile>SB ARC / TSC Agent</profile>
-    </profileActionOverrides>
-    <profileActionOverrides>
-        <actionName>Tab</actionName>
-        <content>ARC_Service_Console_Home_Page_Team_Leads</content>
-        <formFactor>Large</formFactor>
-        <pageOrSobjectType>standard-home</pageOrSobjectType>
-        <type>Flexipage</type>
-        <profile>SB ARC Sales User</profile>
-    </profileActionOverrides>
-    <profileActionOverrides>
-        <actionName>Tab</actionName>
-        <content>American_Red_Cross_Service_Console_Home_Page</content>
-        <formFactor>Large</formFactor>
-        <pageOrSobjectType>standard-home</pageOrSobjectType>
-        <type>Flexipage</type>
-        <profile>SB ARC / TSC Manager</profile>
-    </profileActionOverrides>
     <tabs>standard-home</tabs>
     <tabs>standard-Feed</tabs>
     <tabs>standard-Account</tabs>
@@ -73,6 +49,7 @@
     <tabs>sked__Availability__c</tabs>
     <tabs>Resource_Activity_Report</tabs>
     <tabs>redwing__Achievement_Assignment__c</tabs>
+    <tabs>ccrz__E_TransactionPayment__c</tabs>
     <uiType>Lightning</uiType>
     <utilityBar>Training_Support_Center_Lightning_UtilityBar</utilityBar>
 </CustomApplication>

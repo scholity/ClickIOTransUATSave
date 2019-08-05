@@ -1,9 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <PermissionSet xmlns="http://soap.sforce.com/2006/04/metadata">
-    <applicationVisibilities>
-        <application>PHSS_Sales</application>
-        <visible>true</visible>
-    </applicationVisibilities>
     <description>Permission set to give Agents (and other users) the ability to create and edit orders in the system.</description>
     <fieldPermissions>
         <editable>false</editable>
@@ -5591,11 +5587,6 @@
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
-        <editable>false</editable>
-        <field>sked__Job__c.Job_Tag_Count__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
         <editable>true</editable>
         <field>sked__Job__c.Job_Time__c</field>
         <readable>true</readable>
@@ -7006,10 +6997,6 @@
     </tabSettings>
     <tabSettings>
         <tab>ccrz__E_Term__c</tab>
-        <visibility>Visible</visibility>
-    </tabSettings>
-    <tabSettings>
-        <tab>ccrz__E_TransactionPayment__c</tab>
         <visibility>Visible</visibility>
     </tabSettings>
     <tabSettings>

@@ -12,6 +12,10 @@
         helper.getFormData(component, event, helper);
         window.addEventListener("message", function(event) {
 			var cyberSourceResponse = event.data;
+			if (cyberSourceResponse.startsWith('setImmediate$0')) {
+			    return;     // ignore this event
+			}
+
             var requiresClick = helper.processCyberSourceCallback(component,cyberSourceResponse);
             window.scrollBy(0,1);
 
@@ -40,6 +44,16 @@
     dismissPaymentProgress : function (component, event, helper) {
         component.set('v.showPaymentProgress', false);
     },
+    
+    handleABAmount : function (component, event, helper) {
+        console.log("handleABAmount ON CC");
+        
+        var newAmount = event.getParam('amtFrmAccBalance');
+        
+        console.log("newAmount ON CC*** " +newAmount);
+        
+        component.set("v.amount", newAmount);
+    },
 
     /**
      * @description POST the form to Cybersource via the iframe bridge form.
@@ -48,7 +62,7 @@
      * @param helper
      */
     submitFormData : function (component, event, helper) {
-        helper.POSTFormData(component);
+        helper.POSTFormData(component, helper);
     }
 
 })

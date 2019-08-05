@@ -66,6 +66,16 @@
         <type>Checkbox</type>
     </fields>
     <fields>
+        <fullName>CreateTrainingEventForNewOrderDisabled__c</fullName>
+        <defaultValue>false</defaultValue>
+        <description>When checked, the CreateTrainingEventForNewOrder trigger on Order is disabled. NOTE: Only methods using checkbox will be disabled.</description>
+        <externalId>false</externalId>
+        <inlineHelpText>When checked, the CreateTrainingEventForNewOrder trigger on Order is disabled. NOTE: Only methods using checkbox will be disabled.</inlineHelpText>
+        <label>CreateTrainingEventForNewOrder Disabled</label>
+        <trackTrending>false</trackTrending>
+        <type>Checkbox</type>
+    </fields>
+    <fields>
         <fullName>FulfillmentTriggerDisabled__c</fullName>
         <defaultValue>false</defaultValue>
         <description>When checked, the Fulfillment Trigger is disabled.</description>
@@ -130,12 +140,26 @@
         <type>Checkbox</type>
     </fields>
     <fields>
-        <fullName>skedJobTriggerDisabled__c</fullName>
+        <fullName>skedJobtoILTClassTriggerDisabled__c</fullName>
         <defaultValue>false</defaultValue>
-        <description>When checked, the skedJobTrigger is disabled. NOTE: Only methods using checkbox will be disabled.</description>
         <externalId>false</externalId>
-        <inlineHelpText>When checked, the skedJobTrigger is disabled. NOTE: Only methods using checkbox will be disabled.</inlineHelpText>
-        <label>skedJobTrigger Disabled</label>
+        <label>skedJobtoILTClassTriggerDisabled</label>
+        <trackTrending>false</trackTrending>
+        <type>Checkbox</type>
+    </fields>
+    <fields>
+        <fullName>skedLocationtoILTLocationTriggerDisabled__c</fullName>
+        <defaultValue>false</defaultValue>
+        <externalId>false</externalId>
+        <label>skedLocationtoILTLocationTriggerDisabled</label>
+        <trackTrending>false</trackTrending>
+        <type>Checkbox</type>
+    </fields>
+    <fields>
+        <fullName>skedResourcetoILTInstructTriggerDisabled__c</fullName>
+        <defaultValue>false</defaultValue>
+        <externalId>false</externalId>
+        <label>skedResourcetoILTInstructTriggerDisabled</label>
         <trackTrending>false</trackTrending>
         <type>Checkbox</type>
     </fields>

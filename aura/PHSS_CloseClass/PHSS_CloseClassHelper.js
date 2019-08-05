@@ -13,6 +13,9 @@
                 if (returnValue != null && returnValue.Error == null) {
                     component.set('v.isSkeduloCourse',returnValue);
                     console.log('isCOmmunity..'+component.get("v.isSkeduloCourse"));
+
+                    // NEXT: Check if class is LTS
+                    this.checkIsLearnToSwimClass(component);
                 } else if (returnValue != null && returnValue.Error != null) {
                     component.set("v.errorMessage",'Error initializing case form');
                     component.set("v.showError",true);
@@ -24,6 +27,32 @@
         });
         $A.enqueueAction(action);	    
     },
+
+    checkIsLearnToSwimClass : function(component) {
+        var classId = component.get('v.recordId');
+        var action = component.get('c.isLTSClass');
+        action.setParams({
+            classId: classId
+        });
+        action.setCallback(this, function (response) {
+            var state = response.getState();
+            if (state === 'SUCCESS') {
+                var returnValue = response.getReturnValue();
+                if (returnValue[classId] == true) {
+                    component.set('v.isLearnToSwimClass', true);
+                    console.log('This IS a Learn-to-Swim class');
+                } else {
+                    component.set('v.isLearnToSwimClass', false);
+                    console.log('This IS NOT a Learn-to-Swim class');
+                }
+            } else {
+                component.set('v.errorMessage', 'Unable to contact server.');
+                component.set('v.showError', true);
+            }
+        });
+        $A.enqueueAction(action);
+    },
+
     validateCart : function (component,event,helper) {
         var action = component.get('c.IsCartActive');
 		action.setParams({
@@ -56,6 +85,7 @@
     	// using class id, get the number of students and students list
         var action = component.get("c.courseInfo");
         
+          
         console.log('recordId..'+component.get("v.recordId"));
         action.setParams({ ClassId : component.get("v.recordId") });
         

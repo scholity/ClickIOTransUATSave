@@ -24,7 +24,7 @@
     <requireHttps>true</requireHttps>
     <requireInsecurePortalAccess>false</requireInsecurePortalAccess>
     <selfRegPage>CommunitiesSelfReg</selfRegPage>
-    <siteAdmin>bjarmolinski.phss.cf@redcross.org</siteAdmin>
+    <siteAdmin>gita.borovsky@redcross.org</siteAdmin>
     <siteType>ChatterNetwork</siteType>
     <subdomain>americanredcross</subdomain>
     <urlPathPrefix>learner</urlPathPrefix>

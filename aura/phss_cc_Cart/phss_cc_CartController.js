@@ -12,6 +12,7 @@
         console.log('phss_cc_Cart.doInit()');
         helper.getActiveCart(component);
         helper.getPaymentTabsetPermissions(component);
+        helper.fetchOpportunityApprovalState(component);
     },
 
     /**
@@ -33,6 +34,7 @@
     handleRefreshComponentEvent : function (component, event, helper){
         component.set('v.productQuantityMap',new Map());
         helper.getActiveCart(component);
+        helper.fetchOpportunityApprovalState(component);
     },
 
     /**

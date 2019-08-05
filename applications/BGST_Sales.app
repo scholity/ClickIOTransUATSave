@@ -18,4 +18,5 @@
     <tabs>NAICS__c</tabs>
     <tabs>Attendee__c</tabs>
     <tabs>Resource_Activity_Report</tabs>
+    <tabs>ccrz__E_TransactionPayment__c</tabs>
 </CustomApplication>

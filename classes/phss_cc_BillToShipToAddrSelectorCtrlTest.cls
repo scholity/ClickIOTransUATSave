@@ -53,4 +53,54 @@ public with sharing class phss_cc_BillToShipToAddrSelectorCtrlTest {
         Test.stopTest();
     }
 
+    @isTest
+    public static void testInitAddressFormWrapper(){
+
+        setupTestData();
+
+        Test.startTest();
+        phss_cc_BillToShipToAddressSelectorCtrl.initAddrFormWrapper();
+        Test.stopTest();
+    }
+
+    @isTest
+    public static void testSaveNewShippingAddr(){
+
+        setupTestData();
+        PHSS_AddressFormWrapper wrapper = new PHSS_AddressFormWrapper();
+        wrapper.firstName = 'john';
+        wrapper.lastName = 'smith';
+        wrapper.email = 'jsmith@anywhwere.com';
+        wrapper.phone = '8005551212';
+        wrapper.addressFirstLine = '1234 anywhere st';
+        wrapper.addressSecondLine = 'apt 2';
+        wrapper.city = 'LA';
+        wrapper.state = 'CA';
+        wrapper.country = 'US';
+        wrapper.postalCode = '90210';
+
+        String address = JSON.serialize(wrapper);
+
+        Test.startTest();
+        ccrz__E_ContactAddr__c result = phss_cc_BillToShipToAddressSelectorCtrl.saveNewShippingAddr(address, testOpportunity.Id);
+        Test.stopTest();
+        System.assert(result.Id != null);
+    }
+
+    @isTest
+    public static void testFetchAddressFromAccount() {
+        setupTestData();
+
+        Account account = new Account();
+        account.Id = testOpportunity.AccountId;
+        account.ShippingStreet = '1234 anywhere st';
+        account.ShippingCity = 'LA';
+        account.ShippingState = 'CA';
+        account.ShippingCountry = 'US';
+        account.ShippingPostalCode = '90210';
+        update account;
+        Map<String, Object> result = phss_cc_BillToShipToAddressSelectorCtrl.fetchAddressFromAccount(testOpportunity.Id);
+        System.assert(result.get('AddressMap') != null);
+    }
+
 }

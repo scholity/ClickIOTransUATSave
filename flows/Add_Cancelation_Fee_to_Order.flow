@@ -173,10 +173,35 @@
         </value>
     </constants>
     <decisions>
+        <name>Cancellation_Fee_Check</name>
+        <label>Cancellation Fee Check</label>
+        <locationX>332</locationX>
+        <locationY>424</locationY>
+        <defaultConnector>
+            <targetReference>Cancel_Fee_Missing</targetReference>
+        </defaultConnector>
+        <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
+        <rules>
+            <name>Found_Cancelation_Fee</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>Get_Cancelation_Fee_Product_ID</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <booleanValue>true</booleanValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Get_ILT_Class</targetReference>
+            </connector>
+            <label>Found Cancelation Fee</label>
+        </rules>
+    </decisions>
+    <decisions>
         <name>Is_Cancellation_Fee_Needed</name>
         <label>Is Cancellation Fee Needed</label>
-        <locationX>534</locationX>
-        <locationY>60</locationY>
+        <locationX>479</locationX>
+        <locationY>62</locationY>
         <defaultConnectorLabel>[Default Outcome]</defaultConnectorLabel>
         <rules>
             <name>Less_than_12_Days</name>
@@ -367,11 +392,11 @@
     <recordLookups>
         <name>Get_Cancelation_Fee_Product_ID</name>
         <label>Get Cancelation Fee Product ID</label>
-        <locationX>335</locationX>
-        <locationY>304</locationY>
+        <locationX>336</locationX>
+        <locationY>297</locationY>
         <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
         <connector>
-            <targetReference>Get_ILT_Class</targetReference>
+            <targetReference>Cancellation_Fee_Check</targetReference>
         </connector>
         <filters>
             <field>Name</field>
@@ -388,8 +413,8 @@
     <recordLookups>
         <name>Get_ILT_Class</name>
         <label>Get ILT Class</label>
-        <locationX>334</locationX>
-        <locationY>466</locationY>
+        <locationX>340</locationX>
+        <locationY>551</locationY>
         <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
         <connector>
             <targetReference>Get_Transaction_Payment</targetReference>
@@ -409,8 +434,8 @@
     <recordLookups>
         <name>Get_Transaction_Payment</name>
         <label>Get Transaction Payment</label>
-        <locationX>496</locationX>
-        <locationY>468</locationY>
+        <locationX>494</locationX>
+        <locationY>550</locationY>
         <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
         <connector>
             <targetReference>Add_Fee_to_Order_Item</targetReference>
@@ -430,8 +455,8 @@
     <recordLookups>
         <name>Lookup_Order_Item</name>
         <label>Lookup Order Item</label>
-        <locationX>336</locationX>
-        <locationY>201</locationY>
+        <locationX>488</locationX>
+        <locationY>198</locationY>
         <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
         <connector>
             <targetReference>Get_Cancelation_Fee_Product_ID</targetReference>
@@ -465,8 +490,8 @@
     <recordLookups>
         <name>Lookup_Training_Event</name>
         <label>Lookup Training Event</label>
-        <locationX>341</locationX>
-        <locationY>60</locationY>
+        <locationX>331</locationX>
+        <locationY>57</locationY>
         <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
         <connector>
             <targetReference>Is_Cancellation_Fee_Needed</targetReference>
@@ -488,10 +513,26 @@
         <queriedFields>Number_in_Class__c</queriedFields>
     </recordLookups>
     <screens>
+        <name>Cancel_Fee_Missing</name>
+        <label>Cancel Fee Missing</label>
+        <locationX>150</locationX>
+        <locationY>424</locationY>
+        <allowBack>true</allowBack>
+        <allowFinish>true</allowFinish>
+        <allowPause>true</allowPause>
+        <fields>
+            <name>CancelFeeError</name>
+            <fieldText>&lt;p&gt;Item: &lt;b&gt;{!CancellationFee}&lt;/b&gt;&lt;/p&gt;&lt;p&gt;has not been added to the CC Product table&lt;/p&gt;&lt;p&gt;&lt;br&gt;&lt;/p&gt;&lt;p&gt;Please contact the system administrator to add.&lt;/p&gt;</fieldText>
+            <fieldType>DisplayText</fieldType>
+        </fields>
+        <showFooter>true</showFooter>
+        <showHeader>true</showHeader>
+    </screens>
+    <screens>
         <name>Cancellation_Fee_Notes</name>
         <label>Cancellation Fee Notes</label>
-        <locationX>180</locationX>
-        <locationY>60</locationY>
+        <locationX>181</locationX>
+        <locationY>56</locationY>
         <allowBack>true</allowBack>
         <allowFinish>true</allowFinish>
         <allowPause>true</allowPause>

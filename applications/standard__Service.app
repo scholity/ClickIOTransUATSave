@@ -23,4 +23,5 @@
     <tabs>sked__Availability__c</tabs>
     <tabs>standard-WaveHome</tabs>
     <tabs>Long_Article__kav</tabs>
+    <tabs>ccrz__E_TransactionPayment__c</tabs>
 </CustomApplication>

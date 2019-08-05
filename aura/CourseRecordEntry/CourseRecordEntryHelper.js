@@ -35,48 +35,44 @@
         }   
     },
 
-     //
-    checkPreq : function(component, event, helper) {
-          console.log('Get in method');
-        var CCProductId = component.get("v.CCProductId");
-         var extUser = component.get("v.isExtUser");
-        var isParnter = component.get("v.isPartner");
-        var Nextbutton = component.get("v.Nextbuttonbool");
-          // Prereq check
-         if(typeof CCProductId !== 'undefined' && extUser===true && isParnter===false)
-         //if(typeof CCProductId !== 'undefined')
-         {
-          console.log('Get in new');
-          var action1 = component.get("c.checkPrereq");
-          action1.setParams({ccProdId : CCProductId});
-		  action1.setCallback(this, function(response) {
-            var state = response.getState();
-              
-            if (state === "SUCCESS") {
-                 var storeResponse = response.getReturnValue();
-			//component.set("v.calciinstructor",true);
-                 if(storeResponse==true) {
-                     component.set("v.Nextbuttonbool",true);
-                 }
-                else
-                {
-                     component.set("v.Nextbuttonbool",false);
 
-                     console.log("Error message: Instructor does not meet the prereq");
-                                var toastEvent = $A.get("e.force:showToast");
-                                toastEvent.setParams({
-                                    "mode": "pester",
-                                    "duration":" 10000",
-                                    "title": "Invalid Instructor",
-                                    "type" : "error",
-                                    "message": "You are not a Certified Instructor"
-                                });
-                                toastEvent.fire();
+    checkPreq: function (component, event, helper) {
+
+        var CCProductId = component.get("v.CCProductId");
+        var extUser = component.get("v.isExtUser");
+        var isPartner = component.get("v.isPartner");
+        // Prereq check
+        if (typeof CCProductId !== 'undefined' && extUser === true && isPartner === false) {
+        //if(typeof CCProductId !== 'undefined') { //for testing
+            var action1 = component.get("c.checkPrereq");
+            action1.setParams({ccProdId: CCProductId});
+            action1.setCallback(this, function (response) {
+                var state = response.getState();
+
+                if (state === "SUCCESS") {
+                    var storeResponse = response.getReturnValue();
+                    component.set("v.calciinstructor", true);
+                    if (storeResponse == true) {
+                        component.set("v.instructorHasPrerequisites", true);
+                        console.log("Instructor has met the prereq");
+                    } else {
+                        component.set("v.instructorHasPrerequisites", false);
+
+                        console.log("Error message: Instructor does not meet the prereq");
+                        var toastEvent = $A.get("e.force:showToast");
+                        toastEvent.setParams({
+                            "mode": "pester",
+                            "duration": " 10000",
+                            "title": "Invalid Instructor",
+                            "type": "error",
+                            "message": "You are not a Certified Instructor"
+                        });
+                        toastEvent.fire();
+                    }
                 }
-            }
-                });
-        $A.enqueueAction(action1);
-         }
+            });
+            $A.enqueueAction(action1);
+        }
     },
     mandateInput : function(component, event, helper) 
     {

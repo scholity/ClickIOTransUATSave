@@ -13,7 +13,7 @@
         <name>Assign_Case_Values</name>
         <label>Assign Case Values</label>
         <locationX>836</locationX>
-        <locationY>45</locationY>
+        <locationY>46</locationY>
         <assignmentItems>
             <assignToReference>sCase.RecordTypeId</assignToReference>
             <operator>Assign</operator>
@@ -33,13 +33,6 @@
             <operator>Assign</operator>
             <value>
                 <elementReference>frmOrder</elementReference>
-            </value>
-        </assignmentItems>
-        <assignmentItems>
-            <assignToReference>sCase.Order_Number__c</assignToReference>
-            <operator>Assign</operator>
-            <value>
-                <elementReference>sOrder.Order_Number_Text__c</elementReference>
             </value>
         </assignmentItems>
         <assignmentItems>
@@ -120,7 +113,7 @@
         <name>Case_Values_for_Invalid_Contract</name>
         <label>Case Values for Invalid Contract</label>
         <locationX>835</locationX>
-        <locationY>207</locationY>
+        <locationY>206</locationY>
         <assignmentItems>
             <assignToReference>sCase.RecordTypeId</assignToReference>
             <operator>Assign</operator>
@@ -140,13 +133,6 @@
             <operator>Assign</operator>
             <value>
                 <elementReference>frmOrder</elementReference>
-            </value>
-        </assignmentItems>
-        <assignmentItems>
-            <assignToReference>sCase.Order_Number__c</assignToReference>
-            <operator>Assign</operator>
-            <value>
-                <elementReference>sOrder.Order_Number_Text__c</elementReference>
             </value>
         </assignmentItems>
         <assignmentItems>
@@ -297,7 +283,7 @@
             <label>Sales Holds</label>
         </rules>
     </decisions>
-    <description>Create a case for Orders placed on hold</description>
+    <description>Create a case for Orders placed on hold - Remove Order Number Text</description>
     <formulas>
         <description>Subject for Case</description>
         <name>fCaseSubject</name>
@@ -307,7 +293,7 @@
     <formulas>
         <name>fDescription</name>
         <dataType>String</dataType>
-        <expression>&quot;Order Number: &quot; &amp; {!sOrder.Order_Number_Text__c} &amp; &quot; has been placed on hold for the following reason: &quot; &amp; {!sOrder.Error_Message__c}</expression>
+        <expression>&quot;Order Number: &quot; &amp; {!sOrder.Name} &amp; &quot; has been placed on hold for the following reason: &quot; &amp; {!sOrder.Error_Message__c}</expression>
     </formulas>
     <interviewLabel>Create On Hold Case {!$Flow.CurrentDateTime}</interviewLabel>
     <label>Create On Hold Order Case</label>
@@ -328,8 +314,8 @@
         <description>Create a new on hold case record for On Hold order if Case has not been closed</description>
         <name>Create_NEW_On_Hold_Case</name>
         <label>Create NEW On Hold Case</label>
-        <locationX>993</locationX>
-        <locationY>124</locationY>
+        <locationX>994</locationX>
+        <locationY>125</locationY>
         <inputReference>sCase</inputReference>
     </recordCreates>
     <recordLookups>
@@ -448,7 +434,7 @@
         <name>Get_Order_Information</name>
         <label>Get Order Information</label>
         <locationX>516</locationX>
-        <locationY>45</locationY>
+        <locationY>44</locationY>
         <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
         <connector>
             <targetReference>Order_Status_On_Hold</targetReference>
@@ -471,8 +457,8 @@
         <queriedFields>ccrz__OrderName__c</queriedFields>
         <queriedFields>ccrz__Order__c</queriedFields>
         <queriedFields>Error_Message__c</queriedFields>
-        <queriedFields>Order_Number_Text__c</queriedFields>
         <queriedFields>ccrz__OrderStatus__c</queriedFields>
+        <queriedFields>Name</queriedFields>
     </recordLookups>
     <startElementReference>Get_On_Hold_Order_Record_type</startElementReference>
     <status>Active</status>

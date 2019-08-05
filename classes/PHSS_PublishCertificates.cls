@@ -462,34 +462,35 @@ public class PHSS_PublishCertificates {
         v.PathOnClient = '/AcquiredCertificates.csv';
         insert v;
     }
-    
-    private string base10To32(Decimal inputValue) {
-        Integer outputLength = 5;
-        Integer inputBase = 10;
-        Integer outputBase = 32;
-        Decimal DecimalValue = inputValue;
-        String outputValue = ''; 
-        String numericBaseData = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ';
-        Integer x;
-        Integer maxBase = NumericBaseData.length();
-        
-        if(DecimalValue == 0) return '00000';
-                
-        try {
-            while(DecimalValue > 0) {
-              X = (Integer)(((DecimalValue/outputBase) - (Integer)(DecimalValue/OutputBase))* OutputBase + 1.5);
-              OutputValue = NumericBaseData.subString(X - 1,X)+OutputValue;
-              DecimalValue = Integer.valueOf(DecimalValue/OutputBase);
-            }
-            
-            // Left Pad with '0' to length 5
-            while(OutputValue.length() < outputLength) {
-                OutputValue = '0' + OutputValue;
-            }
-        
-        } catch(Exception e) {
-            System.debug(e);
-        }
-        return outputValue;
-    }    
+
+    //commented out on 26th JUne 2019 - no longer needed - private method and not referenced in the class
+//    private string base10To32(Decimal inputValue) {
+//        Integer outputLength = 5;
+//        Integer inputBase = 10;
+//        Integer outputBase = 32;
+//        Decimal DecimalValue = inputValue;
+//        String outputValue = '';
+//        String numericBaseData = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+//        Integer x;
+//        Integer maxBase = NumericBaseData.length();
+//
+//        if(DecimalValue == 0) return '00000';
+//
+//        try {
+//            while(DecimalValue > 0) {
+//              X = (Integer)(((DecimalValue/outputBase) - (Integer)(DecimalValue/OutputBase))* OutputBase + 1.5);
+//              OutputValue = NumericBaseData.subString(X - 1,X)+OutputValue;
+//              DecimalValue = Integer.valueOf(DecimalValue/OutputBase);
+//            }
+//
+//            // Left Pad with '0' to length 5
+//            while(OutputValue.length() < outputLength) {
+//                OutputValue = '0' + OutputValue;
+//            }
+//
+//        } catch(Exception e) {
+//            System.debug(e);
+//        }
+//        return outputValue;
+//    }
 }

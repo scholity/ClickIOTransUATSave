@@ -3010,9 +3010,15 @@ ISPICKVAL( Follow_Up_Group__c, &quot;Course Records&quot;) ,
             <type>FieldUpdate</type>
         </actions>
         <active>true</active>
+        <booleanFilter>1 AND 2</booleanFilter>
         <criteriaItems>
             <field>Case.Offering_ID__c</field>
             <operation>notEqual</operation>
+        </criteriaItems>
+        <criteriaItems>
+            <field>Case.Offering_ID__c</field>
+            <operation>notContain</operation>
+            <value>CLS</value>
         </criteriaItems>
         <description>Changes the record type to LTP on RCO</description>
         <triggerType>onCreateOrTriggeringUpdate</triggerType>

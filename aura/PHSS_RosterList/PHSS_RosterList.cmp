@@ -56,9 +56,7 @@
                                         <div class="slds-truncate">{! (index + 1) }</div>
                                     </th>
                                     <td data-label="{!v.label_Name}">
-                                        <div class="slds-truncate">
-                                            <a>{!student.name}</a>
-                                        </div>
+                                        <div class="slds-truncate">{!student.name}</div>
                                     </td>
                                     <td data-label="{!v.label_Email}">
                                         <div class="slds-truncate">{!student.email}</div>

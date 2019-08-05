@@ -22,4 +22,5 @@
     <tabs>sked__Availability__c</tabs>
     <tabs>Resource_Activity_Report</tabs>
     <tabs>standard-WaveHome</tabs>
+    <tabs>ccrz__E_TransactionPayment__c</tabs>
 </CustomApplication>

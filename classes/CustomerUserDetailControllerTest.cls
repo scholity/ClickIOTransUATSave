@@ -7,13 +7,18 @@ public class CustomerUserDetailControllerTest
         
         Test.StartTest();
         
-            system.runAs(u)
-            {
+            
                 ApexPages.currentPage().getParameters().put('id', String.valueOf(u.ContactId));
                 CustomerUserDetailController ctrl = new CustomerUserDetailController();
                 ctrl.redirect();
-            }
+            
 
         Test.StopTest();
+    }
+    
+    static testMethod void testCustomerUserDetailControllerForNull()
+    {
+        CustomerUserDetailController ctrl = new CustomerUserDetailController();
+        ctrl.redirect();
     }
 }

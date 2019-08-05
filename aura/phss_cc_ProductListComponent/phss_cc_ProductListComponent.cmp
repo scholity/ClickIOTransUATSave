@@ -64,13 +64,18 @@
             <div class="slds-size_4-of-12 columnHeaders">{!$Label.c.ProductDetail_Column_Name}</div>
             <div class="slds-size_1-of-12 slds-align_absolute-center columnHeaders">{!$Label.c.ProductDetail_Column_UOM}</div>
             <div class="slds-size_1-of-12 slds-align_absolute-center columnHeaders">{!$Label.c.ProductDetail_Column_Price}</div>
-            <div class="slds-size_3-of-12 slds-align_absolute-center columnHeaders">{!$Label.c.ProductDetail_Column_Quantity}</div>
+            <div class="slds-size_1-of-12 slds-align_absolute-center columnHeaders">&nbsp;</div>
+            <div class="slds-size_2-of-12 slds-align_absolute-center columnHeaders">{!$Label.c.ProductDetail_Column_Quantity}</div>
         </div>
         <div class="slds-scrollable--y slds-m-bottom--large" style="max-height: 20rem; height: auto;">
             <aura:iteration items="{!v.productList}" var="product">
                 <c:phss_cc_ProductDetail productSfid="{!product}"
-                                         productMap="{!v.productsMap}"/>
+                                         productMap="{!v.productsMap}"
+                                         allowsKitComponentPopover="true"/>
             </aura:iteration>
+
+            <!--SPACER to accommodate a popover for the last row-->
+            <div style="width: 35px; height: 35px;"></div>
         </div>
 
         <!--Add to cart button-->

@@ -10,12 +10,25 @@ public with sharing class phss_cc_OrderUtilTest {
     public static Opportunity testOpportunity;
     public static Map<String, Object> testData;
     public static ccrz__E_Cart__c testCart;
+    public static Account testAccount;
     /**
      * @description Creates the basic testdata.
      */
     public static void setupTestData() {
+
+        //Validation rule
+        Validation_Rules__c valRule = Validation_Rules__c.getOrgDefaults();
+        valRule.Bypass_Rules__c = false;
+        insert valRule;
+
+        Switch__c cohstest = new Switch__c();
+        cohstest.Switch__c = false;
+        cohstest.name = 'CaseOwnerHistorySwitch';
+        insert cohstest;
+
         testData = phss_cc_TestDataFactory.setupAccountAndProducts();
-        testOpportunity = phss_cc_TestDataFactory.createInsertTestOpportunity((Account) testData.get(phss_cc_TestDataFactory.TEST_ACCOUNT));
+        testAccount = (Account) testData.get(phss_cc_TestDataFactory.TEST_ACCOUNT);
+        testOpportunity = phss_cc_TestDataFactory.createInsertTestOpportunity(testAccount);
         List<ccrz__E_Cart__c> testCarts = phss_cc_TestDataFactory.createInsertCartAndCartItems(1, testData, testOpportunity.Id);
         testCart = testCarts[0];
         phss_cc_TestDataFactory.createInsertStoredPayment(1, testOpportunity);
@@ -64,7 +77,9 @@ public with sharing class phss_cc_OrderUtilTest {
         ccrz__E_StoredPayment__c myPO = createPOs[0];
 
         Map<String, Object> existingPO = new Map<String, Object>{
-                phss_cc_OrderUtil.NEW_PO_SFID_KEY => myPO.Id
+                phss_cc_OrderUtil.NEW_PO_SFID_KEY => myPO.Id,
+                phss_cc_OrderUtil.UPDATE_PO_KEY => false,
+                phss_cc_OrderUtil.UPDATED_PO_AMOUNT_KEY => '0'
         };
 
         Test.startTest();
@@ -86,7 +101,10 @@ public with sharing class phss_cc_OrderUtilTest {
         Map<String, Object> newPO = new Map<String, Object>{
                 phss_cc_OrderUtil.NEW_PO_NAME_KEY => 'Test PO',
                 phss_cc_OrderUtil.NEW_PO_AMOUNT_KEY => '1000',
-                phss_cc_OrderUtil.NEW_PO_DOSAVE_KEY => true
+                phss_cc_OrderUtil.NEW_PO_DOSAVE_KEY => true,
+                phss_cc_OrderUtil.NEW_PO_START_DATE_KEY => '2019_06_28',
+                phss_cc_OrderUtil.NEW_PO_END_DATE_KEY => '2019_06_29'
+
         };
 
         Test.startTest();
@@ -123,4 +141,108 @@ public with sharing class phss_cc_OrderUtilTest {
         System.assertNotEquals(0, storedPaymentMap.size());
     }
 
+    @isTest
+    public static void testPlaceOrderOnCartPOUpdatePO() {
+        setupTestData();
+        List<ccrz__E_StoredPayment__c> createPOs = phss_cc_TestDataFactory.createInsertStoredPayment(1, testOpportunity);
+        ccrz__E_StoredPayment__c myPO = createPOs[0];
+
+        Map<String, Object> newPO = new Map<String, Object>{
+                phss_cc_OrderUtil.NEW_PO_SFID_KEY => myPO.Id,
+                phss_cc_OrderUtil.UPDATE_PO_KEY => true,
+                phss_cc_OrderUtil.UPDATED_PO_AMOUNT_KEY => '900'
+        };
+
+        Test.startTest();
+        Map<String, Object> result = phss_cc_OrderUtil.placeOrderOnCartPO(testOpportunity.Id, testCart.ccrz__EncryptedId__c, newPO);
+        Test.stopTest();
+
+        System.assertNotEquals(null, result);
+        System.assert(result.containsKey(phss_cc_OrderUtil.ORDER_ID));
+        System.assertNotEquals(null, result.get(phss_cc_OrderUtil.ORDER_ID));
+        System.assert(result.containsKey(phss_cc_OrderUtil.RETURN_MESSAGE));
+        System.assertNotEquals(null, result.get(phss_cc_OrderUtil.RETURN_MESSAGE));
+
+    }
+
+    @isTest
+    public static void testFetchOnAccountPayments() {
+
+        setupTestData();
+        List<ccrz__E_StoredPayment__c> createPOs = phss_cc_TestDataFactory.createInsertStoredPayment(1, testOpportunity);
+        ccrz__E_StoredPayment__c myPO = createPOs[0];
+
+        Test.startTest();
+
+        List<ccrz__E_StoredPayment__c> result = phss_cc_OrderUtil.fetchOnAccountPayments(testOpportunity.Id);
+        Test.stopTest();
+
+        System.debug('' + System.JSON.serialize(result));
+        System.assertNotEquals(null, result);
+    }
+
+    @isTest
+    public static void testCreateDataForNoPurchaseOrder() {
+
+        setupTestData();
+
+        Test.startTest();
+
+        Map<String, Object> result = phss_cc_OrderUtil.createDataForNoPurchaseOrder(testCart.ccrz__EncryptedId__c);
+        Test.stopTest();
+
+        System.debug('' + System.JSON.serialize(result));
+        System.assertNotEquals(null, result);
+        System.assert(result.containsKey(phss_cc_OrderUtil.CART_AMOUNT_KEY));
+        System.assertNotEquals(null, result.get(phss_cc_OrderUtil.CART_AMOUNT_KEY));
+        System.assertEquals(false, result.get(phss_cc_OrderUtil.STORED_PAYMENT_SAVE_AS_STORED_PAYMENT));
+    }
+
+    @isTest
+    public static void testFindPaymentDeclineReason() {
+
+        setupTestData();
+        Map<String, Object> params = new Map<String, Object>{
+                phss_cc_OrderUtil.CYBER_SOURCE_AUTH_RESPONSE_CODE_KEY => phss_cc_OrderUtil.CYBER_SOURCE_ERROR_INSUFFICIENT_FUNDS
+        };
+
+        Test.startTest();
+
+        Map<String, Object> result = phss_cc_OrderUtil.findPaymentDeclineReason(params);
+        params.put(phss_cc_OrderUtil.CYBER_SOURCE_AUTH_RESPONSE_CODE_KEY, phss_cc_OrderUtil.CYBER_SOURCE_ERROR_INVALID_ADDRESS);
+        result = phss_cc_OrderUtil.findPaymentDeclineReason(params);
+        params.put(phss_cc_OrderUtil.CYBER_SOURCE_AUTH_RESPONSE_CODE_KEY, phss_cc_OrderUtil.CYBER_SOURCE_ERROR_INVALID_EXPIRATION_DATE);
+        result = phss_cc_OrderUtil.findPaymentDeclineReason(params);
+        params.put(phss_cc_OrderUtil.CYBER_SOURCE_AUTH_RESPONSE_CODE_KEY, '');
+
+        Test.stopTest();
+
+        System.debug('' + System.JSON.serialize(result));
+        System.assertNotEquals(null, result);
+        System.assert(result.containsKey(phss_cc_OrderUtil.RETURN_MESSAGE));
+        System.assertNotEquals(null, result.get(phss_cc_OrderUtil.RETURN_MESSAGE));
+    }
+
+    @isTest
+    public static void testCreateNoPOTransactionPaymentForOrder() {
+        setupTestData();
+        String orderId = '123456';
+
+        //TODO: May need to create the order with phss_cc_OrderUtil.placeOrderOnCartPO
+        ccrz__E_Order__c testOrder = new ccrz__E_Order__c(
+                NSSCCConnector_SFCC_Order_Number__c = orderId,
+                NSSCCConnector_from_SFCC__c = true,
+                ccrz__Account__c = testAccount.Id,
+                ccrz__Storefront__c = 'CREStore',
+                Opportunity_Order__c = testOpportunity.Id,
+                ccrz__CurrencyISOCode__c = 'USD'
+        );
+        insert testOrder;
+
+        Test.startTest();
+        phss_cc_OrderUtil.createNoPOTransactionPaymentForOrder(null);
+        phss_cc_OrderUtil.createNoPOTransactionPaymentForOrder(testOrder.Id);
+        Test.stopTest();
+
+    }
 }

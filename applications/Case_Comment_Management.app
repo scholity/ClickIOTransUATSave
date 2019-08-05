@@ -13,4 +13,5 @@
     <tabs>Attendee__c</tabs>
     <tabs>sked__Availability__c</tabs>
     <tabs>Resource_Activity_Report</tabs>
+    <tabs>ccrz__E_TransactionPayment__c</tabs>
 </CustomApplication>

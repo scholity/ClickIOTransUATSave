@@ -8,6 +8,7 @@ trigger VoucherTrigger on Voucher__c (after update) {
              if (!PHSS_VoucherTriggerHandler.hasAlreadyUpdatedVouchers()) {
              	handler.CheckTotalAvailableOnlineVouchers(Trigger.new, Trigger.old, Trigger.newMap, Trigger.oldMap);
                 handler.BlockIssuedVouchersAndIssueBlockedVouchers(Trigger.new, Trigger.old, Trigger.newMap, Trigger.oldMap);
+                handler.adjustAvailableSeats(Trigger.new, Trigger.old, Trigger.newMap, Trigger.oldMap);
              }
          }
   	 }

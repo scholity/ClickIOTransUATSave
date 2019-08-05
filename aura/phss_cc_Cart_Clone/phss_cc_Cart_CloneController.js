@@ -10,6 +10,7 @@
      */
     doInit : function (component, event, helper) {
         helper.getActiveCart(component);
+        helper.getPaymentTabsetPermissions(component);
     },
 
     /**

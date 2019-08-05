@@ -29,7 +29,9 @@
     <aura:attribute name="renderComplete" type="Boolean" default="false"/>
     <aura:attribute name="showSpinner" type="Boolean" default="false"/>
     <aura:attribute name="isCartUpdated" type="Boolean" default="false"/>
+    <aura:attribute name="allowPaymentByInvoice" type="Boolean" default="false"/>
     <aura:attribute name="wasOrderSuccessfullyPlaced" type="Boolean" default="false"/>
+    <aura:attribute name="cartContainsLearnToSwimProduct" type="Boolean" default="false"/>
 
     <!--Account Details-->
     <aura:attribute name="bill_to_forename" type="String"/>
@@ -88,20 +90,21 @@
             <div class="slds-align_absolute-center slds-m-vertical_xx-large">
                 <!--Success Message For Order Placed-->
                 <table>
-                    <tr>
+				<tr>
                         <td class="slds-text-heading_large">
-                            <div class="slds-align_absolute-center slds-m-vertical_small">
-                                Thank you, your payment has been received.
-                            </div>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td class="slds-text-body_regular">
                             <div class="slds-align_absolute-center slds-m-vertical_small">
                                 Click submit to record course completion and student evaluations. You will receive an email confirmation shortly.
                             </div>
                         </td>
                     </tr>
+                    <tr>
+                        <td class="slds-text-heading_medium">
+                            <div class="slds-align_absolute-center slds-m-vertical_small">
+                                Thank you, your payment has been received.
+                            </div>
+                        </td>
+                    </tr>
+                    
                 </table>
             </div>
         </aura:if>
@@ -188,15 +191,22 @@
             <div class="slds-border--bottom">
                 <div class="slds-m-top--medium slds-m-bottom--medium slds-text-heading--medium">Payment Details:
                 </div>
+                <aura:if isTrue="{! v.cartContainsLearnToSwimProduct }">
+                    <div class="slds-text-body_regular slds-m-bottom_medium slds-m-horizontal_x-large">
+                        Below are the payment options available for your account.  Please select the method of payment you will use. If your Organization has Invoicing as a payment option, you may use an existing Purchase Order, create a new Purchase Order or submit the order by selecting No Purchase Order.  <b>Note:</b> for zero dollar transactions, select 'No PO' as your payment method, then scroll down and click Make Payment.
+                    </div>
+                </aura:if>
                 <lightning:tabset class="slds-m-top--medium slds-m-bottom--medium">
                     <aura:if isTrue="{!v.hideCreditCard}">
                         <lightning:tab label="Credit Card">
                             <c:phss_cc_CyberSourceCCProcessor currOpportunitySfid="{!v.recordId}" requiresClickHack="true"/>
                         </lightning:tab>
                     </aura:if>
-                    <lightning:tab label="Invoice">
-                        <c:phss_cc_PurchaseOrder currOpportunitySfid="{!v.recordId}"/>
-                    </lightning:tab>
+                    <aura:if isTrue="{! v.allowPaymentByInvoice }">
+                        <lightning:tab label="Invoice">
+                            <c:phss_cc_PurchaseOrder currOpportunitySfid="{!v.recordId}"/>
+                        </lightning:tab>
+                    </aura:if>
                 </lightning:tabset>
             </div>
         </aura:if>

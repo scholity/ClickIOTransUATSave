@@ -152,6 +152,31 @@
         </value>
     </constants>
     <decisions>
+        <name>Onsite_Fee_Missing</name>
+        <label>Onsite Fee Missing</label>
+        <locationX>48</locationX>
+        <locationY>376</locationY>
+        <defaultConnector>
+            <targetReference>Onsite_Fee_Missing_Screen</targetReference>
+        </defaultConnector>
+        <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
+        <rules>
+            <name>Fee_Found</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>Look_Up_Product</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <booleanValue>true</booleanValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Get_ILT_Class</targetReference>
+            </connector>
+            <label>Fee Found</label>
+        </rules>
+    </decisions>
+    <decisions>
         <name>Onsite_Fee_Not_found</name>
         <label>Onsite Fee Not found</label>
         <locationX>383</locationX>
@@ -345,7 +370,7 @@
         <locationY>361</locationY>
         <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
         <connector>
-            <targetReference>Get_ILT_Class</targetReference>
+            <targetReference>Onsite_Fee_Missing</targetReference>
         </connector>
         <filters>
             <field>ccrz__SKU__c</field>
@@ -436,6 +461,22 @@
         <fields>
             <name>Error</name>
             <fieldText>&lt;DIV ALIGN=&quot;LEFT&quot;&gt;&lt;FONT FACE=&quot;Arial&quot; STYLE=&quot;font-size:14px&quot; COLOR=&quot;#000000&quot; LETTERSPACING=&quot;0&quot; KERNING=&quot;0&quot;&gt;&lt;B&gt;FEE CAN NOT BE WAIVED&lt;/B&gt;&lt;FONT STYLE=&quot;font-size:12px&quot;&gt;&lt;/FONT&gt;&lt;/FONT&gt;&lt;/DIV&gt;&lt;DIV ALIGN=&quot;LEFT&quot;&gt;&lt;FONT FACE=&quot;Arial&quot; STYLE=&quot;font-size:12px&quot; COLOR=&quot;#000000&quot; LETTERSPACING=&quot;0&quot; KERNING=&quot;0&quot;&gt;&lt;/FONT&gt;&lt;/DIV&gt;&lt;DIV ALIGN=&quot;LEFT&quot;&gt;&lt;FONT FACE=&quot;Arial&quot; STYLE=&quot;font-size:12px&quot; COLOR=&quot;#000000&quot; LETTERSPACING=&quot;0&quot; KERNING=&quot;0&quot;&gt;There is no Onsite Fee for this order line. Fee can not be waived&lt;/FONT&gt;&lt;/DIV&gt;</fieldText>
+            <fieldType>DisplayText</fieldType>
+        </fields>
+        <showFooter>true</showFooter>
+        <showHeader>true</showHeader>
+    </screens>
+    <screens>
+        <name>Onsite_Fee_Missing_Screen</name>
+        <label>Onsite Fee Missing</label>
+        <locationX>59</locationX>
+        <locationY>544</locationY>
+        <allowBack>true</allowBack>
+        <allowFinish>true</allowFinish>
+        <allowPause>true</allowPause>
+        <fields>
+            <name>ProductError</name>
+            <fieldText>&lt;p&gt;SKU: &lt;b&gt;{!OnsiteFee}&lt;/b&gt;&lt;/p&gt;&lt;p&gt;has not been added to the CC Product table&lt;/p&gt;&lt;p&gt;&lt;br&gt;&lt;/p&gt;&lt;p&gt;Please contact the system administrator to add.&lt;/p&gt;</fieldText>
             <fieldType>DisplayText</fieldType>
         </fields>
         <showFooter>true</showFooter>

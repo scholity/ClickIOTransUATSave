@@ -61,9 +61,9 @@
     navigateToSelfRegister: function(cmp, event, helper) {
         var selrRegUrl = cmp.get("v.communitySelfRegisterUrl");
         if (selrRegUrl == null) {
-            selrRegUrl = cmp.get("v.selfRegisterUrl");
+            selrRegUrl = cmp.get("v.selfRegisterUrl") + '?startURL=' + cmp.get('v.startUrl') + '&b2cOrigin=' + cmp.get('v.b2c_origin');
         }
-    
+
         var attributes = { url: selrRegUrl };
         $A.get("e.force:navigateToURL").setParams(attributes).fire();
     },
@@ -86,6 +86,16 @@
         baseURL = baseURL.substring(0,indx);
 
         window.location.href = baseURL + '/s/forgot-password-b2c?startURL=' + component.get("v.startUrl");
+
+    },
+
+    navigateToCreateAccount: function (component, event, helper) {
+
+        var baseURL = window.location.href;
+        var indx = baseURL.indexOf('/s/');
+        baseURL = baseURL.substring(0,indx);
+
+        window.location.href = baseURL + '/s/login/SelfRegister?startURL=' + component.get('v.startUrl') + '&b2cOrigin=true';
 
     }
 })

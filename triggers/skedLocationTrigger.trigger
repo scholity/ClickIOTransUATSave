@@ -2,16 +2,18 @@ trigger skedLocationTrigger on sked__Location__c (after insert, after update, be
     if (Trigger.isAfter) {
         if (Trigger.isInsert) {
             skedLocationHandler.afterInsert(Trigger.new);
-            //Added by Priya
-            skedLocationtoILTlocation.afterInsert(Trigger.new);
+            if (!PHSS_TriggerSettings__c.getOrgDefaults().skedLocationtoILTLocationTriggerDisabled__c) {
+                skedLocationtoILTlocation.afterInsert(Trigger.new);
+            }
         }
         else if (Trigger.isUpdate) {
             skedLocationHandler.afterUpdate(Trigger.new, Trigger.oldMap);
-            //Added by Priya
-            skedLocationtoILTlocation.afterupdate(Trigger.new,Trigger.oldMap);
+            if (!PHSS_TriggerSettings__c.getOrgDefaults().skedLocationtoILTLocationTriggerDisabled__c) {
+                skedLocationtoILTlocation.afterupdate(Trigger.new,Trigger.oldMap);
+            }
         }
     }
     if(Trigger.IsDelete){
-            skedLocationtoILTlocation.beforeDelete(Trigger.oldMap);
-        }
+        skedLocationtoILTlocation.beforeDelete(Trigger.oldMap);
+    }
 }

@@ -493,6 +493,7 @@ public with sharing class phss_cc_CyberSourceUtil {
      *
      * @return
      */
+    @testVisible
     private static Map<String, Object> buildCaptureData(String paymentToken, String referenceNumber, Decimal amount) {
 
         String signedFieldNames = 'access_key,amount,bill_trans_ref_no,currency,ignore_avs,locale,payment_method,payment_token,profile_id,reference_number,signed_date_time,signed_field_names,transaction_type,transaction_uuid';
@@ -543,6 +544,7 @@ public with sharing class phss_cc_CyberSourceUtil {
      *
      * @return
      */
+    @testVisible
     private static ccrz__E_Cart__c fetchCart(String cartId) {
         ccrz__E_Cart__c cart = [
                 SELECT Id, ccrz__Storefront__c
@@ -560,6 +562,7 @@ public with sharing class phss_cc_CyberSourceUtil {
      *
      * @return
      */
+    @testVisible
     private static ccrz__E_Order__c fetchOrder(String orderId) {
         ccrz__E_Order__c order = [
                 SELECT Id, ccrz__OriginatedCart__c
@@ -577,6 +580,7 @@ public with sharing class phss_cc_CyberSourceUtil {
      *
      * @return
      */
+    @testVisible
     private static ccrz__E_TransactionPayment__c fetchTransactionPayment(String transactionPaymentId) {
         ccrz__E_TransactionPayment__c transactionPayment = [
                 SELECT Id, ccrz__Amount__c, ccrz__CCOrder__c, ccrz__CCOrder__r.Opportunity_Order__c,
@@ -587,7 +591,7 @@ public with sharing class phss_cc_CyberSourceUtil {
         return transactionPayment;
     }
 
-
+	@testVisible
     private static ccrz__E_TransactionPayment__c fetchTransactionPaymentForToken(String token) {
         ccrz__E_TransactionPayment__c transactionPayment = [
                 SELECT Id
@@ -608,6 +612,7 @@ public with sharing class phss_cc_CyberSourceUtil {
      *
      * @param captureData
      */
+    @testVisible
     private static Map<String, Object> requestPaymentCapture(Map<String, Object> captureData) {
 
         Map<String, Object> result = new Map<String, Object>();
@@ -648,6 +653,7 @@ public with sharing class phss_cc_CyberSourceUtil {
      *
      * @return
      */
+    @testVisible
     private static String buildPaymentCaptureRequestBody(Map<String, Object> captureData) {
 
         String body = '';
@@ -679,7 +685,7 @@ public with sharing class phss_cc_CyberSourceUtil {
         return body;
     }
 
-
+	@testVisible
     private static String buildSignableData(Map<String, Object> signableData) {
         String names = (String) signableData.get(CYBER_SOURCE_RESPONSE_SIGNED_FIELD_NAMES_KEY);
         List<String> nameList = names.split(',');
@@ -716,7 +722,7 @@ public with sharing class phss_cc_CyberSourceUtil {
         return formData;
     }
 
-
+	@testVisible
     private static Boolean verifyPaymentCaptureResponse(Map<String, String> responseMap) {
         try {
             String paymentToken = (String) responseMap.get(CYBER_SOURCE_REQ_PAYMENT_TOKEN_KEY);
@@ -749,6 +755,7 @@ public with sharing class phss_cc_CyberSourceUtil {
      *
      * @param transactionPaymentId
      */
+    @testVisible
     public static void creditTransactionPayment(String transactionPaymentId) {
 
         if (String.isBlank(transactionPaymentId)) {
@@ -766,12 +773,13 @@ public with sharing class phss_cc_CyberSourceUtil {
         }
     }
 
-
+	@testVisible
     private static String buildCreditRequestBody(Object obj) {
 
         return null;
     }
-
+	
+    @testVisible
     private static void getUserIPAddress() {
         try {
             AuthSession session = [

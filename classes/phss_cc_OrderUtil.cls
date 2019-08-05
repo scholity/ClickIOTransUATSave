@@ -9,14 +9,14 @@ public with sharing class phss_cc_OrderUtil {
     private static final String CYBER_SOURCE_RESPONSE_CARD_EXPIRATION_KEY = 'req_card_expiry_date';
     private static final String CYBER_SOURCE_TRANSACTION_DECISION_KEY = 'decision';
     private static final String CYBER_SOURCE_DECISION_ACCEPT = 'ACCEPT';
-    private static final String CYBER_SOURCE_AUTH_RESPONSE_CODE_KEY = 'auth_response';
+    @TestVisible private static final String CYBER_SOURCE_AUTH_RESPONSE_CODE_KEY = 'auth_response';
 
     //CyberSource Error Codes
-    private static final String CYBER_SOURCE_ERROR_INVALID_CARD_NUMBER = '591';
-    private static final String CYBER_SOURCE_ERROR_INVALID_ADDRESS = '547';
-    private static final String CYBER_SOURCE_ERROR_INVALID_CVV = '531';
-    private static final String CYBER_SOURCE_ERROR_INVALID_EXPIRATION_DATE = '605';
-    private static final String CYBER_SOURCE_ERROR_INSUFFICIENT_FUNDS = '521';
+    @TestVisible private static final String CYBER_SOURCE_ERROR_INVALID_CARD_NUMBER = '591';
+    @TestVisible private static final String CYBER_SOURCE_ERROR_INVALID_ADDRESS = '547';
+    @TestVisible private static final String CYBER_SOURCE_ERROR_INVALID_CVV = '531';
+    @TestVisible private static final String CYBER_SOURCE_ERROR_INVALID_EXPIRATION_DATE = '605';
+    @TestVisible private static final String CYBER_SOURCE_ERROR_INSUFFICIENT_FUNDS = '521';
 
     //Error messages to user.
     private static final String ERROR_MESSAGE_INSUFFICIENT_FUNDS = 'Card Declined. Insufficient funds.';
@@ -50,7 +50,7 @@ public with sharing class phss_cc_OrderUtil {
     private static final String STORED_PAYMENT_DISPLAY_NAME = 'displayName';
     private static final String STORED_PAYMENT_TYPE_PO = 'po';
     private static final String STORED_PAYMENT_ID_KEY = 'storedPaymentId';
-    private static final String STORED_PAYMENT_SAVE_AS_STORED_PAYMENT = 'saveAsStoredPayment';
+    @TestVisible private static final String STORED_PAYMENT_SAVE_AS_STORED_PAYMENT = 'saveAsStoredPayment';
 
     // New PO Details from the front end.
     @TestVisible private static final String NEW_PO_SFID_KEY = 'POSfid';
@@ -61,11 +61,11 @@ public with sharing class phss_cc_OrderUtil {
     @TestVisible private static final String NEW_PO_DOSAVE_KEY = 'newPODoSave';
 
     // Updates for PO Details from the front end
-    private static final String UPDATE_PO_KEY = 'updatePO';
-    private static final String UPDATED_PO_AMOUNT_KEY = 'updatedPOAmount';
+    @TestVisible private static final String UPDATE_PO_KEY = 'updatePO';
+    @TestVisible private static final String UPDATED_PO_AMOUNT_KEY = 'updatedPOAmount';
 
     // No PO Details from the front end
-    private static final String CART_AMOUNT_KEY = 'cartAmount';
+    @TestVisible private static final String CART_AMOUNT_KEY = 'cartAmount';
 
     private static final String FAILED_TO_PROCESS_PAYMENT_DATA = 'Failed to process payment data.';
     private static final String FAILED_TO_PLACE_ORDER_CC = 'Failed to place order using credit card.';
@@ -319,7 +319,7 @@ public with sharing class phss_cc_OrderUtil {
         }
         return response;
     }
-
+    
     /**
      * @description Creates the necessary data for the No-PO option
      *
@@ -327,6 +327,7 @@ public with sharing class phss_cc_OrderUtil {
      *
      * @return
      */
+    @TestVisible
     private static Map<String, Object> createDataForNoPurchaseOrder(String encryptedCartId) {
         Decimal cartAmount = 0;
 
@@ -381,6 +382,7 @@ public with sharing class phss_cc_OrderUtil {
      *
      * @return
      */
+    @TestVisible
     private static Map<String, Object> findPaymentDeclineReason(Map<String, Object> cyberSourceResponseMap) {
         Map<String, Object> response;
         String message = '';
@@ -531,6 +533,7 @@ public with sharing class phss_cc_OrderUtil {
      *
      * @param orderId
      */
+    @TestVisible
     private static void createNoPOTransactionPaymentForOrder(String orderId) {
         if (String.isBlank(orderId)) {
             return;

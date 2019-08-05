@@ -3,6 +3,11 @@ private class TriggersskedtoILTtest {
 
 
     static testMethod void myUnitTest(){
+        // Enable Location Integration
+        PHSS_TriggerSettings__c triggerSettings = PHSS_TriggerSettings__c.getOrgDefaults();
+        triggerSettings.skedLocationtoILTLocationTriggerDisabled__c = false;
+        upsert triggerSettings;        
+        
         sked__Location__c objLocation = new sked__Location__c();
         
         objLocation.Name = 'Test';
@@ -36,6 +41,11 @@ private class TriggersskedtoILTtest {
     }
     
     static testMethod void unitTest2() {
+        // Enable Resource Integration
+        PHSS_TriggerSettings__c triggerSettings = PHSS_TriggerSettings__c.getOrgDefaults();
+        triggerSettings.skedResourcetoILTInstructTriggerDisabled__c = false;
+        upsert triggerSettings;  
+              
         sked__Resource__c objResource = new sked__Resource__c();
         objResource.Name = 'Test';
         objResource.sked__Is_Active__c = true;
@@ -54,7 +64,10 @@ private class TriggersskedtoILTtest {
     }
     
     static testMethod void unitTest3() {
-    
+        // Enable Job Integration
+        PHSS_TriggerSettings__c triggerSettings = PHSS_TriggerSettings__c.getOrgDefaults();
+        triggerSettings.skedJobtoILTClassTriggerDisabled__c = false;
+        upsert triggerSettings;           
 
         redwing__Learning__c learning = new redwing__Learning__c();
         learning.Name = 'Test learning';
@@ -65,13 +78,6 @@ private class TriggersskedtoILTtest {
         redwing__ILT_Event__c ilEvent = new redwing__ILT_Event__c();
         ilEvent.redwing__Learning__c = learning.Id;
         insert ilEvent;
-        
-        sked__Location__c objLocation = new sked__Location__c();
-        
-        objLocation.Name = 'Test';
-        objLocation.sked__Type__c = 'Community';
-        objLocation.sked__Address__c = '401 S Monroe St, Little Rock, AR, 72206';
-        insert objLocation;
         
         redwing__Training_Plan__c lPlan = new redwing__Training_Plan__c();
         lPlan.Name = 'Test Plan';
@@ -101,9 +107,7 @@ private class TriggersskedtoILTtest {
         product.LMS_Learning_Plan__c = lPlan.id;
         product.Course_Catalog__c = catalog.id;
         insert product;
-        
 
-        
         sked__Region__c region = new sked__Region__c();
         region.Name = 'Test Region';
         region.sked__Timezone__c = 'Indian/Coscos';
@@ -125,7 +129,22 @@ private class TriggersskedtoILTtest {
         ccp.ccrz__EndDate__c=date.today()+2;
         ccp.ccrz__Price__c=100;
         insert ccp;
-        
+
+        sked__Location__c objLocation = new sked__Location__c();
+        objLocation.Name = 'Test';
+        objLocation.sked__Type__c = 'Community';
+        objLocation.sked__Address__c = '401 S Monroe St, Little Rock, AR, 72206';
+        objLocation.Is_Active__c = true;
+        insert objLocation;
+
+        sked__Resource__c objResource = new sked__Resource__c();
+        objResource.Name = 'Test';
+        objResource.sked__Is_Active__c = true;
+        objResource.sked__Resource_Type__c = 'Person';
+        objResource.sked__Category__c = 'Instructor';
+        objResource.sked__User__c = UserInfo.getUserId();
+        insert objResource;
+
         sked__Job__c job = new sked__Job__c();
         job.sked__Region__c = region.id;
         job.sked__Duration__c = 314;
@@ -139,23 +158,17 @@ private class TriggersskedtoILTtest {
         job.sked__Duration__c = 60;
         job.Job_Month__c = System.Today();
         job.sked__Location__c = objLocation.Id;
+        job.sked__Type__c = 'Community';
+        job.Location_Confirmed__c = false; // do not invoke integration logic
         //job.Is_Stacked_Class__c=true;
         //job.Course_Code__c='Test Catalog';
         insert job;
 
-        sked__Resource__c objResource = new sked__Resource__c();
-        objResource.Name = 'Test';
-        objResource.sked__Is_Active__c = true;
-        objResource.sked__Resource_Type__c = 'Person';
-        objResource.sked__Category__c = 'Instructor';
-        objResource.sked__User__c = UserInfo.getUserId();
-        insert objResource;
-
         sked__Job_Allocation__c allocation = new sked__Job_Allocation__c();
         allocation.sked__Job__c = job.Id;
         allocation.sked__Resource__c = objResource.Id;
+        allocation.sked__Status__c = 'Pending Dispatch';
         insert allocation;
-
         
         List<ccrz__E_PriceListItem__c> priceListItems = [SELECT ccrz__Product__c, ccrz__PriceList__r.ccrz__StartDate__c, ccrz__PriceList__r.ccrz__EndDate__c, 
                                                          ccrz__PriceList__r.Name, ccrz__StartDate__c, ccrz__EndDate__c, ccrz__Price__c
@@ -163,9 +176,11 @@ private class TriggersskedtoILTtest {
                                                          AND ccrz__PriceList__r.ccrz__Enabled__c = True AND ccrz__PriceList__r.ccrz__Storefront__c = : ccpl.ccrz__Storefront__c];
         System.debug('pricelistITems'+priceListItems);
         
-        
-        job.sked__Job_Status__c ='Cancelled';
+        job.Location_Confirmed__c = true; // invoke integration logic to create class and session and ilt instructor     
         update job;
+              
+        job.sked__Job_Status__c ='Cancelled'; // invoke cancellation logic
+        update job;        
 
         List<redwing__ILT_Class__c> createiltclass = [Select id, name from redwing__ILT_Class__c where Skedulo_Job_Id__c =:job.id];
         System.assertEquals(1,createiltclass.size());  // Assert to confirm ILTClass is created

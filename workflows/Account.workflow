@@ -150,9 +150,9 @@
     </fieldUpdates>
     <fieldUpdates>
         <fullName>Update_Credit_Limit</fullName>
-        <description>Update Credit Limit to 10000</description>
+        <description>Update Credit Limit to 20000</description>
         <field>Credit_Limit__c</field>
-        <formula>10000</formula>
+        <formula>20000</formula>
         <name>Update Credit Limit</name>
         <notifyAssignee>false</notifyAssignee>
         <operation>Formula</operation>

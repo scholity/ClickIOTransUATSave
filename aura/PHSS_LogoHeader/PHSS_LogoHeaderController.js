@@ -3,10 +3,14 @@
  */
 ({
     doInit: function(component, event, helper) {
-        var sPageURL = decodeURIComponent(window.location.search.substring(1)); //You get the whole decoded URL of the page.
-        var indx = sPageURL.indexOf('startURL');
-        sPageURL = sPageURL.substring(indx);
-        if (sPageURL) {
+
+        var url_string = window.location.href;
+        var url = new URL(url_string);
+        var encryptedEmail = url.searchParams.get('src');
+        var sPageURL = url.searchParams.get('startURL');
+
+
+        if (sPageURL || encryptedEmail) {
             component.set("v.b2cOrigin", true);
         } else {
             component.set("v.b2cOrigin", false);

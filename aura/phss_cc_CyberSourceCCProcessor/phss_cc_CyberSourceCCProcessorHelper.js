@@ -115,7 +115,12 @@
      * @param event
      * @param helper
      */
-    POSTFormData: function (component) {
+    POSTFormData: function (component, helper) {
+        var isFormDataValid = helper.validateFormData(component);
+        if (!isFormDataValid) {
+            return;
+        }
+
         // Map to send message.
         var message = {
             access_key: component.get("v.access_key"),
@@ -210,5 +215,13 @@
     
     showPaymentProgressAlert : function (component, helper) {
         component.set('v.showPaymentProgress', true);
+    },
+
+    validateFormData : function (component) {
+        var isValid = component.find('payment_form').reduce(function (validSoFar, inputCmp) {
+            inputCmp.showHelpMessageIfInvalid();
+            return validSoFar && inputCmp.get('v.validity').valid;
+        }, true);
+        return isValid;
     }
 })

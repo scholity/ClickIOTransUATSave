@@ -186,6 +186,7 @@
     <tabs>Attendee__c</tabs>
     <tabs>sked__Availability__c</tabs>
     <tabs>Resource_Activity_Report</tabs>
+    <tabs>ccrz__E_TransactionPayment__c</tabs>
     <workspaceConfig>
         <mappings>
             <tab>Attendee__c</tab>
@@ -198,6 +199,9 @@
         </mappings>
         <mappings>
             <tab>The_Exchange</tab>
+        </mappings>
+        <mappings>
+            <tab>ccrz__E_TransactionPayment__c</tab>
         </mappings>
         <mappings>
             <tab>dsfs__DocuSignAccountConfiguration__c</tab>

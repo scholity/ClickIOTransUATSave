@@ -267,7 +267,12 @@
         <criteriaItems>
             <field>Case.Status</field>
             <operation>equals</operation>
-            <value>Closed - Invoicing</value>
+            <value>Follow Up - New Email</value>
+        </criteriaItems>
+        <criteriaItems>
+            <field>Case.RecordTypeId</field>
+            <operation>equals</operation>
+            <value>Read Only Invoicing</value>
         </criteriaItems>
         <description>Update Case Record Type  for Read only Invoicing Case when customer replied to closed case</description>
         <triggerType>onCreateOrTriggeringUpdate</triggerType>

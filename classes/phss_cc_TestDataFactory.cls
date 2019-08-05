@@ -4,7 +4,7 @@
 @isTest
 public with sharing class phss_cc_TestDataFactory {
 
-    public static final String TEST_EMAIL = 'NA@NA.com';
+    public static final String TEST_EMAIL = 'na@na.com';
     public static final String TEST_CITY = 'Chicago';
     public static final String TEST_COUNTRY = 'US';
     public static final String TEST_ZIPCODE = '12345';
@@ -43,6 +43,7 @@ public with sharing class phss_cc_TestDataFactory {
 
     public static final String TEST_ACCOUNT_GROUP = 'TestAccountGroup';
     public static final String TEST_ACCOUNT = 'TestAccount';
+    public static final String TEST_BILLING_CONTACT = 'TestBillingContact';
     public static final String TEST_PRODUCTS = 'TestProducts';
     public static final String TEST_PRICELIST = 'TestPriceList';
     public static final String TEST_ENCRYPTED_ID_CART = 'encid-';
@@ -123,6 +124,36 @@ public with sharing class phss_cc_TestDataFactory {
         return testAcc;
     }
 
+    public static Contact createInsertTestBillingContact(Account account) {
+        List<RecordType> accountRecordTypes =  [SELECT Id FROM RecordType WHERE SobjectType = 'Account' AND IsActive = TRUE];
+        Bucket_Account_Settings__c orgSettings = new Bucket_Account_Settings__c(Bucket_Account_Owner_ID__c = UserInfo.getUserId(),
+                Default_Bucket_Name__c='Default Name',
+                Maximum_Size_of_Bucket__c = 1000,
+                Bucket_Account_RecordTypeID__c = accountRecordTypes[0].Id,
+                SetupOwnerId = UserInfo.getOrganizationId());
+//        Bucket_Account_Settings__c userException = new Bucket_Account_Settings__c(Bucket_Account_Owner_ID__c = UserInfo.getUserID(),
+//                Default_Bucket_Name__c='Error',
+//                Maximum_Size_of_Bucket__c = 1,
+//                Bucket_Account_RecordTypeID__c = accountRecordTypes[1].Id,
+//                SetupOwnerId =UserInfo.getUserID());
+
+        List<Bucket_Account_Settings__c> bucketAccountSettings = new List<Bucket_Account_Settings__c> { orgSettings };
+        insert bucketAccountSettings;
+
+        Contact testContact = new Contact(
+                AccountId = account.Id,
+                FirstName = TEST_ACC_FIRSTNAME,
+                LastName = TEST_ACC_LASTNAME,
+                Email = TEST_EMAIL
+        );
+        insert testContact;
+
+        account.Billing_Contact__c = testContact.Id;
+        update account;
+
+        return testContact;
+    }
+
     /**
      * @description Creates a test account group.
      *
@@ -160,6 +191,7 @@ public with sharing class phss_cc_TestDataFactory {
                     ccrz__StartDate__c = System.today().addYears(-1),
                     ccrz__EndDate__c = System.today().addYears(+1),
                     AP_Code__c = '6200',
+                    FCC__c = '32620',
                     OMSProductName__c = '1234'
 
             );
@@ -328,6 +360,7 @@ public with sharing class phss_cc_TestDataFactory {
         //Account/Contact/User details
         ccrz__E_AccountGroup__c accountGroup = createInsertTestAccountGroup();
         Account account = createInsertTestAccount(accountGroup);
+        Contact billingContact = createInsertTestBillingContact(account);
 
         //PriceLists
         ccrz__E_PriceList__c pricelist = createInsertTestPricelist();
@@ -350,6 +383,7 @@ public with sharing class phss_cc_TestDataFactory {
 
         outputMap.put(TEST_ACCOUNT_GROUP, accountGroup);
         outputMap.put(TEST_ACCOUNT, account);
+        outputMap.put(TEST_BILLING_CONTACT, billingContact);
         outputMap.put(TEST_PRODUCTS, products);
         outputMap.put(TEST_PRICELIST, pricelist);
 

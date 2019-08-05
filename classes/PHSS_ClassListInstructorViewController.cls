@@ -46,6 +46,7 @@ public without sharing class PHSS_ClassListInstructorViewController {
                 ,'redwing__ILT_Class__r.redwing__Location__r.redwing__State__c'
                 ,'redwing__ILT_Class__r.redwing__Location__r.redwing__Postal_Code__c'
                 ,'redwing__ILT_Class__r.redwing__Start_Date__c'
+                ,'redwing__ILT_Class__r.Class_Closed_Date__c'
                 ,'redwing__ILT_Class__r.' + RCConstants.APINAME_FIELD_ORGANIZATION
                 ,'redwing__ILT_Session__c'
                 ,'redwing__Instructor__c'
@@ -88,7 +89,7 @@ public without sharing class PHSS_ClassListInstructorViewController {
         List<redwing__ILT_Instructor__c> instructors = Database.query(query);
         
         System.debug('>> instructors - ' + instructors);
-        
+
         Set<String> classIds = new Set<String>();
         if(!instructors.isEmpty()){
              Set<String> learningIds = new Set<String>();
@@ -122,6 +123,9 @@ public without sharing class PHSS_ClassListInstructorViewController {
                     }
                     if(item.redwing__ILT_Class__r.redwing__End_Date__c <= datetime.now()){
                         classStatus = RCConstants.STATUS_COMPLETED;
+                    }
+                    if(item.redwing__ILT_Class__r.Class_Closed_Date__c != null) {
+                        classStatus = RCConstants.STATUS_REPORTED;
                     }
                     
                     String currentLearnId = item.redwing__ILT_Class__r.redwing__Learning__c;

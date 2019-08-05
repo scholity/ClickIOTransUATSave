@@ -65,6 +65,18 @@
     <description>Process to review grant requests</description>
     <emailTemplate>PHSS_Sales_Internal_Emails/Grant_Approval_Request</emailTemplate>
     <enableMobileDeviceAccess>false</enableMobileDeviceAccess>
+    <entryCriteria>
+        <criteriaItems>
+            <field>SFDC_MDF__c.Approved_Date__c</field>
+            <operation>lessOrEqual</operation>
+            <value>1/1/1999</value>
+        </criteriaItems>
+        <criteriaItems>
+            <field>SFDC_MDF__c.Status__c</field>
+            <operation>notEqual</operation>
+            <value>Rejected</value>
+        </criteriaItems>
+    </entryCriteria>
     <finalApprovalActions>
         <action>
             <name>Grant_Request_Approved</name>
@@ -92,6 +104,6 @@
         <useApproverFieldOfRecordOwner>false</useApproverFieldOfRecordOwner>
         <userHierarchyField>Manager</userHierarchyField>
     </nextAutomatedApprover>
-    <recordEditability>AdminOrCurrentApprover</recordEditability>
+    <recordEditability>AdminOnly</recordEditability>
     <showApprovalHistory>true</showApprovalHistory>
 </ApprovalProcess>

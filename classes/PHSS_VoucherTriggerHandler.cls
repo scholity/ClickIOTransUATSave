@@ -228,13 +228,14 @@ public class PHSS_VoucherTriggerHandler {
                 
                 list<voucher__c> lstVouchersToUpdate = new list<voucher__c>();
                 for(voucher__c vcr : lstvchrs){	
-                    if(vcr.Status__c =='Issued' || vcr.Status__c =='Blocked'){
+                    if(vcr.Status__c =='Issued' || vcr.Status__c =='Blocked' || vcr.Status__c == 'Void'){
                     	if (vcr.ILT_Class__c != null && vcr.ILT_Class__r.Skedulo_Parent_Job__c != null) {
 	                		// Block the remaining vouchers (Issued) for each oversold class in stack                     	
 	                        if(OversoldParentJobIds.contains(vcr.ILT_Class__r.Skedulo_Parent_Job__c) && vcr.status__c =='Issued'){
 			                	voucher__c theUpdatedVoucher = new voucher__c();
 			                	theUpdatedVoucher.Id = vcr.Id;	                        	
-	                            theUpdatedVoucher.status__c = 'Blocked'; 
+//	                            theUpdatedVoucher.status__c = 'Blocked';
+                                theUpdatedVoucher.status__c = 'Void';
 	                            lstVouchersToUpdate.add(theUpdatedVoucher);
 	                        }    
 	                        // Open up vouchers to the max remaining number of seats to sell, block all others
@@ -244,7 +245,7 @@ public class PHSS_VoucherTriggerHandler {
                     	
 	                        	// If at least one, and this voucher is blocked, then reset to issued (else leave in blocked status)
 	                        	// If none, and this voucher is open (Issued), then reset to blocked (else leave in issued status)
-	                        	if (classOpenSeats > 0 && vcr.status__c =='Blocked'){
+	                        	if (classOpenSeats > 0 && (vcr.status__c =='Blocked' || vcr.status__c == 'Void')){
 				                	voucher__c theUpdatedVoucher = new voucher__c();
 				                	theUpdatedVoucher.Id = vcr.Id;	                        	
 		                            theUpdatedVoucher.status__c = 'Issued'; 
@@ -252,8 +253,9 @@ public class PHSS_VoucherTriggerHandler {
 	                        	} else if (classOpenSeats <= 0 && vcr.status__c =='Issued'){
 				                	voucher__c theUpdatedVoucher = new voucher__c();
 				                	theUpdatedVoucher.Id = vcr.Id;	 	                        		
-		                            theUpdatedVoucher.status__c = 'Blocked'; 
-		                            lstVouchersToUpdate.add(theUpdatedVoucher);	                        		
+//		                            theUpdatedVoucher.status__c = 'Blocked';
+		                            theUpdatedVoucher.status__c = 'Void';
+		                            lstVouchersToUpdate.add(theUpdatedVoucher);
 	                        	}
 		                        if (classOpenSeats > 0) lstClassOpenSeats.put(vcr.ILT_Class__c, --classOpenSeats);	                        	
 	                        }   
@@ -274,6 +276,59 @@ public class PHSS_VoucherTriggerHandler {
                 	
                 }
             }
+        }
+    }
+
+    /************************************************************************************************************************************
+    ** Author: Salesforce Services
+    ** Description: This method sets the max size and available seats for classes after vouchers are updated
+    ************************************************************************************************************************************/
+    public void adjustAvailableSeats(list<Voucher__c> newVouchers, List<Voucher__c> oldVouchers, Map<ID,Voucher__c> newVoucherMap , Map<ID,Voucher__c> oldVoucherMap) {
+        system.debug('Adjusting available seats');
+        set<id> ILT_classes = new set<id>();
+        // Get the classes for each changed voucher
+        for (Voucher__c vcr : newVouchers) {
+            // Check the status in old map and new map to identify the change in voucher status
+            if (newVoucherMap.get(vcr.id).status__c != oldVoucherMap.get(vcr.id).status__c) {
+                // Filter changed classes so that we only have non-skedulo assigned classes
+                if (vcr.ILT_Class__c != null && vcr.ILT_Class__r.Skedulo_Parent_Job__c == null) {
+                    ILT_classes.add(vcr.ILT_Class__c);
+                }
+            }
+
+        }
+        system.debug('Set of changed classes: ' + ILT_classes);
+        if (!ILT_classes.isEmpty()) {
+
+            Map<Id,Integer> mapMaxClassSize = new map<Id,Integer>();
+            List<AggregateResult> iltAggregateResults = [select ILT_Class__c, count(Id) maxSize from Voucher__c where (Status__c = 'Claimed' or Status__c = 'Issued') and ILT_Class__c IN: ILT_classes group by ILT_Class__c];
+
+            for (AggregateResult result : iltAggregateResults) {
+                mapMaxClassSize.put((Id) result.get('ILT_Class__c'), (Integer) result.get('maxSize'));
+                system.debug('Max size for '+ (Id) result.get('ILT_Class__c') + ': ' + (Integer) result.get('maxSize'));
+            }
+            Map<id,integer> mapSeatsClaimed = new map<id,integer>();
+            iltAggregateResults = [select ILT_Class__c, count(Id) claimedSeats from Voucher__c where Status__c = 'Claimed' and ILT_Class__c IN: ILT_classes group by ILT_Class__c];
+            for (AggregateResult result : iltAggregateResults) {
+                mapSeatsClaimed.put((Id) result.get('ILT_Class__c'), (Integer) result.get('claimedSeats'));
+                system.debug('claimedSeats for '+ (Id) result.get('ILT_Class__c') + ': ' + (Integer) result.get('claimedSeats'));
+            }
+            list<redwing__ILT_Class__c> updateClasses = new list<redwing__ILT_Class__c>();
+            for (Id id : ILT_classes) {
+                Integer maxSize = mapMaxClassSize.get(id);
+                if (maxSize != null && mapSeatsClaimed.get(id) != null) {
+                    redwing__ILT_Class__c classUpdate = new redwing__ILT_Class__c();
+                    classUpdate.Id = id;
+                    classUpdate.redwing__Max_Seats__c = maxSize;
+                    classUpdate.Available_Seats__c = maxSize - mapSeatsClaimed.get(id);
+                    updateClasses.add(classUpdate);
+
+                }
+            }
+            if(!updateClasses.isEmpty()){
+                update updateClasses;
+            }
+
         }
     }
 }

@@ -8,7 +8,13 @@ public with sharing class phss_cc_CyberSourceUtilTest {
     private final static String cyberSourceResponseTampered = '{ "utf8": "✓", "transaction_id": "123", "signed_field_names": "transaction_id,decision,req_access_key,req_profile_id,req_transaction_uuid,req_transaction_type,req_reference_number,req_amount,req_currency,req_locale,req_payment_method,req_ignore_avs,req_override_custom_receipt_page,req_bill_to_forename,req_bill_to_surname,req_bill_to_email,req_bill_to_address_line1,req_bill_to_address_city,req_bill_to_address_state,req_bill_to_address_country,req_bill_to_address_postal_code,req_card_number,req_card_type,req_card_expiry_date,req_merchant_defined_data1,message,reason_code,auth_avs_code,auth_avs_code_raw,auth_response,auth_amount,auth_code,auth_trans_ref_no,auth_time,request_token,payment_token_instrument_identifier_id,payment_token_instrument_identifier_new,payment_token_instrument_identifier_status,payment_token,signed_field_names,signed_date_time", "signed_date_time": "2018-09-17T17:54:30Z", "signature": "5aPWOgD98fmUVmyEKKxeSPNx4yDyWu0rKSbfI1P3y48=", "request_token": "Ahj/7wSTIzht+uRDhLQmESDdm1cNW7hrKmtoMeS3qpcnbxRioClydvFGK6QHyQIkMmkmXoxXbmQwJyZGcNv1yIcJaEwAxhqG", "req_transaction_uuid": "1537206859128", "req_transaction_type": "authorization,create_payment_token", "req_reference_number": "1537206859129", "req_profile_id": "A462C345-9818-4803-84E6-37794D8B3F81", "req_payment_method": "card", "req_override_custom_receipt_page": "https://arc-phss--transdev1--ccrz.cs52.visual.force.com/apex/ccrz__ccBridge?pagekey=CybersourcePostback", "req_merchant_defined_data1": "0065B00000AY0JzQAL", "req_locale": "en-us", "req_ignore_avs": "true", "req_currency": "USD", "req_card_type": "001", "req_card_number": "xxxxxxxxxxxx1111", "req_card_expiry_date": "12-2019", "req_bill_to_surname": "Test", "req_bill_to_forename": "Test", "req_bill_to_email": "Test@test.com", "req_bill_to_address_state": "IL", "req_bill_to_address_postal_code": "12345", "req_bill_to_address_line1": "3450 N Lake Shore Dr", "req_bill_to_address_country": "US", "req_bill_to_address_city": "Chicago", "req_amount": "1.00", "req_access_key": "2f9eac4dfdfc3bb5917f9dd1c68f381b", "reason_code": "100", "payment_token_instrument_identifier_status": "ACTIVE", "payment_token_instrument_identifier_new": "N", "payment_token_instrument_identifier_id": "7010000000025311111", "payment_token": "7615BB8E161D11BEE05341588E0AF0F1", "pagekey": "CybersourcePostback", "message": "Request was processed successfully.", "decision": "ACCEPT", "auth_trans_ref_no": "73585785JM6AGI7U", "auth_time": "2018-09-17T175430Z", "auth_response": "100", "auth_code": "888888", "auth_avs_code_raw": "I1", "auth_avs_code": "X", "auth_amount": "1.00" }';
 
     public static Opportunity testOpportunity;
-
+    	
+    public static ccrz__E_Order__c testOrder;
+    
+    public static ccrz__E_TransactionPayment__c testTransactionPayment;
+    
+    public static Fulfillment__c testFulfillment;
+    
     /**
      * @description Creates the basic testdata.
      */
@@ -16,6 +22,29 @@ public with sharing class phss_cc_CyberSourceUtilTest {
         Map<String, Object> testData = phss_cc_TestDataFactory.setupAccountAndProducts();
         testOpportunity = phss_cc_TestDataFactory.createInsertTestOpportunity((Account)testData.get(phss_cc_TestDataFactory.TEST_ACCOUNT));
         phss_cc_TestDataFactory.createInsertCartAndCartItems(1,testData,testOpportunity.Id);
+        phss_cc_CyberSourceUtil.getCyberSourceConfigSettings(phss_cc_TestDataFactory.TEST_STOREFRONT);
+        
+        testOrder = new ccrz__E_Order__c(
+            NSSCCConnector_SFCC_Order_Number__c = '3114226',
+            NSSCCConnector_from_SFCC__c = true,
+            ccrz__Account__c = ((Account)testData.get(phss_cc_TestDataFactory.TEST_ACCOUNT)).Id
+        );
+        insert testOrder;
+        
+        testTransactionPayment = new ccrz__E_TransactionPayment__c(
+        	ccrz__Token__c = 'testToken',
+            ccrz__CCOrder__c = testOrder.Id
+        );
+        insert testTransactionPayment;
+        
+        testFulfillment = new Fulfillment__c(
+            Type__c='Invoice',
+            Status__c='Open',
+            Order__c = testOrder.Id,
+            CC_Transaction_Payment__c= testTransactionPayment.Id
+        );
+        insert testFulfillment;
+
     }
 
 
@@ -25,7 +54,9 @@ public with sharing class phss_cc_CyberSourceUtilTest {
         setupTestData();
 
         Test.startTest();
+        
         phss_cc_CyberSourceUtil.getCyberSourceConfigSettings(phss_cc_TestDataFactory.TEST_STOREFRONT);
+        
         Test.stopTest();
 
         System.assertEquals(phss_cc_TestDataFactory.TEST_ACCESS_KEY, phss_cc_CyberSourceUtil.ACCESS_KEY);
@@ -48,16 +79,16 @@ public with sharing class phss_cc_CyberSourceUtilTest {
 
     @isTest
     public static void testAccountAndCartData() {
-
+		
         setupTestData();
 
         test.startTest();
         phss_cc_CyberSourceUtil.getAccountAndCartData(testOpportunity.Id);
         test.stopTest();
 
-        System.assertEquals(phss_cc_TestDataFactory.TEST_ACC_FIRSTNAME, phss_cc_CyberSourceUtil.ACC_FIRST_NAME);
-        System.assertEquals(phss_cc_TestDataFactory.TEST_ACC_LASTNAME, phss_cc_CyberSourceUtil.ACC_LAST_NAME);
-        System.assertEquals(phss_cc_TestDataFactory.TEST_EMAIL, phss_cc_CyberSourceUtil.ACC_BILLING_EMAIL);
+        System.assertEquals(phss_cc_TestDataFactory.TEST_ACC_FIRSTNAME, phss_cc_CyberSourceUtil.BILLING_CONTACT_FIRST_NAME);
+        System.assertEquals(phss_cc_TestDataFactory.TEST_ACC_LASTNAME, phss_cc_CyberSourceUtil.BILLING_CONTACT_LAST_NAME);
+        System.assertEquals(phss_cc_TestDataFactory.TEST_EMAIL, phss_cc_CyberSourceUtil.BILLING_CONTACT_EMAIL);
         System.assertEquals(phss_cc_TestDataFactory.TEST_STREET, phss_cc_CyberSourceUtil.BILLING_STREET);
         System.assertEquals(phss_cc_TestDataFactory.TEST_CITY, phss_cc_CyberSourceUtil.BILLING_CITY);
         System.assertEquals(phss_cc_TestDataFactory.TEST_STATE, phss_cc_CyberSourceUtil.BILLING_STATE);
@@ -100,5 +131,114 @@ public with sharing class phss_cc_CyberSourceUtilTest {
 
         System.assertEquals(true,verifySignatureResultOriginal);
         System.assertEquals(false,verifySignatureResultTampered);
+    }
+    
+    @isTest static void testBuildCaptureData(){
+        
+        setupTestData();
+        
+        String testReferenceNumber = 'testReferenceNumber';
+        
+        String testPaymentToken = 'testPaymentToken';
+        
+        test.startTest();
+        
+        Map<String, Object> dataMap = phss_cc_CyberSourceUtil.buildCaptureData(testPaymentToken, testReferenceNumber, 1);
+        
+        system.assertEquals(dataMap.get('reference_number'), String.valueOf(testReferenceNumber));
+        
+        system.assertEquals(dataMap.get('payment_token'), String.valueOf(testPaymentToken));
+        
+        test.stopTest();
+    }
+    
+    @isTest static void testFetchCart(){
+        
+        setupTestData();
+        
+        ccrz__E_Cart__c testCart = new ccrz__E_Cart__c(
+            Opportunity__c = testOpportunity.Id,
+            ccrz__ActiveCart__c = true,
+            ccrz__EncryptedId__c = 'testId1234'
+        );
+        insert testCart;
+        
+        system.assertEquals(testCart.Id, phss_cc_CyberSourceUtil.fetchCart(testCart.Id).Id);
+    }
+    
+    @isTest static void testFetchOrder(){
+        
+        setupTestData();
+                
+        system.assertEquals(testOrder.Id, phss_cc_CyberSourceUtil.fetchOrder(testOrder.Id).Id);
+    }
+    
+    @isTest static void testFetchTransactionPayment(){
+        
+        setupTestData();
+        
+        system.assertEquals(testTransactionPayment.Id, phss_cc_CyberSourceUtil.fetchTransactionPayment(testTransactionPayment.Id).Id);
+    }
+    
+    @isTest static void testFetchTransactionPaymentForToken(){
+        
+        setupTestData();
+        
+        system.assertEquals(testTransactionPayment.Id, phss_cc_CyberSourceUtil.fetchTransactionPaymentForToken(testTransactionPayment.ccrz__Token__c).Id);
+    }
+    
+    @isTest static void testCapturePayment(){
+        
+        setupTestData();
+        
+        ccrz__E_Cart__c testCart = new ccrz__E_Cart__c(
+            Opportunity__c = testOpportunity.Id,
+            ccrz__ActiveCart__c = true,
+            ccrz__EncryptedId__c = 'testId1234'
+        );
+        insert testCart;
+        
+        testOrder.ccrz__OriginatedCart__c = testCart.Id;
+        
+        Test.startTest();
+        
+        phss_cc_CyberSourceUtil.capturePayment(testTransactionPayment.Id, testFulfillment.Id);
+        
+        test.stopTest();
+        
+    }
+    
+    //requestPaymentCapture(Map<String, Object> captureData)
+    @isTest static void testRequestPaymentCapture(){
+        
+        setupTestData();
+        
+        String testReferenceNumber = 'testReferenceNumber';
+        
+        String testPaymentToken = 'testPaymentToken';
+        
+        Test.startTest();
+        
+        Map<String, Object> dataMap = phss_cc_CyberSourceUtil.buildCaptureData(testPaymentToken, testReferenceNumber, 1);
+        
+        try{
+            phss_cc_CyberSourceUtil.requestPaymentCapture(dataMap);
+        }
+        catch(Exception ex){
+            system.assert(ex.getMessage().containsIgnoreCase('Failed to request payment capture')); //http mock interface needs to be implemented
+        }
+        
+        Test.stopTest();
+    }
+    
+    @isTest static void testCreditTransactionPayment(){
+        
+        setupTestData();
+        
+        Test.startTest();
+        
+        phss_cc_CyberSourceUtil.creditTransactionPayment(testTransactionPayment.Id);
+        
+        Test.stopTest();
     }
 }

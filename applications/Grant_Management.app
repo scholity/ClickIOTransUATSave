@@ -46,6 +46,7 @@
     <tabs>SFDC_MDF_Claim__c</tabs>
     <tabs>standard-Dashboard</tabs>
     <tabs>standard-report</tabs>
+    <tabs>ccrz__E_TransactionPayment__c</tabs>
     <uiType>Lightning</uiType>
     <utilityBar>Grant_Management_UtilityBar</utilityBar>
     <workspaceConfig>
@@ -57,6 +58,9 @@
         </mappings>
         <mappings>
             <tab>SFDC_MDF__c</tab>
+        </mappings>
+        <mappings>
+            <tab>ccrz__E_TransactionPayment__c</tab>
         </mappings>
         <mappings>
             <tab>standard-Account</tab>

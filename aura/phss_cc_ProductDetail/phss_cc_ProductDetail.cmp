@@ -20,6 +20,7 @@
     <aura:attribute name="renderComplete" type="Boolean" default="false"/>
     <aura:attribute name="allowsPriceOverride" type="Boolean" default="false"/>
     <aura:attribute name="showDiscountPricing" type="Boolean" default="false"/>
+    <aura:attribute name="allowsKitComponentPopover" type="Boolean" default="false"/>
 
     <!--Initializer-->
     <aura:handler name="init" value="{!this}" action="{!c.doInit}"/>
@@ -153,7 +154,15 @@
 
                 </aura:if>
 
-                <div class="slds-size_3-of-12 slds-align_absolute-center">
+                <div class="slds-size_1-of-12 slds-text-align_left">
+                    <aura:if isTrue="{! v.allowsKitComponentPopover }">
+                        <aura:if isTrue="{! not(equals(v.product.compositeProductsS.length, 0)) }">
+                            <c:phss_cc_KitComponentsPopover productName="{! v.product.sfdcName }" sku="{! v.product.SKU }" components="{! v.product.compositeProductsS }" />
+                        </aura:if>
+                    </aura:if>
+                </div>
+
+                <div class="slds-size_2-of-12 slds-align_absolute-center">
                     <lightning:layout horizontalAlign="spread">
                         <lightning:layoutItem>
                             <lightning:buttonIcon iconName="utility:dash" alternativeText="Remove"

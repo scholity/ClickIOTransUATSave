@@ -79,6 +79,21 @@ public with sharing class phss_cc_CartController {
         }
         return placeOrderResult;
     }
+    
+    /*
+    //US1512 - Start 
+    @AuraEnabled 
+    public static Map<String, Object> placeOrderOnCartCB(String opportunitySfid, String encryptedCartId,Map<String, Object> PODetailsMap) {
+        Map<String, Object> placeOrderResult;
+        try {
+            placeOrderResult = phss_cc_OrderUtil.placeOrderOnCartCB(opportunitySfid,encryptedCartId,PODetailsMap);
+        } catch (Exception e) {
+            placeOrderResult = phss_cc_Exception.getErrorMessageMap(e.getMessage());
+        }
+        return placeOrderResult;
+    }
+    */
+    //US1512 - End
 
     @AuraEnabled
     public static Map<String, Object> fetchPaymentTabsetPermissions(String opportunityId) {
@@ -103,4 +118,15 @@ public with sharing class phss_cc_CartController {
         return permissionsResult;
     }
 
+
+    @AuraEnabled
+    public static Map<String, Object> getOpportunityApprovalStatus(String opportunityId) {
+        try {
+            String status = phss_cc_OpportunityUtil.getApprovalState(opportunityId);
+            return new Map<String, Object>{ opportunityId => status };
+
+        } catch (Exception e) {
+            return phss_cc_Exception.getErrorMessageMap(e.getMessage());
+        }
+    }
 }

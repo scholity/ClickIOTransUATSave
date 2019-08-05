@@ -69,11 +69,12 @@ public with sharing class phss_cc_FulfillmentUtil {
             return fulfillment;
 
         } catch (Exception e) {
+            system.debug('@@@completeFulfillment Exception: '+e.getMessage());
             throw new phss_cc_Exception(FAILED_TO_COMPLETE_FULFILLMENT, e);
         }
     }
 
-
+	@testVisible
     private static ccrz__E_TransactionPayment__c completeAuthTransactionPayment(String transactionPaymentId, String invoiceId) {
         ccrz__E_TransactionPayment__c transactionPayment = getTransactionPayment(transactionPaymentId);
         if (transactionPayment != null) {
@@ -84,7 +85,7 @@ public with sharing class phss_cc_FulfillmentUtil {
         return transactionPayment;
     }
 
-
+	@testVisible
     private static ccrz__E_Invoice__c createInvoiceForPayment(String transactionPaymentId) {
 
         try {
@@ -203,7 +204,7 @@ public with sharing class phss_cc_FulfillmentUtil {
         }
     }
 
-
+	@testVisible
     private static Fulfillment__c getFulfillment(String fulfillmentId) {
         return [
                 SELECT Id, Name, CC_Transaction_Payment__c
@@ -220,6 +221,7 @@ public with sharing class phss_cc_FulfillmentUtil {
      *
      * @return
      */
+    @testVisible
     private static List<Fulfillment_Item__c> getFulfillmentItems(String fulfillmentId) {
         return [
                 SELECT Id, Order_Item__c, Quantity__c, Status__c
@@ -228,7 +230,7 @@ public with sharing class phss_cc_FulfillmentUtil {
         ];
     }
 
-
+	@testVisible
     private static List<ccrz__E_OrderItem__c> getItemsForOrder(String orderId) {
         return [
                 SELECT Id, ccrz__AdjustmentAmount__c, ccrz__Quantity__c
@@ -237,7 +239,7 @@ public with sharing class phss_cc_FulfillmentUtil {
         ];
     }
 
-
+	@testVisible
     private static ccrz__E_TransactionPayment__c getTransactionPayment(String transactionPaymentId) {
         ccrz__E_TransactionPayment__c transactionPayment = [
                 SELECT Id, ccrz__Account__c, ccrz__AccountType__c, ccrz__Amount__c, ccrz__CCOrder__c, ccrz__CurrencyISOCode__c, ccrz__PaymentType__c, ccrz__Storefront__c
@@ -255,6 +257,7 @@ public with sharing class phss_cc_FulfillmentUtil {
      *
      * @return
      */
+    @testVisible
     private static ccrz__E_TransactionPayment__c getTransactionPaymentForOrder(String orderId) {
 
         if (String.isBlank(orderId)) {
@@ -284,6 +287,7 @@ public with sharing class phss_cc_FulfillmentUtil {
      *
      * @return
      */
+    @testVisible
     private static Datetime parseDatetime(String dtStr) {
         try {
             List<String> components = dtStr.split('T');

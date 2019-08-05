@@ -69,6 +69,7 @@
     <aura:attribute name = "orgError" 				type = "Boolean" 	default = "false"/>
     <aura:attribute name = "crsError" 				type = "Boolean" 	default = "false"/>
     <aura:attribute name = "usrError" 				type = "Boolean" 	default = "false"/>
+    <aura:attribute name = "prereqError" 			type = "Boolean" 	default = "false"/>
     
     <aura:attribute name = "isSuccess" 				type = "Boolean" 	default = "false"/>
     <aura:attribute name = "isSubmitted" 			type = "Boolean" 	default = "false"/>
@@ -96,6 +97,7 @@
     <aura:attribute name = "displayPaymentInfo" type = "Boolean" default="true"/>
     <aura:attribute name = "isPartner"				type = "Boolean" 	default="false"/>
     <aura:attribute name = "paymentComplete"    type = "Boolean" default = "false"/>
+    <aura:attribute name = "instructorHasPrerequisites" type="Boolean" default="true"/>
 
     <!--Learn to Swim (LTS) related fields-->
     <aura:attribute name="isLearnToSwimProduct" type="Boolean" default="false"/>
@@ -299,10 +301,12 @@
                                 <aura:if isTrue="{!and(v.isExtUser == true,v.isPartner == false)}">
                                     
                                             <div class = "slds-m-around_x-small">
-                                                <lightning:input value="{!v.instructor.Name}" label="Instructor" required = "true" readonly="true"/> <br/>                                                
-                                             </div>
-                                        
-                                    
+                                                <lightning:input aura:id="instructorField" value="{!v.instructor.Name}" label="Instructor" required = "true" readonly="true"/> <br/>
+                                            </div>
+                                            <aura:if isTrue="{!v.prereqError}" >
+                                                <div class="lookupError">This instructor does not meet all the prerequisites for this course.</div>
+                                            </aura:if>
+
                                     <aura:set attribute="else"> 
                                         <div class = "slds-m-around_x-small">
                                              <label class="slds-form-element__label" for="text-input-id-1">
@@ -317,6 +321,9 @@
                                         </div>
                                         <aura:if isTrue="{!v.usrError}" >
                                             <div class="lookupError">Complete this field.</div>
+                                        </aura:if>
+                                        <aura:if isTrue="{!v.prereqError}" >
+                                            <div class="lookupError">This instructor does not meet all the prerequisites for this course.</div>
                                         </aura:if>
                                     </aura:set>
                                 </aura:if>
@@ -588,7 +595,11 @@
                             </div><br/>
                             
                             <!--<c:phss_cc_Cart recordId = "{!v.oppIdParent}" />-->
-							<c:phss_cc_Cart_Clone recordId="{!v.oppIdParent}" hideQuantityForLms="true" hideCreditCard="{!v.displayPaymentInfo}" allowCartReload="false" />
+							<c:phss_cc_Cart_Clone recordId="{!v.oppIdParent}"
+                                                  hideQuantityForLms="true"
+                                                  hideCreditCard="{!v.displayPaymentInfo}"
+                                                  allowCartReload="false"
+                                                  cartContainsLearnToSwimProduct="{! v.isLearnToSwimProduct }" />
                             
                             <!--
                             <div class="slds-grid slds-wrap">
@@ -940,7 +951,7 @@
                             <aura:set attribute="else">                        
                                 
                                 <div class="slds-col">
-                                  <aura:if isTrue="{!and(v.stepNumber == 'Three', v.tncCheck == false)}" >					       
+                                  <aura:if isTrue="{!and(v.stepNumber == 'Three', v.tncCheck == false)}" >
                                         <button class="slds-button slds-button_neutral"
                                                 onclick="{!c.onclickNext}" disabled="true">
                                             Next

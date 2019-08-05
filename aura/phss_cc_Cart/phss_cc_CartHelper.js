@@ -193,6 +193,33 @@
         component.set('v.showSpinner', true);
         $A.enqueueAction(action);
     },
+
+    fetchOpportunityApprovalState: function (component) {
+        var opportunityId = component.get('v.recordId');
+        var action = component.get('c.getOpportunityApprovalStatus');
+        action.setParams({ opportunityId: opportunityId });
+        action.setCallback(this, function (response) {
+            var returnValue = response.getReturnValue();
+            if (response.getState() === 'SUCCESS' && returnValue != null) {
+                if (returnValue.Error == null) {
+                    var allowPaymentSubmission = false;
+                    var approvalState = returnValue[opportunityId];
+                    if (approvalState === 'No approval required' || approvalState === 'Approved') {
+                        allowPaymentSubmission = true;
+                    }
+                    component.set('v.allowPaymentSubmission', allowPaymentSubmission);
+                    console.log('allowPaymentSubmission: ' + allowPaymentSubmission);
+                } else {
+                    var errorMessage = returnValue.Error;
+                    this.showToastMessage('Error Fetching Data', errorMessage, 'Error');
+                }
+            } else {
+                this.showToastMessage('Error Fetching Data', 'Unable to contact server.', 'Error');
+            }
+        });
+        $A.enqueueAction(action);
+    },
+
     doPlaceOrderCB: function (component, event, helper,PODetailsMap) {
         component.set('v.renderComplete', false);
         var opportunitySfid = component.get('v.recordId');
@@ -235,7 +262,6 @@
      */
     getPaymentTabsetPermissions: function(component) {
         var opportunityId = component.get('v.recordId');
-        console.log('Getting payment tabset permissions for opportunity: ' + opportunityId);
         var action = component.get('c.fetchPaymentTabsetPermissions');
         action.setParams({
             opportunityId: opportunityId

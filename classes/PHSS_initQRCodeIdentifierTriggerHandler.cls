@@ -13,7 +13,9 @@ public class PHSS_initQRCodeIdentifierTriggerHandler {
                 redwing__Achievement_Assignment__c updatedAssignment = new redwing__Achievement_Assignment__c();
                 updatedAssignment.Id = theAssignment.Id;
                 if (theAssignment.Name != null && theAssignment.Name.length() > 4) {
-                    updatedAssignment.QR_Code_Identifier__c = base10To32(Decimal.valueOf(theAssignment.Name.substring(4)));
+                    // Special Adjustment for Production Org
+                    Decimal nQROffset = Decimal.valueOf(2000000000);
+                    updatedAssignment.QR_Code_Identifier__c = base10To32(Decimal.valueOf(theAssignment.Name.substring(4))+nQROffset);
                 } else updatedAssignment.QR_Code_Identifier__c = '';
                 updatedAssignments.add(updatedAssignment); 
             }
@@ -28,7 +30,7 @@ public class PHSS_initQRCodeIdentifierTriggerHandler {
     public void PHSS_initQRCodeIdentifierBeforeUpdate(list<redwing__Achievement_Assignment__c> updatedAchievementAssignments){
         for(redwing__Achievement_Assignment__c theAssignment : updatedAchievementAssignments) {
             if (theAssignment.Achievement_Type__c == 'Certifications' && theAssignment.redwing__Status__c == 'Acquired') {            
-                if(theAssignment.QR_Code_Identifier__c ==null || theAssignment.QR_Code_Identifier__c ==''){
+                if (String.isBlank(theAssignment.QR_Code_Identifier__c)){
                     theAssignment.QR_Code_Identifier__c = base10To32(Decimal.valueOf(theAssignment.Name.substring(4)));   
                 }
             }  
@@ -36,7 +38,7 @@ public class PHSS_initQRCodeIdentifierTriggerHandler {
     }
     
     private static string base10To32(Decimal inputValue) {
-        Integer outputLength = 5;
+        Integer outputLength = 7;
         Integer inputBase = 10;
         Integer outputBase = 32;
         Decimal DecimalValue = inputValue;
@@ -44,14 +46,14 @@ public class PHSS_initQRCodeIdentifierTriggerHandler {
         String numericBaseData = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ';
         Integer x;
         Integer maxBase = NumericBaseData.length();
-        if(DecimalValue == 0) return '00000';
+        if(DecimalValue == 0) return '0000000';
         try {
             while(DecimalValue > 0) {
                 X = (Integer)(((DecimalValue/outputBase) - (Integer)(DecimalValue/OutputBase))* OutputBase + 1.5);
                 OutputValue = NumericBaseData.subString(X - 1,X)+OutputValue;
                 DecimalValue = Integer.valueOf(DecimalValue/OutputBase);
             }
-            // Left Pad with '0' to length 5
+            // Left Pad with '0' to length <outputlength>
             while(OutputValue.length() < outputLength) {
                 OutputValue = '0' + OutputValue;
             }

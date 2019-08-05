@@ -260,7 +260,7 @@
     <fields>
         <fullName>ILT_Class_Type__c</fullName>
         <externalId>false</externalId>
-        <formula>Text(ILT_Class__r.Course_Class_Type__c )</formula>
+        <formula>Text( Order_Item__r.ILT_Class__r.Course_Class_Type__c )</formula>
         <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
         <label>ILT Class Type</label>
         <required>false</required>
@@ -284,7 +284,7 @@
     <fields>
         <fullName>ILT_Request_Type__c</fullName>
         <externalId>false</externalId>
-        <formula>Text(ILT_Class__r.Request_Type__c )</formula>
+        <formula>Text(Order_Item__r.ILT_Class__r.Request_Type__c)</formula>
         <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
         <label>ILT Request Type</label>
         <required>false</required>

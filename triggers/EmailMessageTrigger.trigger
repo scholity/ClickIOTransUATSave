@@ -12,6 +12,10 @@
 trigger EmailMessageTrigger on EmailMessage (after insert) {
     //Added a Custom Setting "Case Owner History Switch" to control the Email Message Service Class.
     Switch__c COHS = Switch__c.getInstance('EmailMessageServiceSwitch'); //added to Turn on/off Case History Object.
+    
+    system.assertNotEquals(COHS, null, 'You must create a Switch__c Custom Setting record for the EmailMessageTrigger trigger');
+    
+    System.debug(Switch__c.getOrgDefaults());
     if(COHS.Switch__c == true){
         EmailMessageServices.updateCaseWhenEmailIsReplied(trigger.newMap);
         EmailMessageServices.billingRouting(trigger.newMap);

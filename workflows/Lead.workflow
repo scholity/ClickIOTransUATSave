@@ -168,6 +168,27 @@
         <triggerType>onCreateOnly</triggerType>
     </rules>
     <rules>
+        <fullName>RCO LTP Application - Water -AES</fullName>
+        <actions>
+            <name>Change_owner_to_AQ_mgrs</name>
+            <type>FieldUpdate</type>
+        </actions>
+        <active>false</active>
+        <booleanFilter>1 AND 2</booleanFilter>
+        <criteriaItems>
+            <field>Lead.Landing_Page__c</field>
+            <operation>contains</operation>
+            <value>org/take-a-class/licensed-training-authorized-providers</value>
+        </criteriaItems>
+        <criteriaItems>
+            <field>Lead.Water_Based_Training__c</field>
+            <operation>contains</operation>
+            <value>AES</value>
+        </criteriaItems>
+        <description>Routes the  AES LTP applications to AQ Managers queue</description>
+        <triggerType>onCreateOnly</triggerType>
+    </rules>
+    <rules>
         <fullName>a0Rd00000006eWiEAI_Purge</fullName>
         <actions>
             <name>MALatitude_c_Purge</name>

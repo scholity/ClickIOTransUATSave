@@ -106,11 +106,11 @@
         
         component.set("v.CCProductId",productSfid);
         
-         var delayInMilliseconds = "8000"; //10 seconds
+        var delayInMilliseconds = "8000"; //10 seconds
         window.setTimeout(
             $A.getCallback(function() {
-        helper.checkPreq(component, event, helper);
-                 }), delayInMilliseconds
+                helper.checkPreq(component, event, helper);
+            }), delayInMilliseconds
         );     
         
         //var prodId = component.get();
@@ -524,12 +524,19 @@
             }else{
                 component.set("v.usrError",false);
             }
-            
+            var instructorHasPrerequisites = component.get('v.instructorHasPrerequisites');
+            if (instructorHasPrerequisites === false && usrBool) {
+                component.set("v.prereqError", true);
+            } else {
+                component.set("v.prereqError", false);
+            }
             var allValid = component.find('field').reduce(function (validSoFar, inputCmp) {
                 inputCmp.reportValidity();
                 return validSoFar && inputCmp.checkValidity();
             }, true);
-            
+
+            allValid &= instructorHasPrerequisites;
+
             var extUser = component.get("v.isExtUser");
             //var isParnter = component.get("v.isParnter")
             if(extUser === true)

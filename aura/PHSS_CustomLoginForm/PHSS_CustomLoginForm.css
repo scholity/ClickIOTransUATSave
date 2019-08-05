@@ -172,3 +172,11 @@
     font-color: lightgrey;
 
 }
+
+.THIS .alternative_button {
+    border: 1px solid red;
+    padding: 8px 12px;
+    width: 50%;
+    margin-top: 10px;
+    border-radius: 2px;
+}

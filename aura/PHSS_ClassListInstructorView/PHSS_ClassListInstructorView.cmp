@@ -37,7 +37,7 @@
     <aura:if isTrue="{!v.accountList.length > 0}">
         <div class="slds-is-absolute">
             <div class="slds-float_left slds-p-around_small">
-                <h1>Organization</h1>
+                <h1>Organization <lightning:helptext content="Select organization to sort"/></h1>
                 <lightning:select value="{!v.selectedAccount}" onchange="{!c.getInstructorValues}">
                     <option value="" text="Select an Organization"/>
                     <aura:iteration items="{!v.accountList}" var="acc">
@@ -47,7 +47,7 @@
             </div>
             
             <div class="slds-float_left slds-p-around_small">
-                <h1>Instructor</h1>
+                <h1>Instructor  <lightning:helptext content="Select Instructor to sort"/></h1>
                 <lightning:select value="{!v.selectedInstructor}" onchange="{!c.getInstClasses}" disabled="{!or(v.selectedAccount == '',v.selectedAccount == null)}">
                     <option value="" text="Select an Instructor"/>
                     <aura:iteration items="{!v.instList}" var="inst">

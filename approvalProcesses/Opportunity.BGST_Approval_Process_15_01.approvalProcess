@@ -27,12 +27,12 @@
         <entryCriteria>
             <booleanFilter>1 AND 2</booleanFilter>
             <criteriaItems>
-                <field>Opportunity.Highest_Product_Discount_Value__c</field>
+                <field>Opportunity.Highest_Discount__c</field>
                 <operation>greaterOrEqual</operation>
                 <value>15.00</value>
             </criteriaItems>
             <criteriaItems>
-                <field>Opportunity.Highest_Product_Discount_Value__c</field>
+                <field>Opportunity.Highest_Discount__c</field>
                 <operation>lessOrEqual</operation>
                 <value>20</value>
             </criteriaItems>
@@ -57,7 +57,7 @@
         <entryCriteria>
             <booleanFilter>1</booleanFilter>
             <criteriaItems>
-                <field>Opportunity.Highest_Product_Discount_Value__c</field>
+                <field>Opportunity.Highest_Discount__c</field>
                 <operation>greaterThan</operation>
                 <value>20.00</value>
             </criteriaItems>
@@ -70,7 +70,7 @@
     </approvalStep>
     <enableMobileDeviceAccess>false</enableMobileDeviceAccess>
     <entryCriteria>
-        <booleanFilter>1 AND (2 OR 3)</booleanFilter>
+        <booleanFilter>1 AND (2 OR 3 OR 5) AND 4</booleanFilter>
         <criteriaItems>
             <field>Opportunity.Highest_Discount__c</field>
             <operation>greaterOrEqual</operation>
@@ -85,6 +85,16 @@
             <field>Opportunity.Owner_Profile__c</field>
             <operation>equals</operation>
             <value>ARC BGST Sales Admin</value>
+        </criteriaItems>
+        <criteriaItems>
+            <field>Opportunity.RecordType</field>
+            <operation>notEqual</operation>
+            <value>AES</value>
+        </criteriaItems>
+        <criteriaItems>
+            <field>Opportunity.Owner_Profile__c</field>
+            <operation>contains</operation>
+            <value>BGST</value>
         </criteriaItems>
     </entryCriteria>
     <finalApprovalActions>

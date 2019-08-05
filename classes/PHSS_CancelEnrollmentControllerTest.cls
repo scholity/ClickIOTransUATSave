@@ -118,14 +118,17 @@ public class PHSS_CancelEnrollmentControllerTest {
         Test.stopTest();
         
         // Assert voucher details
-        List<Voucher__c> vouch = [Select Id,Status__c From Voucher__c];
+        List<Voucher__c> vouch = [Select Id,Status__c From Voucher__c Where Id = :v.id];
         if(!vouch.isEmpty()) {
-        	System.assertEquals('Issued', vouch[0].Status__c);    
+        	System.assertEquals('Void', vouch[0].Status__c);
         }
         
         // Assert roster details
+        // Modified SJC - Roster records are retained upon student cancellation from course
+
         List<redwing__ILT_Roster__c> roster = [Select Id,redwing__Status__c,Cancellation_Date__c From redwing__ILT_Roster__c];
-        System.assert(roster.isEmpty());
+        System.assert(!roster.isEmpty());
+
         
         // Assert if Learning Plan Assignments and Achievement Assignments are removed
         List<redwing__Training_Plan_Assignment__c> lpa = [Select Id From redwing__Training_Plan_Assignment__c];
@@ -247,10 +250,12 @@ public class PHSS_CancelEnrollmentControllerTest {
         Test.startTest();
         PHSS_CancelEnrollmentController.cancelEnrollment(learningAssignment.Id,'');
         Test.stopTest();
-        
-        // Assert roster details
-        List<redwing__ILT_Roster__c> roster = [Select Id,redwing__Status__c,Cancellation_Date__c From redwing__ILT_Roster__c];
-        System.assert(roster.isEmpty());   
+
+        // Assert if Learning Plan Assignments and Achievement Assignments are removed
+        List<redwing__Training_Plan_Assignment__c> lpa = [Select Id From redwing__Training_Plan_Assignment__c];
+        //System.assert(lpa.isEmpty());
+        List<redwing__Achievement_Assignment__c> aa = [Select Id From redwing__Achievement_Assignment__c];
+        //System.assert(aa.isEmpty());
     }
     
 }

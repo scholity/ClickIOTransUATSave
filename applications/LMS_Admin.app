@@ -17,4 +17,5 @@
     <tabs>ccrz__E_Spec__c</tabs>
     <tabs>redwing__Achievement_Assignment__c</tabs>
     <tabs>redwing__Training_Plan_Achievement__c</tabs>
+    <tabs>ccrz__E_TransactionPayment__c</tabs>
 </CustomApplication>

@@ -772,11 +772,6 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
-        <field>sked__Job__c.Job_Tag_Count__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>false</editable>
         <field>sked__Job__c.Job_Time__c</field>
         <readable>true</readable>
     </fieldPermissions>

@@ -5,7 +5,8 @@
     <aura:handler name = "init" value="{!this}" action = "{!c.doInit}" /> 
 
     <aura:attribute name="allValid" type="Boolean" default="true"/>
-    <aura:attribute name="isSkeduloCourse" type="Boolean" default="false" /> 
+    <aura:attribute name="isSkeduloCourse" type="Boolean" default="false" />
+    <aura:attribute name="isLearnToSwimClass" type="Boolean" default="false" />
     
     <aura:attribute name = "stepNumber"				type = "String" 	default = "Zero" />
     <aura:attribute name = "numberOfStudentsList" 	type = "List"  		default = "[]"/>
@@ -232,7 +233,10 @@
                             <div class = "slds-box slds-theme_shade">Payment</div><br/>
                             <!--<c:phss_cc_Cart recordId = "{!v.opportunityId}" />-->
                             
-                            <c:phss_cc_Cart_Clone recordId = "{!v.opportunityId}" hideQuantityForLms = "true" hideCreditCard = "{!v.displayPaymentInfo}"/>
+                            <c:phss_cc_Cart_Clone recordId = "{!v.opportunityId}"
+                                                  hideQuantityForLms = "true"
+                                                  hideCreditCard = "{!v.displayPaymentInfo}"
+                                                  cartContainsLearnToSwimProduct = "{! v.isLearnToSwimClass }"/>
                             
                         </div>
                     </aura:if>

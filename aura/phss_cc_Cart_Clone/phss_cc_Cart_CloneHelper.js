@@ -208,4 +208,38 @@
         component.set('v.showSpinner', true);
         $A.enqueueAction(action);
     },
+
+    /**
+     * @description Obtains permission settings for payment tabset
+     * @param component
+     * @param event
+     * @param helper
+     */
+    getPaymentTabsetPermissions: function(component) {
+        var opportunityId = component.get('v.recordId');
+        var action = component.get('c.fetchPaymentTabsetPermissions');
+        action.setParams({
+            opportunityId: opportunityId
+        });
+        action.setCallback(this, function (response) {
+            var state = response.getState();
+
+            if (state === 'SUCCESS') {
+                var returnValue = response.getReturnValue();
+
+                if (returnValue != null && returnValue.Error == null) {
+                    var allowPaymentByInvoice = returnValue.allowPaymentByInvoice;
+                    if (allowPaymentByInvoice != true) {
+                        allowPaymentByInvoice = false;
+                    }
+                    component.set('v.allowPaymentByInvoice', allowPaymentByInvoice);
+                } else if (returnValue != null && returnValue.Error != null) {
+                    this.showToastMessage('Error Getting Payment Tabset Settings', returnValue.Error, 'Error')
+                }
+            } else {
+                this.showToastMessage('Error Getting Payment Tabset Settings', 'Unable to contact server.', 'Error');
+            }
+        });
+        $A.enqueueAction(action);
+    }
 })

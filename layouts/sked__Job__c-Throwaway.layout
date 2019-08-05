@@ -77,10 +77,6 @@
                 <behavior>Edit</behavior>
                 <field>sked__NotifyPeriod__c</field>
             </layoutItems>
-            <layoutItems>
-                <behavior>Readonly</behavior>
-                <field>Job_Tag_Count__c</field>
-            </layoutItems>
         </layoutColumns>
         <layoutColumns>
             <layoutItems>

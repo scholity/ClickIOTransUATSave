@@ -1480,14 +1480,6 @@
         <enabled>true</enabled>
     </pageAccesses>
     <pageAccesses>
-        <apexPage>cc_lx_CyberSourceCCProcessorIframeForm</apexPage>
-        <enabled>true</enabled>
-    </pageAccesses>
-    <pageAccesses>
-        <apexPage>cc_lx_CyberSourceCCProcessorPostBack</apexPage>
-        <enabled>true</enabled>
-    </pageAccesses>
-    <pageAccesses>
         <apexPage>ccpgcs__CyberSourceSOP</apexPage>
         <enabled>true</enabled>
     </pageAccesses>

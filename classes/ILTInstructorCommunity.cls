@@ -54,7 +54,10 @@ public without sharing class ILTInstructorCommunity{
     Public static Map<String, String> userNameEmailMap;
 
     // Error messages
-    public static final String FAILED_TO_IDENTIFY_LTS_COURSE = 'Failed to identifier Learn-to-Swim course.';
+    public static final String FAILED_TO_ADD_STUDENTS = 'Failed to add students.';
+    public static final String FAILED_TO_IDENTIFY_LTS_CLASS = 'Failed to identify Learn-to-Swim class.';
+    public static final String FAILED_TO_IDENTIFY_LTS_COURSE = 'Failed to identify Learn-to-Swim course.';
+    public static final String FAILED_TO_POST_CLASS = 'Failed to post class.';
     
     
     @AuraEnabled
@@ -138,12 +141,26 @@ public without sharing class ILTInstructorCommunity{
             {   
                 if(csvRecordData.size()>4){
             	if(csvRecordData[4]!=null && csvRecordData[4].trim()!=''){
-                	stDetails.Grade = csvRecordData[4];    
+                    List<String> words = csvRecordData[4].trim().split(' ');
+                    String result = '';
+                    for (String word : words) {
+                        word = word.trim();
+                        if (word.length() > 1) {
+                            result += word.substring(0, 1).toUpperCase() + word.substring(1, word.length()).toLowerCase() + ' '; //DE1215 Ensure first letter of all words capitilized
+                        }
+                    }
+                    stDetails.Grade = result.trim();
+
                 }
             }
                 if(csvRecordData.size()>5){
-            	if(csvRecordData[5]!=null && csvRecordData[5].trim()!=''){
-                	stDetails.Fail_Reason = csvRecordData[5];    
+                if(csvRecordData[5]!=null && csvRecordData[5].trim()!=''){
+                    String result = csvRecordData[5].trim();
+                    if (result.length() > 1) {
+                        result = result.substring(0, 1).toUpperCase()
+                                + result.substring(1, result.length()).toLowerCase(); //DE888 must ensure case matches fail reason picklist values
+                    }
+                    stDetails.Fail_Reason = result;
                 }
             }
                 if(csvRecordData.size()>6){
@@ -166,11 +183,23 @@ public without sharing class ILTInstructorCommunity{
     @AuraEnabled
     public static void invokeMethods(String JSON, String JSON1){
         Boolean boolState = true;
-        cre=true;
+
+        if (blend) {
+            cre = false;
+        } else {
+            cre=true;
+        }
+
         if(String.IsNotBlank(JSON)){
             // try {
             System.debug('Blend Value'+blend);
-            postClass(JSON);
+            try {
+                postClass(JSON);
+
+            } catch (Exception e) {
+                System.debug('exception caught: ' + e.getMessage() + ' lineNumber=' + e.getLineNumber() + ' stackTrace=' + e.getStackTraceString());
+                throw new phss_cc_Exception(FAILED_TO_POST_CLASS, e);
+            }
             /* } catch (Exception e) {
 			boolState = false;
 			if(e.getMessage().contains('List index out of bounds: 0')){
@@ -180,8 +209,14 @@ public without sharing class ILTInstructorCommunity{
 			}*/
         }
         if(boolState && String.IsNotBlank(JSON1)){
+            try {
+                addStudents(JSON1);
+
+            } catch (Exception e) {
+                System.debug('exception caught: ' + e.getMessage() + ' lineNumber=' + e.getLineNumber() + ' stackTrace=' + e.getStackTraceString());
+                throw new phss_cc_Exception(FAILED_TO_ADD_STUDENTS, e);
+            }
             //try {
-            addStudents(JSON1);
             /*} catch(Exception e){
 			boolState = false;
 			if(e.getMessage().contains('List index out of bounds: 0')){
@@ -342,23 +377,27 @@ public without sharing class ILTInstructorCommunity{
         Id classLearningId;
         
         Boolean boolErrorExists = false;
-        list<JSONWrapper.Students> studenList = JSONWrapper.arrayOfStudents(System.JSON.createParser(json));
-        set<string> contactNames = new set<string>();
-        set<string> voucherids = new set<string>();
-        list<voucher__c> voucherclaimset = new list<Voucher__c>();
+        List<JSONWrapper.Students> studentList = JSONWrapper.arrayOfStudents(System.JSON.createParser(json));
+        Set<string> studentLastNames = new Set<string>();
+        Set<String> studentFirstNames = new Set<String>();
+        Set<String> studentEmails = new Set<String>();
+        Set<string> voucherids = new Set<string>();
+        List<voucher__c> voucherclaimset = new List<Voucher__c>();
+
         String ermsg;
-        set<String> exisVoucher = new set<String>();
-        set<String> Idvoucher = new set<String>();
+        Set<String> exisVoucher = new set<String>();
+        Set<String> Idvoucher = new set<String>();
         
         // DE512 - User email addresses as user names
         // If a user's email address is already being used for a user name, and this is a different
-        // student (based on different first name and last name), use the email address domain as 
-        // a stem for the user name.  Example: domain@gmail.com is already assigned, create domain123@gmail.com
+        // student (based on different first name and last name), use the email address local name as
+        // a stem for the user name.  Example: localname@gmail.com is already assigned, create localname123@gmail.com
         // as user name.  Logic assumes email addresses are well-defined.
+
         Set<String>userNameFilters = new Set<String>();
         Pattern emailDomainPattern = Pattern.compile('^(.*?)(@.*)'); // Isolate email address domain (group 1)
         
-        for(JSONWrapper.Students student : studenList){
+        for(JSONWrapper.Students student : studentList){
             Idvoucher.add(student.voucherid);
             
             // Create list of email stem filters used to search for existing users with same/similar user names
@@ -372,7 +411,8 @@ public without sharing class ILTInstructorCommunity{
         
         // DE512 - Store user name by email address for use later in new user creation logic
         // These will be used to see if a new user has the same email address (user name) as an existing user
-        // If so, a unique suffix will be created on the domain to insure the user name is unique
+        // If so, a unique suffix will be created on the local name to insure the user name is unique
+
         List<User> userNameEmailList = [Select Id, UserName, Email From User Where UserName Like :userNameFilters];
 		userNameEmailMap = new Map<String, String>();
 		
@@ -394,8 +434,10 @@ public without sharing class ILTInstructorCommunity{
         List<redwing__Training_Plan_Achievement__c> trpac = [select id, Name from redwing__Training_Plan_Achievement__c where redwing__Training_Plan__c=: learningPlanId];
         System.debug('trpaclist '+trpac);
         
-        for(JSONWrapper.Students student : studenList){
-            contactNames.add(student.LastName);
+        for(JSONWrapper.Students student : studentList){
+            studentLastNames.add(student.LastName);
+            studentFirstNames.add(student.FirstName);
+            studentEmails.add(student.Email);
             
             //if (!onlineCourse) {
             if(String.IsNotBlank(student.voucherid)) {
@@ -426,31 +468,61 @@ public without sharing class ILTInstructorCommunity{
         
         if (!boolErrorExists) {
             userMap = new Map<String, User>();
-            
-            //User Map to check if the user exist already
-            for (User u : [Select Id, FirstName, DM_External_Id__c, Email, LastName from User where LastName IN: contactNames]){
-                userMap.put((u.LastName+u.FirstName+u.Email).toLowerCase(), u);
-            }
-            
             //contactMap = new Map<String, Contact>();
             contactEmailMap = new Map<String, Contact>();
             contactAccountMap = new Map<Id, Id>();
             studentvoucherMap = new Map<String, Voucher__c>();
+
+            if (!CRE) {
+                //User Map to check if the user already exists - Not required for CRE
+
+                for (User u : [
+                        Select Id, FirstName, LastName, DM_External_Id__c, Email
+                        From User
+                        Where LastName IN :studentLastNames And FirstName IN :studentFirstNames
+                        And (Email = Null Or Email = '' Or Email In :studentEmails)
+                    ]) {
+
+                    if (String.isNotBlank(u.Email)) {
+                        userMap.put((u.LastName + u.FirstName + u.Email).toLowerCase(), u);
+                    } else {
+                        userMap.put((u.LastName + u.FirstName).toLowerCase(), u);
+                    }
+
+                }
+
             
-            //contactMap to check if it has exisiting contacts or not
-            // Updated (SJC) - Contact matching rule is always LN+FN+Email
-            for (Contact theContact: [Select Id, AccountId, FirstName, LastName, Email, DM_External_Id__c, MobilePhone from Contact where LastName IN: contactNames]){
-                //contactMap.put((c.LastName+c.FirstName).toLowerCase(), c);
-                contactEmailMap.put((theContact.LastName+theContact.FirstName+theContact.Email).toLowerCase(), theContact);
-                if (String.IsNotBlank(theContact.AccountId)) contactAccountMap.put(theContact.Id, theContact.AccountId);
-            }           
-            
-            for(Voucher__c v: [Select Id, Name, ILT_Class__c, Online_Class__c, Voucher_Claim__c, RCO_Order_Id__c, 
-	            	Learning_Plan__c, ILT_Class__r.redwing__Learning__c, ILT_Class__r.redwing__End_Date__c,
-	            	ILT_Class__r.redwing__Learning__r.redwing__Current_Published_Version__c,
-	            	ILT_Class__r.Request_Type__c 
-	            	From voucher__c Where Voucher_Claim__c IN:voucherids]) {
-                studentvoucherMap.put(v.Voucher_Claim__c,v);
+                // contactMap to check if student has existing contacts or not = Not required for CRE
+                // Updated (SJC) - Contact matching rule is always LN+FN+Email
+
+                for (Contact theContact : [
+                        Select Id, AccountId, FirstName, LastName, Email, DM_External_Id__c, MobilePhone
+                        From Contact
+                        Where LastName IN :studentLastNames And FirstName IN :studentFirstNames
+                        And (Email = Null Or Email = '' Or Email In :studentEmails)
+                    ]) {
+
+                    if (String.isNotBlank(theContact.Email)) {
+                        contactEmailMap.put((theContact.LastName + theContact.FirstName + theContact.Email).toLowerCase(), theContact);
+                    } else {
+                        contactEmailMap.put((theContact.LastName + theContact.FirstName).toLowerCase(), theContact);
+                    }
+
+                    if (String.IsNotBlank(theContact.AccountId)) contactAccountMap.put(theContact.Id, theContact.AccountId);
+                }
+
+
+                // Retrieve voucher records by voucher Id - Not required for CRE
+
+                for (Voucher__c v : [
+                        Select Id, Name, ILT_Class__c, Online_Class__c, Voucher_Claim__c, RCO_Order_Id__c,
+                                Learning_Plan__c, ILT_Class__r.redwing__Learning__c, ILT_Class__r.redwing__End_Date__c,
+                                ILT_Class__r.redwing__Learning__r.redwing__Current_Published_Version__c, ILT_Class__r.Request_Type__c
+                        From Voucher__c
+                        Where Voucher_Claim__c IN :voucherids
+                    ]) {
+                    studentvoucherMap.put(v.Voucher_Claim__c, v);
+                }
             }
             
             //Commented for multiple sessions
@@ -467,8 +539,9 @@ public without sharing class ILTInstructorCommunity{
 			for(redwing__ILT_Class__c r : vILTclasssessionlist)
 			vILTClassSessionMap.put(r.id,r.redwing__ILT_Sessions__r);
 			}*/
+
             //Get learning planid by differentiating from claim voucher and (RBC or CRE) Componenet
-            for (JSONWrapper.Students student : studenList){
+            for (JSONWrapper.Students student : studentList){
                 if (studentvoucherMap.containskey(student.voucherid)) {
                 	// Needs rework - this assumes same learning plan/class for each student!!
                     learningPlanId = studentvoucherMap.get((student.voucherid)).Learning_Plan__c;
@@ -533,7 +606,7 @@ public without sharing class ILTInstructorCommunity{
             
             Integer countValue = -1 ;
             
-            for (JSONWrapper.Students student : studenList) {
+            for (JSONWrapper.Students student : studentList) {
                 countValue++;
                 System.debug('student '+student.LastName+student.FirstName);
                 System.debug('Incremented count'+countValue);
@@ -761,8 +834,8 @@ public without sharing class ILTInstructorCommunity{
                     	}
 	                //}
                     System.debug('lpsAssignmentList values'+lpsAssignmentList.size());
-                } 
-                
+                }
+
 
                 if (!isLearnToSwimProduct) {
                     if (blend == true || cre == true || other == true || onlineCourse) {
@@ -927,7 +1000,7 @@ public without sharing class ILTInstructorCommunity{
                             if (userMap.containsKey((student.LastName+student.FirstName+student.Email).toLowerCase())) {
                                 claimvoucher.user__c = userMap.get((student.LastName+student.FirstName+student.Email).toLowerCase()).Id;            
                             } else {
-                                claimvoucher.user__r = new User(DM_External_Id__c = student.LastName+student.FirstName+student.Email);
+                                claimvoucher.user__r = new User(DM_External_Id__c = (student.LastName+student.FirstName+student.Email).toLowerCase());
                             }
                         }
                         claimvoucher.Status__c = 'claimed';
@@ -962,6 +1035,7 @@ public without sharing class ILTInstructorCommunity{
                 }
                 else
                 {
+                    System.debug('exception caught: ' + e.getMessage() + ' lineNumber=' + e.getLineNumber() + ' stackTrace=' + e.getStackTraceString());
                     if (auraException) throw new AuraHandledException(e.getMessage()); else throw new enrollException(e.getMessage());
                 }
             }
@@ -1341,8 +1415,9 @@ public without sharing class ILTInstructorCommunity{
 	        for (Voucher__c theVoucher : unclaimedVouchers) {
 	            voucher__c theUpdatedVoucher = new voucher__c();
 	        	theUpdatedVoucher.Id = theVoucher.Id;	 	                        		
-	            theUpdatedVoucher.Status__c = 'Blocked'; 
-	            lstVouchersToUpdate.add(theUpdatedVoucher);	                        		
+//	            theUpdatedVoucher.Status__c = 'Blocked';
+	            theUpdatedVoucher.Status__c = 'Void';
+	            lstVouchersToUpdate.add(theUpdatedVoucher);
 	    	}
 	        
 	        if(lstVouchersToUpdate.size() > 0) {
@@ -1383,7 +1458,7 @@ public without sharing class ILTInstructorCommunity{
                 return userMap.get((student.LastName+student.FirstName+student.Email).toLowerCase());
             } else {
             	// Else return pointer to new user record being created in this process 	
-            	return new User(DM_External_Id__c = student.LastName+student.FirstName+student.Email);
+            	return new User(DM_External_Id__c = (student.LastName+student.FirstName+student.Email).toLowerCase());
         	}
         }
         else {
@@ -1410,7 +1485,7 @@ public without sharing class ILTInstructorCommunity{
 	                                LanguageLocaleKey = 'en_US',
 	                                EmailEncodingKey = 'UTF-8',
 	                                LocaleSidKey = 'en_US',
-	                                DM_External_Id__c = student.LastName+student.FirstName+student.Email
+	                                DM_External_Id__c = (student.LastName+student.FirstName+student.Email).toLowerCase()
 	                               );
             } else {
 	                 usr = new User(LastName = student.LastName,
@@ -1427,12 +1502,12 @@ public without sharing class ILTInstructorCommunity{
 	                                LanguageLocaleKey = 'en_US',
 	                                EmailEncodingKey = 'UTF-8',
 	                                LocaleSidKey = 'en_US',
-	                                DM_External_Id__c = student.LastName+student.FirstName+student.Email
+	                                DM_External_Id__c = (student.LastName+student.FirstName+student.Email).toLowerCase()
 	                               );            	
             } 
             lstUser.add(usr);
             
-            return new User(DM_External_Id__c = student.LastName+student.FirstName+student.Email);
+            return new User(DM_External_Id__c = (student.LastName+student.FirstName+student.Email).toLowerCase());
         }
     }
     
@@ -1562,7 +1637,7 @@ public without sharing class ILTInstructorCommunity{
                 return contactEmailMap.get((student.LastName+student.FirstName+student.Email).toLowerCase());
             } else { 
             	// Else return internal pointer to new contact record being created in this process         	
-            	return new Contact(DM_External_Id__c = student.LastName+student.FirstName+student.Email);
+            	return new Contact(DM_External_Id__c = (student.LastName+student.FirstName+student.Email).toLowerCase());
             }
         }
         else {
@@ -1574,7 +1649,7 @@ public without sharing class ILTInstructorCommunity{
                 userId = [Select id from user where Name =: Label.UserId limit 1].Id;
                 
             Account acc = new Account();
-            acc.DM_External_Id__c = student.LastName+student.FirstName+student.Email;
+            acc.DM_External_Id__c = (student.LastName+student.FirstName+student.Email).toLowerCase();
             acc.Name = student.FirstName +' '+ student.lastName;
             
             acc.OwnerId = userId;
@@ -1586,11 +1661,11 @@ public without sharing class ILTInstructorCommunity{
             con.FirstName = student.FirstName;
             con.Email=student.Email;
             con.MobilePhone=student.Phone;
-            con.Account = new Account(DM_External_Id__c = student.LastName+student.FirstName+student.Email);
-            con.DM_External_Id__c = student.LastName+student.FirstName+student.Email;
+            con.Account = new Account(DM_External_Id__c = (student.LastName+student.FirstName+student.Email).toLowerCase());
+            con.DM_External_Id__c = (student.LastName+student.FirstName+student.Email).toLowerCase();
             conList.add(con);
             
-            return new Contact(DM_External_Id__c = student.LastName+student.FirstName+student.Email);
+            return new Contact(DM_External_Id__c = (student.LastName+student.FirstName+student.Email).toLowerCase());
         }
         
     }
@@ -1732,7 +1807,7 @@ public without sharing class ILTInstructorCommunity{
         JSONWrapper.ClassDetails objClassDetails = new JSONWrapper.ClassDetails(System.JSON.createParser(json));
         String coursename;
         
-        //try {
+        try {
             if(objClassDetails != null){       
                 
                 // Step 1 - Get Learning plan name 
@@ -1958,7 +2033,8 @@ public without sharing class ILTInstructorCommunity{
 						Integer clsyear  = sessionRecord.redwing__Date__c.year();
 						DateTime sessionDateTime = DateTime.newInstance(clsyear, clsmonth, clsday, 12, 00, 00);               	
 
-                    	sessionRecord.Name = clsRecord.Name + ' ' + sessionDateTime.format('MM/dd/yyyy');
+                    	Integer namePrefixLength = Math.min(clsRecord.Name.length(), 40);
+                        sessionRecord.Name = clsRecord.Name.substring(0,namePrefixLength) + ' ' + sessionDateTime.format('MM/dd/yyyy');
                 	}
                     sessionlist.add(sessionRecord);
                 }
@@ -2055,14 +2131,14 @@ public without sharing class ILTInstructorCommunity{
                 
             }
             
-        /*}catch (Exception e) {
+        }catch (Exception e) {
             //throw new AuraHandledException('Invalid Attempt');
             System.debug('JASON: Exception caught: ' + e.getMessage());
             System.debug('LINE_NUMBER=' + e.getLineNumber() + ' CAUSE=' + e.getCause() + ' STACK_TRACE=' + e.getStackTraceString());
             System.debug('EXCEPTION: ' + e);
             throw new AuraHandledException(e.getMessage());
             
-        } */
+        }
     }
     @AuraEnabled
     public static Account[] getAccountList() {
@@ -2308,7 +2384,26 @@ public without sharing class ILTInstructorCommunity{
         return false;
     }
     
-    
+//
+//    @AuraEnabled
+//    public static void sendEmail()
+//    {
+//        Messaging.SendEmailResult[] results;
+//        //try{
+//        User u = fetchUser();
+//        Messaging.SingleEmailMessage message = new Messaging.SingleEmailMessage();
+//        message.toAddresses = new String[] {u.Email};
+//            message.subject = 'Payment Confirmation on Enrolling Students';
+//        message.plainTextBody = 'Thank you for reporting to this course and your payment is successful';
+//        Messaging.SingleEmailMessage[] messages =   new List<Messaging.SingleEmailMessage> {message};
+//            results = Messaging.sendEmail(messages);
+//            //System.debug('Mail sent>>>>'+ messages[0]);
+//        // }
+//        /*catch(Exception e) {
+//System.debug('The email failed to send:results[0] ' + results[0].errors[0].message);
+//}*/
+//    }
+
     @AuraEnabled
     public static void sendEmail()
     {
@@ -2317,15 +2412,15 @@ public without sharing class ILTInstructorCommunity{
         User u = fetchUser();
         Messaging.SingleEmailMessage message = new Messaging.SingleEmailMessage();
         message.toAddresses = new String[] {u.Email};
-            message.subject = 'Payment Confirmation on Enrolling Students';
+        message.subject = 'Payment Confirmation on Enrolling Students';
         message.plainTextBody = 'Thank you for reporting to this course and your payment is successful';
-        Messaging.SingleEmailMessage[] messages =   new List<Messaging.SingleEmailMessage> {message};
-            //results = Messaging.sendEmail(messages);
-            System.debug('Mail sent>>>>'+results[0]);
+        Messaging.SingleEmailMessage[] messages = new List<Messaging.SingleEmailMessage> {message};
+        results = Messaging.sendEmail(messages);
+        System.debug('Mail sent>>>>'+ results);
         // }
         /*catch(Exception e) {
 System.debug('The email failed to send:results[0] ' + results[0].errors[0].message);
-}*/   
+}*/
     }
 
 
@@ -2359,6 +2454,30 @@ System.debug('The email failed to send:results[0] ' + results[0].errors[0].messa
         return results;
     }
     
+
+    @AuraEnabled
+    public static Map<String, Object> isLTSClass(String classId) {
+        Map<String, Object> results = new Map<String, Object>();
+        try {
+            if (String.isNotEmpty(classId)) {
+                redwing__ILT_Class__c trainingClass = phss_cc_ILTrainingClassUtil.getILTrainingClass(classId);
+                if (trainingClass != null) {
+                    String productId = trainingClass.Cloud_Craze_Product__c;
+                    Map<String, Object> ltsResults = isLTSProduct(productId);
+                    if (ltsResults.containsKey(productId)) {
+                        results.put(classId, true);
+                    }
+                }
+            }
+
+        } catch (Exception e) {
+            System.debug('');
+            throw new phss_cc_Exception(FAILED_TO_IDENTIFY_LTS_CLASS, e);
+        }
+
+        return results;
+    }
+
     
     public class CourseInfo{
         @AuraEnabled public String CourseName {get; set;}

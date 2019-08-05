@@ -100,11 +100,6 @@ public with sharing class phss_cc_CommunityClassSearchController {
             Map<String, Object> courses = searchCommunityCourses(opportunityId, searchTerm);
             Map<Id, Id> jobCourses = getCoursesKeyedToJobs(courses.keySet());
             List<redwing__ILT_Class__c> classes = getILTClasses(jobCourses.keySet(), startDate, endDate);
-
-//            for (redwing__ILT_Class__c c : classes) {
-//                System.debug('JASON: ILT Class: Id=' + c.Id + ' Name=' + c.Name); // + ' priceOverride=' + c.Price_Override__c);
-//            }
-
             Map<Id, Integer> seatsAvailable = getAvailabilityForClasses(new Map<Id, redwing__ILT_Class__c>(classes).keySet());
 
             Map<Id, sked__Job__c> jobs = getSkeduloJobs(jobCourses.keySet());
@@ -128,7 +123,7 @@ public with sharing class phss_cc_CommunityClassSearchController {
      *
      * @return
      */
-    public static Map<String, Object> searchCommunityCourses(String opportunityId, String searchTerm) {
+    private static Map<String, Object> searchCommunityCourses(String opportunityId, String searchTerm) {
 
         Map<String, Object> searchResult = phss_cc_ProductUtil.productSearch(opportunityId, searchTerm);
         Map<String, Object> products = (Map<String, Object>) searchResult.get(PRODUCTS_KEY);
@@ -184,7 +179,7 @@ public with sharing class phss_cc_CommunityClassSearchController {
      *
      * @return
      */
-    public static Map<Id, Id> getCoursesKeyedToJobs(Set<String> courseIdentifiers) {
+    private static Map<Id, Id> getCoursesKeyedToJobs(Set<String> courseIdentifiers) {
 
         Map<String, Id> learningPlans = getLearningPlansKeyedToCourses(courseIdentifiers);
         Map<Id, Id> learningObjects = getLearningObjectsKeyedToPlans(learningPlans.values());
@@ -357,9 +352,7 @@ public with sharing class phss_cc_CommunityClassSearchController {
                     FROM sked__Job__c
                     WHERE Id IN :jobIdentifiers];
 
-            System.debug('getSkeduloJobs()  --  sked__Job__c RESULTS');
             for (sked__Job__c job : jobList) {
-                System.debug('Id=' + job.Id + ' Job_Month__c=' + job.Job_Month__c + ' Location_Name__c=' + job.Location_Name__c + ' Name=' + job.Name + ' Number_of_Students__c=' + job.Number_of_Students__c + ' sked__Address__c=' + job.sked__Address__c + ' sked__Duration__c=' + job.sked__Duration__c + ' sked__Location__r.sked__GeoLocation__c=' + job.sked__Location__r.sked__GeoLocation__c + ' sked__Start__c=' + job.sked__Start__c + ' sked__Timezone__c=' + job.sked__Timezone__c);
                 jobMap.put(job.Id, job);
             }
         } catch (Exception e) {
@@ -382,22 +375,14 @@ public with sharing class phss_cc_CommunityClassSearchController {
      */
     private static Map<Id, sked__Job__c> getNearbyJobs(Map<Id, sked__Job__c> jobs, String city, String state, String postalCode, Integer range) {
 
-        System.debug('getNearbyJobs()  --  city=' + city + ' state=' + state + ' postalCode=' + postalCode + ' range=' + range);
-        
         Map<Id, sked__Job__c> nearbyJobs = new Map<Id, sked__Job__c>();
         Set<Location> locations = getCoordinates(city, state, postalCode);
-        
-        System.debug('Number of locations: ' + locations.size());
 
         for (Id id : jobs.keySet()) {
             sked__Job__c job = jobs.get(id);
             for (Location location : locations) {
-                System.debug('location: ' + location);
-                System.debug('job.sked__Location__c=' + job.sked__Location__c);
-                System.debug('job.sked__Location__r.sked__GeoLocation__c=' + job.sked__Location__r.sked__GeoLocation__c);
                 if (job.sked__Location__c != null && job.sked__Location__r.sked__GeoLocation__c != null) {
                     Double distance = job.sked__Location__r.sked__GeoLocation__c.getDistance(location, DISTANCE_IN_MILES_KEY);
-                    System.debug('job.Id=' + job.Id + ' distance: ' + distance);
                     if (distance <= range) {
                         nearbyJobs.put(id, job);
                         break;
@@ -405,8 +390,6 @@ public with sharing class phss_cc_CommunityClassSearchController {
                 }
             }
         }
-        
-        System.debug('Number of nearby jobs: ' + nearbyJobs.size());
 
         return nearbyJobs;
     }
@@ -684,53 +667,48 @@ public with sharing class phss_cc_CommunityClassSearchController {
 
         return result;
     }
-    
-    
+
+
     public static void evaluateSearch(String searchStr, String iltClassId, String opportunityId) {
         System.debug('***  Community Class Search (searchStr=' + searchStr + ', iltClassId=' + iltClassId + ', opportunityId=' + opportunityId + ')  ***');
-        
+
         try {
             Map<String, Object> searchResults = phss_cc_ProductUtil.productSearch(opportunityId, searchStr);
             Map<String, Object> products = (Map<String, Object>) searchResults.get(PRODUCTS_KEY);
             System.debug('Number of search results from CloudCraze Product Search API: ' + products.keySet().size());
-            
+
             if (products.keySet().size() > 0) {
-                for (String k: products.keySet()) {
-                    System.debug('found: ' + k + ': ' + products.get(k));
-                }
-                
                 Map<String, Object> communityProducts = new Map<String, Object>();
                 for (String productId: products.keySet()) {
                     Map<String, Object> product = (Map<String, Object>) products.get(productId);
-                    System.debug('product Id=' + product.get('Id') + ' SFID=' + product.get(SFID_KEY));
                     if (product.get(INVENTORY_TYPE_KEY) == COMMUNITY_INVENTORY_TYPE) {
                         communityProducts.put((String) product.get(SFID_KEY), product);
                     }
                 }
                 System.debug('Number of community courses: ' + communityProducts.keySet().size());
-                
+
                 if (communityProducts.keySet().size() > 0) {
                     Map<Id, Id> jobCourses = getCoursesKeyedToJobs(communityProducts.keySet());
-                    
+
                     Date today = Date.today();
                     Date startDate = today.addYears(-1);
                     Date endDate = today.addYears(1);
-                    
+
                     List<redwing__ILT_Class__c> classes = getILTClasses(jobCourses.keySet(), startDate, endDate);
                     System.debug('Number of ILT classes: ' + classes.size());
-                    
+
                     Map<Id, Integer> seatsAvailable = getAvailabilityForClasses(new Map<Id, redwing__ILT_Class__c>(classes).keySet());
-                    
+
                     Map<Id, sked__Job__c> jobs = getSkeduloJobs(jobCourses.keySet());
 //                    jobs = getNearbyJobs(jobs, city, state, postalCode, range);
-                    
+
                     List<Object> classCourses = buildClassCourses(classes, jobs, communityProducts, jobCourses, seatsAvailable);
                     for (Object obj: classCourses) {
                         System.debug('class: ' + obj);
                     }
                 }
             }
-            
+
         } catch (Exception e) {
             System.debug('Community Class Search: exception caught: ' + e.getMessage());
         }

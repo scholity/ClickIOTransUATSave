@@ -300,9 +300,10 @@
     <fields>
         <fullName>QR_Code_Web_Address__c</fullName>
         <externalId>false</externalId>
-        <formula>IF(ILT_Class__c != null, IF(CONTAINS($Api.Partner_Server_URL_260, &apos;TransDev1&apos;), &apos;https://transdev1-americanredcross.cs52.force.com/learner/s/ClaimVoucher?voucherid=&apos; +  Id,
+        <formula>/*IF(ILT_Class__c != null, IF(CONTAINS($Api.Partner_Server_URL_260, &apos;TransDev1&apos;), &apos;https://transdev1-americanredcross.cs52.force.com/learner/s/ClaimVoucher?voucherid=&apos; +  Id,
     (If (CONTAINS($Api.Partner_Server_URL_260, &apos;Partial&apos;), &apos;https://partial-americanredcross.cs78.force.com/learner/s/ClaimVoucher?voucherid=&apos; + Id,
-    &apos;https://transuat-americanredcross.cs26.force.com/learner/s/ClaimVoucher?voucherid=&apos; +Id))), &apos;&apos;)</formula>
+    &apos;https://transuat-americanredcross.cs26.force.com/learner/s/ClaimVoucher?voucherid=&apos; +Id))), &apos;&apos;)*/
+IF(ILT_Class__c != null, $Label.Learner_Community_URL + &apos;/s/ClaimVoucher?voucherid=&apos; + Id, &apos;&apos;)</formula>
         <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
         <label>QR Code Web Address</label>
         <required>false</required>
@@ -344,6 +345,30 @@
         <trackHistory>false</trackHistory>
         <trackTrending>false</trackTrending>
         <type>DateTime</type>
+    </fields>
+    <fields>
+        <fullName>Related_Order_Contact_1__c</fullName>
+        <externalId>false</externalId>
+        <formula>CC_Order_Item__r.Related_Contact_1__c</formula>
+        <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+        <label>Related Order Contact 1</label>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Related_Order_Contact_2__c</fullName>
+        <externalId>false</externalId>
+        <formula>CC_Order_Item__r.Related_Contact_2__c</formula>
+        <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+        <label>Related Order Contact 2</label>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
     </fields>
     <fields>
         <fullName>Start_Date_of_Class__c</fullName>
@@ -404,6 +429,11 @@ ILT_Class__r.ltui__Start_Time_Formatted__c</formula>
                     <fullName>Void</fullName>
                     <default>false</default>
                     <label>Void</label>
+                </value>
+                <value>
+                    <fullName>Pending Cancellation</fullName>
+                    <default>false</default>
+                    <label>Pending Cancellation</label>
                 </value>
             </valueSetDefinition>
         </valueSet>
